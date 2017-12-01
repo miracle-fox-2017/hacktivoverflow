@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import mutations from './mutations'
-import actions from './actions'
-import VueFire from 'vuefire'
 import firebase from 'firebase'
+import VueFirestore from 'vue-firestore'
+
+require('firebase/firestore')
 
 Vue.use(Vuex)
-Vue.use(VueFire)
+Vue.use(VueFirestore)
 
 let config = {
   apiKey: 'AIzaSyA8M-l_dP6_Jz3rK2GOaWifHzHFbsS-RL0',
@@ -18,13 +18,56 @@ let config = {
 }
 
 const firebaseApp = firebase.initializeApp(config)
-Vue.prototype.$db = firebaseApp.database()
+let firestore = firebaseApp.firestore()
+let questionDB = firestore.collection('questions')
 
 export default new Vuex.Store({
   state: {
-    // nanti disini semua state nya
-    something: ''
+    questions: [],
+    questionDetail: '',
+    answers: []
   },
-  mutations,
-  actions
+  actions: {
+    getQuestions ({ commit }) {
+      questionDB.get()
+        .then(snapshot => commit('setQuestions', snapshot))
+        .catch(err => console.log(err))
+    },
+    getAnswers ({commit}, payload) {
+      questionDB.doc(payload).collection('answers').get()
+        .then(snapshot => commit('setAnswers', snapshot))
+        .catch(err => console.log(err))
+    },
+    getQuestion ({commit}, payload) {
+      questionDB.doc(payload).get()
+        .then(snapshot => commit('setQuestion', snapshot))
+        .catch(err => console.log(err))
+    }
+  },
+  mutations: {
+    setQuestions (state, payload) {
+      let questions = []
+      payload.forEach(doc => {
+        questions.push({
+          id: doc.id,
+          title: doc.data().title,
+          body: doc.data().body
+        })
+      })
+      state.questions = questions
+    },
+    setAnswers (state, payload) {
+      let answers = []
+      payload.forEach(doc => {
+        answers.push({
+          id: doc.id,
+          answer: doc.data().answer
+        })
+      })
+      state.answers = answers
+    },
+    setQuestion (state, payload) {
+      state.questionDetail = payload.data()
+    }
+  }
 })

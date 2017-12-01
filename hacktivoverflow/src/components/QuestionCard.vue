@@ -1,16 +1,15 @@
 <template>
   <div class="card">
-  <h3 class="card-header">Card header</h3>
+  <h3 class="card-header">{{ question.title }}</h3>
   <div class="card-body">
-    <h5 class="card-title">{{ question.title }}</h5>
-  </div>
-  <div class="card-body">
-    <p class="card-text">{{ (question.body).substr(0,100) }}</p>
-    <router-link>
-    <button></button>
-    </router-link>
-    <router-link>
-    <button></button>
+    <p class="card-text">{{ question.body.substr(0,50) }}</p>
+    <router-link :to="{
+      name: 'QuestionDetail',
+      params: {
+        id: question.id
+      }
+    }">
+    <button class="btn btn-primary">See more</button>
     </router-link>
   </div>
 </div>
