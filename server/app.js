@@ -9,7 +9,14 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const cors = require('cors')
 const app = express()
- 
+const mongoose = require('mongoose');
+
+// mongoose connect
+mongoose.connect('mongodb://localhost/overflow',{
+  useMongoClient: true
+});
+
+// enable cors
 app.use(cors())
 
 // view engine setup
