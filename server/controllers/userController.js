@@ -3,7 +3,6 @@ const userModel = require('../models/userModel')
 
 class User {
   static create (req, res) {
-    // console.log(req);
       let user = new userModel({
           name: req.body.name,
           gender: req.body.gender,
