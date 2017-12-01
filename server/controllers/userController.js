@@ -3,23 +3,30 @@ const userModel = require('../models/userModel')
 
 class User {
   static create (req, res) {
+    // console.log(req.body);
       let user = new userModel({
           name: req.body.name,
           gender: req.body.gender,
-          picture: req.body.picture,
+          picture: req.body.picture.data.url,
           email: req.body.email,
           isAdmin: req.body.isAdmin
       })
       // console.log(user)
       user.save()
-      .then(user => res.send(user))
-      .catch(err => res.status(500).send(err))
+      .then(user => {
+        // console.log(user);
+        res.send(user)
+      })
+      .catch(err => {
+        // console.log(err);
+        res.status(500).send(err)
+      })
   }
 
   static getAll (req, res) {
     userModel.find()
     .then(users => {
-      console.log(users);
+      // console.log(users);
       res.send(users)
     })
     .catch(err => res.status(500).send(err))
@@ -30,7 +37,7 @@ class User {
 
     userModel.findById(id)
     .then(user => {
-      console.log(user);
+      // console.log(user);
       res.send(user)
     })
     .catch(err => res.status(500).send(err))
@@ -39,7 +46,7 @@ class User {
   static getOne (req, res) {
     userModel.findOne({name: req.body.name})
     .then(user => {
-      console.log(user);
+      // console.log(user);
       res.send(user)
     })
     .catch(err => res.status(500).send(err))
@@ -50,7 +57,7 @@ class User {
 
     userModel.findById(id)
     .then(user => {
-      console.log(user);
+      // console.log(user);
       user.name = req.body.name || user.name,
       user.gender = req.body.gender || user.gender,
       user.picture = req.body.picture || user.picture,
