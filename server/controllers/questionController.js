@@ -38,7 +38,7 @@ const findAll = (req, res) => {
 }
 
 const findById = (req, res) => {
-	questionModel.find({ _id: req.params.questionId })
+	questionModel.findOne({ _id: req.params.questionId })
 		.populate('owner').populate('answerList').populate('uservoteList').exec()
 		.then(questions => {
 			res.status(200).send(questions);

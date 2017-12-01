@@ -1,4 +1,5 @@
 const answerModel = require('../models/answerModel');
+const questionModel = require('../models/questionModel');
 const ObjectId = require('mongodb').ObjectID;
 const helper = require('../helpers/helper');
 
@@ -14,10 +15,28 @@ const create = (req, res) => {
 
 	newAnswer.save()
 		.then(newAnswer => {
-			res.status(200).send({
-				message: "Answer Added",
-				data: newAnswer
-			});
+			let answerId = newAnswer._id;
+
+			questionModel.findOne({ _id: req.body.question })
+				.then(dataQuestion => {
+					if (dataQuestion) {
+						dataQuestion.answerList.push(answerId);
+						dataQuestion.save()
+							.then(updatedQuestion => {
+								res.status(200).send({
+									message: "Answer Added",
+									answer: newAnswer,
+									question: updatedQuestion
+								});
+
+							}).catch(err => res.status(500).send({message:'Something Wrong in updating question', error: err.message}));
+
+					} else {
+						res.status(401).send({ message: 'No question found to be added for this answer'})
+					}
+
+				}).catch(err => res.status(500).send({message:'Something Wrong', error: err.message}));
+
 
 		}).catch(err => res.status(500).send({
 			message: "Error creating Answer",
