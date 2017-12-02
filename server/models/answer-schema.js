@@ -1,16 +1,16 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const QuestionSchema = new Schema({
+const AnswerSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  question: String,
-  answerList: {
+  questionId: {
     type: Schema.Types.ObjectId,
-    ref: 'Answer'
+    ref: 'Question'
   },
+  answer: String,
   createdAt: {
     type: Date,
     default: Date.now
@@ -21,6 +21,6 @@ const QuestionSchema = new Schema({
   }
 })
 
-const Question = mongoose.model('Question', QuestionSchema)
+const Answer = mongoose.model('Answer', AnswerSchema)
 
-module.exports = Question
+module.exports = Answer
