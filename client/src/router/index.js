@@ -5,6 +5,7 @@ import MainContent from '@/components/MainContent'
 import PostDetails from '@/components/PostDetails'
 import PostQuestion from '@/components/PostQuestion'
 import Login from '@/components/Login'
+import EditPost from '@/components/EditPost'
 
 Vue.use(Router)
 
@@ -34,6 +35,12 @@ export default new Router({
           path: '/main-page/post',
           name: 'PostQuestion',
           component: PostQuestion
+        },
+        {
+          path: '/main-page/edit/:postId',
+          name: 'EditPost',
+          component: EditPost,
+          props: true
         }
       ]
     }

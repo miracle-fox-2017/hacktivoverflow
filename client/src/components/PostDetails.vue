@@ -4,9 +4,10 @@
       <div class="card">
         <h4 class="card-header">{{postDetails.title}}</h4>
         <div class="card-body">
-          <h4 class="card-title">Special title treatment</h4>
-          <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <p class="card-text">{{postDetails.content}}</p>
+          <router-link :to="`/main-page/edit/${postDetails._id}`">
+            <button class="btn btn-primary" type="button" name="button">Edit this post</button>
+          </router-link>
         </div>
       </div>
     </div>

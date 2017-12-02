@@ -61,8 +61,6 @@ let updatePost = function (req, res) {
     {
       title: req.body.title,
       content: req.body.content,
-      answer: req.body.answer,
-      votePost: req.body.votePost,
       updatedAt: new Date()
     }
   )
