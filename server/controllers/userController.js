@@ -1,30 +1,55 @@
 const ObjectId = require('mongodb').ObjectID
-const userModel = require('../models/userModel')
+const UserModel = require('../models/userModel')
+const jwt = require('../helpers/jwt')
 
 class User {
   static create (req, res) {
     // console.log(req.body);
-      let user = new userModel({
+    UserModel.findOne({facebookId: req.body.id})
+    .then(user => {
+      if(user) {
+        // console.log('-------------> gerbang tol jwt');
+        jwt.sign(user)
+        .then(token => {
+          console.log('ini token -->', {token: token})
+          res.send({token: token})
+        })
+        .catch(err => res.status(500).send(err))
+      } else {
+        // console.log('-------------> masuk create');
+        let user = new UserModel({
+          facebookId: req.body.id,
           name: req.body.name,
           gender: req.body.gender,
           picture: req.body.picture.data.url,
           email: req.body.email,
           isAdmin: req.body.isAdmin
-      })
-      // console.log(user)
-      user.save()
-      .then(user => {
-        // console.log(user);
-        res.send(user)
-      })
-      .catch(err => {
-        // console.log(err);
-        res.status(500).send(err)
-      })
+        })
+        // console.log(user)
+        user.save()
+        .then(user => {
+          // console.log('-----> masuk ga?');
+          jwt.sign(user)
+          .then(token => {
+            res.send({token: token})
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        })
+        .catch(err => {
+          // console.log(err);
+          res.status(500).send(err)
+        })
+      }
+    })
+    .catch(err => {
+      console.log('masuk error', err)
+    })
   }
 
   static getAll (req, res) {
-    userModel.find()
+    UserModel.find()
     .then(users => {
       // console.log(users);
       res.send(users)
@@ -35,7 +60,7 @@ class User {
   static getById (req, res) {
     let id = {_id: ObjectId(req.params.id)}
 
-    userModel.findById(id)
+    UserModel.findById(id)
     .then(user => {
       // console.log(user);
       res.send(user)
@@ -44,7 +69,7 @@ class User {
   }
 
   static getOne (req, res) {
-    userModel.findOne({name: req.body.name})
+    UserModel.findOne({name: req.body.name})
     .then(user => {
       // console.log(user);
       res.send(user)
@@ -55,7 +80,7 @@ class User {
   static update (req, res) {
     let id = {_id: ObjectId(req.params.id)}
 
-    userModel.findById(id)
+    UserModel.findById(id)
     .then(user => {
       // console.log(user);
       user.name = req.body.name || user.name,
@@ -75,7 +100,7 @@ class User {
   static remove (req, res) {
     let id = {_id: ObjectId(req.params.id)}
 
-    userModel.findByIdAndRemove(id)
+    UserModel.findByIdAndRemove(id)
     .then(user => res.send(user))
     .catch(err => res.status(500).send(err))
   }
