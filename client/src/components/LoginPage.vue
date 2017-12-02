@@ -1,29 +1,34 @@
 <template>
   <div class="ui container">
     <div class="ui grid centered stackable">
-      <div class="five wide column">
-        <div class="ui header">
-          Login Page
-        </div>
-        <div class="ui form">
-          <div class="field">
-            <label>Username</label>
-            <input name="username" placeholder="Username" type="text" v-model="username">
+      <div class="seven wide column">
+        <div class="ui segment login">
+          <div class="ui header center aligned">
+            Login To - HacktivOverflow
           </div>
-          <div class="field">
-            <label>Password</label>
-            <input name="password" placeholder="Password" type="password" v-model="password">
-          </div>
-          <div class="field">
-            <button class="ui primary button fluid" type="submit" @click="login">Login</button>
-          </div>
-          <div class="field">
-            <g-signin-button class="ui primary button fluid" :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError">
-              Sign in with Google
-            </g-signin-button>
-          </div>
-          <div class="field">
-            Don't have an account? <a href="#">Sign up</a>
+          <div class="ui form">
+            <div class="field">
+              <label>Username</label>
+              <input name="username" placeholder="Username" type="text" v-model="username">
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input name="password" placeholder="Password" type="password" v-model="password">
+            </div>
+            <div class="field">
+              <button class="ui primary button fluid" type="submit" @click="login">Login</button>
+            </div>
+            <div class="field" style="text-align: center;">-or-</div> 
+            <div class="field">
+              <g-signin-button class="ui google plus button fluid" :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError">
+                <i class="google icon"></i>
+                Login with Google
+              </g-signin-button>
+            </div>
+            <div class="ui divider"></div>
+            <div class="field" style="text-align: center;">
+              Don't have an account? <a href="#">Sign up</a>
+            </div>
           </div>
         </div>
       </div>
@@ -83,11 +88,11 @@ export default {
 <style>
 .g-signin-button {
   /* This is where you control how the button looks. Be creative! */
-  display: inline-block;
+  /* display: inline-block;
   padding: 4px 8px;
   border-radius: 3px;
   background-color: #3c82f7;
   color: #fff;
-  box-shadow: 0 3px 0 #0f69ff;
+  box-shadow: 0 3px 0 #0f69ff; */
 }
 </style>
