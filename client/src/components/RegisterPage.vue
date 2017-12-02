@@ -21,7 +21,7 @@
               </div>
               <input class="button" type="submit" value="Sign up"/>
               <div class="row clearfix bottom_row">
-                <div style="text-align:center" class="col_half forgot_pw">Have account <a style="color:#28a745;" href="/login">Login here</a></div>
+                <div style="text-align:center" class="col_half forgot_pw">Have account <a style="color:#343a40;" href="/login">Login here</a></div>
               </div>
             </form>
           </div>
@@ -76,7 +76,7 @@ body {
   margin: 10% auto 0;
   position: relative;
   z-index: 1;
-  border-top: 5px solid #28a745;
+  border-top: 5px solid #343a40;
   -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
@@ -140,7 +140,7 @@ body {
   transition: all 0.30s ease-in-out;
 }
 .form_wrapper input[type="text"]:focus {
-  border: 1px solid #28a745;
+  border: 1px solid #343a40;
 }
 .form_wrapper input[type="email"] {
   width: 100%;
@@ -155,7 +155,7 @@ body {
   transition: all 0.30s ease-in-out;
 }
 .form_wrapper input[type="email"]:focus {
-  border: 1px solid #28a745;
+  border: 1px solid #343a40;
 }
 .form_wrapper input[type="password"] {
   width: 100%;
@@ -170,10 +170,10 @@ body {
   transition: all 0.30s ease-in-out;
 }
 .form_wrapper input[type="password"]:focus {
-  border: 1px solid #28a745;
+  border: 1px solid #343a40;
 }
 .form_wrapper input[type="submit"] {
-  background: #28a745;
+  background: #343a40;
   height: 35px;
   line-height: 35px;
   width: 100%;
@@ -189,10 +189,10 @@ body {
   transition: all 0.30s ease-in-out;
 }
 .form_wrapper input[type="submit"]:hover {
-  background: #28a745;
+  background: #343a40;
 }
 .form_wrapper input[type="submit"]:focus {
-  background: #28a745;
+  background: #343a40;
 }
 .form_wrapper input[type="checkbox"] {
   margin-right: 2px;
@@ -252,7 +252,7 @@ body {
 }
 
 .create_account a {
-  color: #28a745;
+  color: #343a40;
   text-decoration: none;
   font-weight: bold;
 }
@@ -271,10 +271,10 @@ body {
   z-index: 1;
   text-align: center;
   padding: 15px;
-  color: #28a745;
+  color: #343a40;
 }
 .credit a {
-  color: #28a745;
+  color: #343a40;
 }
 
 @media (max-width: 600px) {

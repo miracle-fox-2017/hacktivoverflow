@@ -7,14 +7,14 @@
       <a class="navbar-brand" href="#">HacktivOverFlow</a>
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         <li v-if="user" class="nav-item">
           <a class="nav-link" href="#">Create Question</a>
         </li>
       </ul>
       <div style="margin-right:2%;" v-if="user">
-        <p style="color:white;" class="my-2 my-sm-0">hello..{{user}}</p>
+        <p style="color:white;" class="my-2 my-sm-0">hello.. {{user}}</p>
       </div>
       <a v-if="user" v-on:click="toLogout" class="btn btn-outline-secondary" href="" role="button">Logout</a>
       <a v-if="!user" class="btn btn-outline-secondary" href="/login" role="button">Login</a>
