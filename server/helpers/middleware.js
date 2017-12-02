@@ -61,7 +61,7 @@ const isSignIn = (req, res, next) => {
 			next();
 
 		} else {
-			res.status(401).send({message: 'Unauthorized Login Access'});
+			res.status(401).send({message: 'Unauthorized Access'});
 		}
 	});
 }

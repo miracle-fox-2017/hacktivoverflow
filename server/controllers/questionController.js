@@ -105,14 +105,16 @@ const update = (req, res) => {
 }
 
 const destroy = (req, res) => {
-	questionModel.findOne({ _id: req.params.questionId})
+	let ownerId = req.verifiedUser._id;
+
+	questionModel.findOne({ _id: req.params.questionId, owner: ownerId})
 		.then(question => {
 			if (question) {
 				question.remove()
-					.then(question => {
-						res.status(200).send({ message: 'Delete Question Success', data: question})
+				.then(question => {
+					res.status(200).send({ message: 'Delete Question Success', data: question})
 
-					}).catch(err => res.status(500).send({message:'Something Wrong', error: err.message}));
+				}).catch(err => res.status(500).send({message:'Something wrong delete question', error: err.message}));
 
 			} else {
 				res.status(500).send({ message: 'Delete question Failed. Question not found'})

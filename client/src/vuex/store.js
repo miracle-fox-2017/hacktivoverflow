@@ -57,7 +57,6 @@ export default new Vuex.Store({
 		},
 
 		setLoggedinUser(state, payload) {
-			console.log('PAYLOAD', payload);
 			state.loggedinUser = payload;
 		},
 
@@ -71,9 +70,14 @@ export default new Vuex.Store({
 			}
 		},
 
-		getLoggedinUser() {
-			return state.loggedinUser;
-		}
+		unsetQuestion(state, payload){
+				// Find voted question index by _id, if found return the question index
+			let targetQuestionIndex = findIndexByKeyValue(state.questions, "_id", payload.questionId);
+
+			if (targetQuestionIndex >= 0) {
+				state.questions.splice(targetQuestionIndex, 1)
+			}
+		},
 	},
 
 	actions: {
@@ -97,7 +101,6 @@ export default new Vuex.Store({
 		},
 
 		voteQuestion(context, payload) {
-			console.log('voteQ', context.rootState.loggedinUser)
 			if (payload.questionId !== null) {
 				http.put(`/api/questions/update/${payload.questionId}/vote/${context.rootState.loggedinUser.accountId}`, {}, { headers: { token: context.rootState.loggedinUser.token } })
 					.then(({data}) => {
@@ -106,6 +109,24 @@ export default new Vuex.Store({
 					}).catch(err => alert(JSON.stringify({message:'You are not authorized to vote', error: err.message})));
 			} else {
 				 alert("Harap login dahulu sebelum Vote pertanyaan")
+			}
+		},
+
+		removeQuestion(context, payload) {
+			if (payload) {
+				let config = {
+					headers: {
+						token: context.rootState.loggedinUser.token
+					}
+				}
+				console.log('~~~~~~~~~~~ ', config)
+				http.delete(`/api/questions/delete/${payload}`,config)
+					.then(({data}) => {
+						 context.commit('unsetQuestion', payload)
+
+					}).catch(err => alert(JSON.stringify({message:'You are not authorized to delete', error: err.message})));
+			} else {
+				 alert("Harap login dahulu sebelum hapus pertanyaan")
 			}
 		},
 

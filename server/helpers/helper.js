@@ -60,6 +60,20 @@ class Helper {
 
     return null;
   }
+
+  static getUserinfoFromToken(token) {
+
+  	return new Promise((resolve, reject) => {
+  		jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  			if (typeof decoded !== 'undefined') {
+  				resolve(decoded);
+
+  			} else {
+  				reject({message: 'Unauthorized Access'});
+  			}
+  		});
+  	});
+  }
 }
 
 module.exports = Helper;

@@ -21,7 +21,7 @@
 						<a href="#"><i class="fa fa-pencil"></i></a>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-trash"></i></a>
+						<a href="#" @click.prevent="removeQuestion(question._id)"><i class="fa fa-trash"></i></a>
 					</li>
 				</ul>
 			</footer>
@@ -44,13 +44,11 @@ import { mapState, mapActions } from 'vuex'
 		methods: {
 			...mapActions([
 				'getQuestions',
-				'voteQuestion'
+				'voteQuestion',
+				'removeQuestion',
 			]),
 
 			doVoteQuestion(index, question) {
-				console.log('~~~~~~~~CHECK LOGGEDIN');
-				console.log(this.loggedinUser);
-
 				if (this.loggedinUser.accountId !== null && this.loggedinUser.accountId !== '') {
 					this.voteQuestion({
 						questionId: question._id,
