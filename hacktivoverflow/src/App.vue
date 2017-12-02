@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <navigation/>
+    <navigation @show-login-panel="showLogin = true"/>
     <sign-in v-if="showLogin"/>
     <main>
       <router-view></router-view>
@@ -18,16 +18,18 @@ export default {
     navigation: navbar,
     'sign-in': signIn
   },
-  data: {
-    ...mapState([
-      'userDetails'
-    ]),
-    showLogin: true
+  data () {
+    return {
+      ...mapState([
+        'userDetails'
+      ]),
+      showLogin: false
+    }
   },
   watch: {
     userDetails () {
       if (this.userDetails !== null) {
-        this.showLogin = false
+        // this.showLogin = false
       }
     }
   }
