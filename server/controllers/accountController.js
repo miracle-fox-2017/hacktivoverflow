@@ -136,6 +136,7 @@ const signIn = (req, res) => {
 			id: req.header._id,
 			token: req.header.token,
 			email: req.header.email,
+			username: req.header.username,
 			full_name: req.header.full_name
 		}
 	)

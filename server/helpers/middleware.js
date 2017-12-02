@@ -24,6 +24,7 @@ const signIn = (req, res, next) => {
 									req.header.token = token;
   								req.header.email = account.email;
   								req.header.full_name = account.full_name;
+  								req.header.username = account.username;
   								req.header._id = account._id;
 
 									next();

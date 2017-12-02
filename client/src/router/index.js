@@ -1,15 +1,30 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import IndexPage from '@/components/IndexPage'
+import MainContent  from "@/components/MainContent";
+import DetailContent  from "@/components/DetailContent";
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      component: IndexPage,
+      children: [
+      	{
+      		path: "",
+      		name: 'IndexPage',
+      		component: MainContent
+      	},
+        {
+          path: "/:questionId",
+          name: 'DetailPage',
+          component: DetailContent,
+          props: true
+        }
+      ]
     }
   ]
 })

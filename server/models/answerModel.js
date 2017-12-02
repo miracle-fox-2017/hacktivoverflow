@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const answerSchema = new Schema({
 	title: String,
+	name: String,
 	owner:  {
 		type: Schema.Types.ObjectId,
 		ref: 'Account',

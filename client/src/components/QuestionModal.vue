@@ -1,0 +1,78 @@
+<template>
+	<div class="modal" id="questionModal" tabindex="-1" role="dialog" aria-labelledby="questionModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="questionModalLabel">Tambah Pertanyaan</h4>
+				</div>
+				<div class="modal-body">
+					<form action="#" method="post">
+						<div class="input-group u-full-width">
+							<label>Judul</label>
+							<input type="text" class="form-control" id="title" name="question_title" ref="question_title"/>
+						</div>
+
+						<div class="input-group u-full-width">
+							<label>Content</label>
+							<textarea class="form-control" name="content" id="content" ref="question_content" rows="10"></textarea>
+						</div>
+
+						<div class="input-group u-full-width">
+							<label>Tags (Dipisah koma)</label>
+							<input type="text" class="form-control" id="question_taglist" name="question_taglist" ref="question_taglist"/>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" @click.prevent="doNewQuestion" data-dismiss="modal">Tambah Pertanyaan</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+	import { mapActions } from 'vuex'
+
+	export default {
+		name: 'RegisterModal',
+		data () {
+			return {
+
+			}
+		},
+
+		methods: {
+		  doNewQuestion () {
+		  	let question_title = this.$refs.question_title.value;
+		  	let question_content = this.$refs.question_content.value;
+		  	let question_taglist = this.$refs.question_taglist.value.length > 0 ?
+		  		this.$refs.question_taglist.value.split(',') : '';
+
+		  	let questionData = {
+		  		title: question_title,
+		  		content: question_content,
+		  		tagList: question_taglist,
+		  		owner: localStorage.getItem('accountId')
+		  	}
+
+		   if (question_title.length > 0 && question_content.length > 0) {
+		   	this.createQuestion(questionData);
+
+		   } else {
+		   	alert("Data pertanyaan harus lengkap");
+		   }
+		  },
+
+		  ...mapActions([
+		  	'createQuestion'
+		  ]),
+		}
+	}
+</script>
+
+<style scoped>
+
+</style>

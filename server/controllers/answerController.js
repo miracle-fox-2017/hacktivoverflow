@@ -7,6 +7,7 @@ const create = (req, res) => {
 	let newAnswer = new answerModel({
 		title: req.body.title || null,
 		owner: req.body.owner || null,
+		username: req.body.username || null,
 		content: req.body.content || null,
 		uservoteList:  req.body.uservoteList || [],
 		question: req.body.question || null,
@@ -21,6 +22,7 @@ const create = (req, res) => {
 				.then(dataQuestion => {
 					if (dataQuestion) {
 						dataQuestion.answerList.push(answerId);
+
 						dataQuestion.save()
 							.then(updatedQuestion => {
 								res.status(200).send({
@@ -45,7 +47,7 @@ const create = (req, res) => {
 }
 
 const findAll = (req, res) => {
-	answerModel.find()
+	answerModel.find().sort({createdAt: 'desc'}).exec()
 		.then(answers => {
 			res.status(200).send(answers);
 

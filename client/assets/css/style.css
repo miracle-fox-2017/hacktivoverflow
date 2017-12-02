@@ -1,0 +1,26 @@
+.no-mt {
+	margin-top: 0;
+}
+
+.no-mb {
+	margin-bottom: 0;
+}
+
+.u-full-width {
+	width: 100%;
+}
+
+*:hover {
+	transition: ease-in all 0.2s;
+}
+
+.flat-list {
+	padding-left: 0;
+	margin: 0;
+	list-style: none
+}
+
+.list-inline li {
+	display: inline-block;
+	margin-right: 2rem;
+}

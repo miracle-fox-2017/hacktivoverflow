@@ -27,7 +27,7 @@ const create = (req, res) => {
 }
 
 const findAll = (req, res) => {
-	questionModel.find()
+	questionModel.find().sort({createdAt: 'desc'}).exec()
 		.then(questions => {
 			res.status(200).send(questions);
 
