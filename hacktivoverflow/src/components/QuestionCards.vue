@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getQuestions'
+      'watchQuestions'
     ])
   },
   computed: {
@@ -26,7 +26,7 @@ export default {
     ])
   },
   created () {
-    this.getQuestions()
+    this.watchQuestions()
   }
 }
 </script>
