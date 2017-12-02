@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
+const tokenGenerate = require('../helper/tokenGenerate')
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config()
+const axios = require('axios');
 
 getAll = (req, res) => {
   User.find()
@@ -35,26 +35,49 @@ signup = (req, res) => {
 }
 
 login = (req, res) => {
-  User.findOne({username: req.body.username})
-  .then(user => {
-    bcrypt.compare(req.body.password, user.password, function(err, response) {
-      if(!err) {
-        let payload = {
-          id: user._id,
-          username: user.username,
-          first_name: user.first_name,
-          last_name: user.last_name,
-          email: user.email
-        }
-        jwt.sign(payload, process.env.JWT_SECRET, function(err, token) {
-          res.send({accesstoken: token})
+  if(req.headers.google_token){
+    axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.google_token}`)
+    .then(({data}) => {
+      User.findOne({google_id: data.sub})
+      .then(user => {
+        tokenGenerate(user, function(token) {
+          res.send(token)
         })
-      } else {
-        res.status(401).send(err)
-      }
+      })
+      .catch(err => {
+        let userGoogle = {
+          username: data.email,
+          password: data.email,
+          first_name: data.given_name,
+          last_name: data.family_name,
+          email: data.email,
+          google_id: data.sub
+        }
+
+        User.create(userGoogle)
+        .then(newUser => {
+          tokenGenerate(newUser, function(token) {
+            res.send(token)
+          })
+        })
+        .catch(err => res.status(500).send(err))
+      })
     })
-  })
-  .catch(err => res.status(401).send(err))
+  } else {
+    User.findOne({username: req.body.username})
+    .then(user => {
+      bcrypt.compare(req.body.password, user.password, function(err, response) {
+        if(!err) {
+          tokenGenerate(user, function(token) {
+            res.send(token)
+          })
+        } else {
+          res.status(401).send(err)
+        }
+      })
+    })
+    .catch(err => res.status(401).send(err))
+  }
 }
 
 update = (req, res) => {
