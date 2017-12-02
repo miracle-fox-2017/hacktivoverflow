@@ -21,10 +21,11 @@ const createUser = function(req,res){
     newUser.save().then(function(){
       res.status(201).send('[+] 1 User Created from register')
     }).catch(function(err){
-      let message = errmsg(err)
-      console.log(message)
       console.log('[-] error User Create from register')
-      res.send(message).status(500)
+      res.send({
+        msg: errmsg(err),
+        err: err
+      }).status(200)
     })
   }).catch(function(err){
     if(err){
@@ -83,11 +84,10 @@ const destroyUser = function(req,res){
 
 // login user
 const loginUsers = function(req,res){
-  // console.log(req.body)
+  console.log(req.body)
   Users.findOne({
     username: req.body.username
   }).then(function(data_User){
-    console.log('data_User',data_User)
     if(data_User){
       bcrypt.compare(req.body.password, data_User.password).then(function(result){
         // console.log(result)
@@ -114,7 +114,7 @@ const loginUsers = function(req,res){
   }).catch(function(err){
     if(err){
       res.status(500).send(err)
-      console.log(err)
+      console.log('err >>', err)
     }
   })
 }

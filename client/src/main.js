@@ -3,16 +3,16 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './vuex/store.js'
 /* eslint-disable */
-import axios from 'axios'
 import swal from 'sweetalert2'
+// import axios from 'axios'
+// const axiosConfig = {
+//   baseURL: 'http://localhost:3000/',
+//   timeout: 30000,
+// }
+// Vue.prototype.$http = axios.create(axiosConfig)
 
-const axiosConfig = {
-  baseURL: 'http://localhost:3000/',
-  timeout: 30000,
-}
-
-Vue.prototype.$http = axios.create(axiosConfig)
 
 Vue.config.productionTip = false
 
@@ -20,6 +20,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

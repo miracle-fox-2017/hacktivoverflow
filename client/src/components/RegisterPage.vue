@@ -6,18 +6,18 @@
         </div>
         <div class="row clearfix">
           <div class="col_half last">
-            <form @submit.prevent="toRegister">
+            <form @submit.prevent="registerUser(formRegister)">
               <div class="input_field"><span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input v-model="fullname" type="text" name="fullname" placeholder="Fullname" required=""/>
+                <input v-model="formRegister.fullname" type="text" name="fullname" placeholder="Fullname" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                <input v-model="email" type="email" name="email" placeholder="Email" required=""/>
+                <input v-model="formRegister.email" type="email" name="email" placeholder="Email" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input  v-model="username" type="text" name="username" placeholder="Username" required=""/>
+                <input  v-model="formRegister.username" type="text" name="username" placeholder="Username" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <input v-model="password" type="password" name="password" placeholder="Password" required=""/>
+                <input v-model="formRegister.password" type="password" name="password" placeholder="Password" required=""/>
               </div>
               <input class="button" type="submit" value="Sign up"/>
               <div class="row clearfix bottom_row">
@@ -31,50 +31,23 @@
 </template>
 
 <script>
-import swal from 'sweetalert2'
-
+import {mapActions} from 'vuex'
 export default {
   name: 'RegisterPage',
   data: function () {
     return {
-      fullname: '',
-      email: '',
-      username: '',
-      password: ''
+      formRegister: {
+        fullname: '',
+        email: '',
+        username: '',
+        password: ''
+      }
     }
   },
   methods: {
-    toRegister () {
-      let dataRegister = {
-        fullname: this.fullname,
-        email: this.email,
-        username: this.username,
-        password: this.password
-      }
-      this.$http.post('api/users', dataRegister)
-      .then(response => {
-        console.log('response >>', response)
-        if (response.status === 200) {
-          let msg = response.data
-          // alert(msg)
-          swal(
-            'Oops...',
-            msg,
-            'error'
-          )
-        } else {
-          swal(
-            'Good job!',
-            'Your Acoount was created',
-            'success'
-          )
-          this.$router.push({name: 'LoginPage'})
-        }
-      })
-      .catch(err => {
-        console.log('error >>', err)
-      })
-    }
+    ...mapActions([
+      'registerUser'
+    ])
   }
 }
 </script>
