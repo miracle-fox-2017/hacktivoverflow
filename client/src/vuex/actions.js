@@ -9,6 +9,10 @@ let actions = {
       console.log(err)
     })
   }
+  // postNewQuestion ({commit}) {
+  //   axios.post('http://localhost:3000/post', {
+  //   })
+  // }
 }
 
 export default actions
