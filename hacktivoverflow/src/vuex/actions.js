@@ -3,13 +3,15 @@ import firebaseui from 'firebaseui'
 import firebaseConfig from './firebase.config'
 import firebaseUiConfig from './firebaseui.config'
 
+require('firebase/firestore')
+
 const firebaseApp = firebase.initializeApp(firebaseConfig)
 const ui = new firebaseui.auth.AuthUI(firebase.auth())
 
 let firestore = firebaseApp.firestore()
 let questionDB = firestore.collection('questions')
 
-const actions =  {
+const actions = {
   signIn ({ dispatch }) {
     ui.start('#firebaseui-auth-container', firebaseUiConfig)
     dispatch('getUserInfo')
@@ -56,10 +58,11 @@ const actions =  {
       .then(snapshot => commit('setQuestion', snapshot))
       .catch(err => console.log(err))
   },
-  replyQuestion ({ dispatch }, payload) {
+  replyQuestion ({ dispatch, state }, payload) {
     questionDB.doc(payload.questionId)
       .collection('answers').add({
-        answer: payload.answer
+        answer: payload.answer,
+        email: state.userDetails.email
       })
       .then(ref => console.log(ref.id))
       .catch(err => console.log(err))
@@ -70,6 +73,7 @@ const actions =  {
     })
   },
   watchAnswers ({ commit }, payload) {
+    commit('clearAnswers')
     questionDB.doc(payload)
       .collection('answers').onSnapshot(snapshot => {
         commit('addAnswer', snapshot)

@@ -4,6 +4,7 @@
     <div class="card-body">
       <blockquote class="card-blockquote">
         <p> {{ answer.answer }}</p>
+        <footer class="blockquote-footer">email here</footer>
       </blockquote>
         <footer>
           <button type="button" class="btn btn-outline-primary">Upvote</button>

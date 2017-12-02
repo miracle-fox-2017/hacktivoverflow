@@ -4,8 +4,6 @@ import VueFirestore from 'vue-firestore'
 import actions from './actions'
 import mutations from './mutations'
 
-require('firebase/firestore')
-
 Vue.use(Vuex)
 Vue.use(VueFirestore)
 
