@@ -7,7 +7,10 @@ const cors = require('cors')
 // require routes
 const index = require('./routes/index');
 const users = require('./routes/users');
+const register = require('./routes/register');
+const answers = require('./routes/answers');
 const login = require('./routes/login');
+const questions = require('./routes/questions');
 
 app.use(cors());
 app.use(logger('dev'));
@@ -17,7 +20,10 @@ app.use(bodyParser.json())
 // routes
 app.use('/login', login);
 app.use('/', index);
-app.use('/register', users);
+app.use('/register', register);
+app.use('/users', users);
+app.use('/questions', questions);
+app.use('/answers', answers);
 
 app.listen(process.env.PORT || '3000',(err) => {
   if(!err){

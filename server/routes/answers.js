@@ -1,4 +1,4 @@
 const router = require('express').Router()
-const userController = require('../controllers/userController')
+const answerController = require('../controllers/answerController')
 
 module.exports = router
