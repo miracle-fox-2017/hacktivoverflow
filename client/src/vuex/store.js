@@ -6,7 +6,8 @@ import actions from './actions'
 Vue.use(Vuex)
 
 let initialState = {
-  posts: []
+  posts: [],
+  loginCredentials: {}
 }
 
 export default new Vuex.Store({

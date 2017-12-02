@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import MainPage from '@/components/MainPage'
 import MainContent from '@/components/MainContent'
 import PostDetails from '@/components/PostDetails'
+import PostQuestion from '@/components/PostQuestion'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -11,8 +12,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Login',
+      component: Login
     },
     {
       path: '/main-page',
@@ -24,10 +25,15 @@ export default new Router({
           component: MainContent
         },
         {
-          path: 'details/:postId',
+          path: '/main-page/details/:postId',
           name: 'PostDetails',
           component: PostDetails,
           props: true
+        },
+        {
+          path: '/main-page/post',
+          name: 'PostQuestion',
+          component: PostQuestion
         }
       ]
     }

@@ -34,6 +34,12 @@ export default {
   },
   created () {
     this.getPostDetails()
+  },
+  watch: {
+    postId (newId) {
+      this.postId = newId
+      this.getPostDetails(this.postId)
+    }
   }
 }
 </script>

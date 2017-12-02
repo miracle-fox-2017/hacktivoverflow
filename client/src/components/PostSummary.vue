@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <div class="card">
-      <router-link :to="`main-page/details/${post._id}`">
+      <router-link :to="`/main-page/details/${post._id}`">
         <h4 class="card-header">{{post.title}}</h4>
       </router-link>
     </div>
