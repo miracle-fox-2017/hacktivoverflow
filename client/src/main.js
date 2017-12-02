@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import GSignInButton from 'vue-google-signin-button'
+import store from './vuex/store'
 
 Vue.use(GSignInButton)
 Vue.prototype.$http = axios.create({baseURL: 'http://localhost:3000'})
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

@@ -1,7 +1,11 @@
 const Question = require('../models/questionModel')
 
 getAll = (req, res) => {
-
+  Question.find()
+  .then(questions => {
+    res.send(questions)
+  })
+  .catch(err => res.status(500).send(err))
 }
 
 create = (req, res) => {

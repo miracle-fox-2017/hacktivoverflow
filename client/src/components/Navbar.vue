@@ -4,11 +4,11 @@
       <div href="#" class="header item">
         <img class="ui image logo" src="../assets/img/logo.png">
       </div>
+      <router-link href="#" class="item" to="/">Home</router-link>
       <a href="#" class="item">Questions</a>
       <a href="#" class="item">Users</a>
       <div href="#" class="ui right item" tabindex="0">
-        <a style="margin-left: 20px;" class="ui button" href="">Login</a>
-        <a style="margin-left: 20px;" class="ui primary button" href="">Signup</a>
+        <router-link style="margin-left: 20px;" class="ui button" to="/login">Login</router-link>
       </div>
     <!-- </div> -->
   </div>

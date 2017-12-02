@@ -25,10 +25,11 @@
                 Login with Google
               </g-signin-button>
             </div>
-            <div class="ui divider"></div>
-            <div class="field" style="text-align: center;">
-              Don't have an account? <a href="#">Sign up</a>
-            </div>
+          </div>
+        </div>
+        <div class="ui segment">
+          <div class="field" style="text-align: center;">
+            Don't have an account? <a href="#">Sign up</a>
           </div>
         </div>
       </div>
