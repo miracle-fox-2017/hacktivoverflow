@@ -84,7 +84,7 @@ const destroyUser = function(req,res){
 
 // login user
 const loginUsers = function(req,res){
-  console.log(req.body)
+  console.log(req.headers, '<<< req.headers')
   Users.findOne({
     username: req.body.username
   }).then(function(data_User){
@@ -108,7 +108,15 @@ const loginUsers = function(req,res){
               })
             }
           })
+        }else{
+          res.status(403).send({
+            msg: result
+          })
         }
+      })
+    }else{
+      res.status(404).send({
+        msg: data_User
       })
     }
   }).catch(function(err){

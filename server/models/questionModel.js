@@ -4,7 +4,9 @@ const Schema = mongoose.Schema
 const questionSchema = new Schema({
   title : {
     type : String,
-    required : true
+    required : true,
+    minlength : 1,
+    trim : true
   },
   question_content : {
     type : String,

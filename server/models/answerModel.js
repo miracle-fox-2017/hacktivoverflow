@@ -8,18 +8,13 @@ const answerSchema = new Schema({
   },
   by : {
     type : Schema.Types.ObjectId,
-    ref : 'Users',
-    required: true
+    ref : 'Users'
   },
   question : {
     type : Schema.Types.ObjectId,
     ref : 'questions',
     required : true
   },
-  vote : [{
-    type : Schema.Types.ObjectId,
-    ref : 'Users'
-  }],
   create_at : {
     type : Date,
     default : Date.now

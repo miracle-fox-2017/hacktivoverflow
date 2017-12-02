@@ -50,7 +50,13 @@ const actions = {
         })
       }
     }).catch(err => {
-      console.error(err)
+      if (err && 403) {
+        swal(
+          'Oops...',
+          'Wrong Username & Password!',
+          'error'
+        )
+      }
     })
   },
   registerUser ({ commit }, newUser) {

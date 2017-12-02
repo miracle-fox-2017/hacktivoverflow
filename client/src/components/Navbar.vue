@@ -17,7 +17,8 @@
         <p style="color:white;" class="my-2 my-sm-0">hello.. {{user}}</p>
       </div>
       <a v-if="user" v-on:click="toLogout" class="btn btn-outline-secondary" href="" role="button">Logout</a>
-      <a v-if="!user" class="btn btn-outline-secondary" href="/login" role="button">Login</a>
+      <a v-if="!user" class="btn btn-outline-secondary" href="/login" role="button" style="margin-right:1%;">Login</a>
+      <a v-if="!user" class="btn btn-outline-secondary" href="/register" role="button">Register</a>
     </div>
   </nav>
 </template>
@@ -32,7 +33,7 @@ export default {
   },
   created () {
     this.user = localStorage.getItem('name')
-    console.log(this.user)
+    console.log('this.user >', this.user)
   },
   methods: {
     toLogout () {

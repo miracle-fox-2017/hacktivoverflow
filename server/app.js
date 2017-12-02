@@ -27,9 +27,13 @@ mongoose.connect('mongodb://localhost/hacktivOverFlow')
 
 // routes
 const users = require('./routes/user')
+const question = require('./routes/question')
+const answer = require('./routes/answer')
 
 app.get("/", (req, res) => res.json({message: "Welcome to hacktiveoverflow API!"}))
 app.use('/api/users', users)
+app.use('/api/questions', question)
+app.use('/api/answers', answer)
 
 app.listen(PORT, function(err){
   if(!err){
