@@ -9,14 +9,14 @@ let postSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    answer: {
+    answer: [{
       type: Schema.Types.ObjectId,
       ref: 'Answer'
-    },
-    votePost: {
+    }],
+    votePost: [{
       type: Schema.Types.ObjectId,
       ref: 'User'
-    },
+    }],
     createdAt: {
       type: Date,
       default: Date.now

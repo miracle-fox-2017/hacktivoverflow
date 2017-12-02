@@ -35,8 +35,8 @@ let postNewAnswer = function (req, res) {
     {
       title: req.body.title,
       content: req.body.content,
-      userAnswer: req.body.idUser,
-      voteAnswer: req.body.idUser,
+      userAnswer: req.body.userAnswer,
+      voteAnswer: req.body.voteAnswer,
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -59,7 +59,28 @@ let updateAnswer = function (req, res) {
       content: req.body.content,
       updatedAt: new Date()
     }
-  ).populate('userAnswer')
+  )
+  .populate('userAnswer')
+  .populate('voteAnswer')
+  .exec()
+  .then(function (dataAnswer) {
+    res.status(200).send(dataAnswer)
+  }).catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
+// Update voteAnswer
+let updateVoteAnswer = function (req, res) {
+  Answer.findOneAndUpdate(
+    {
+      _id: req.params.idAnswer
+    },
+    {
+      voteAnswer: req.params.voteAnswer
+    }
+  )
+  .populate('userAnswer')
   .populate('voteAnswer')
   .exec()
   .then(function (dataAnswer) {
@@ -87,5 +108,6 @@ module.exports = {
   findAnswerById,
   postNewAnswer,
   updateAnswer,
+  updateVoteAnswer,
   removeAnswer
 }

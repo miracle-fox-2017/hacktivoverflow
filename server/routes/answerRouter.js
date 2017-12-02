@@ -14,6 +14,9 @@ router.post('/', answerController.postNewAnswer)
 // Update answer
 router.put('/:idAnswer', answerController.updateAnswer)
 
+// Update voteAnswer
+router.put('/addVoteAnswer/:idAnswer', answerController.updateVoteAnswer)
+
 // Delete answer
 router.delete('/:idAnswer', answerController.removeAnswer)
 

@@ -38,9 +38,9 @@ let postNewQuestion = function (req, res) {
     {
       title: req.body.title,
       content: req.body.content,
-      userPost: req.body.idUser,
+      userPost: req.body.userPost,
       answer: req.body.idAnswer,
-      votePost: req.body.idUser,
+      votePost: req.body.votePost,
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -61,7 +61,51 @@ let updatePost = function (req, res) {
     {
       title: req.body.title,
       content: req.body.content,
+      answer: req.body.answer,
+      votePost: req.body.votePost,
       updatedAt: new Date()
+    }
+  )
+  .populate('answer')
+  .populate('userPost')
+  .populate('votePost')
+  .exec()
+  .then(function (dataPost) {
+    res.status(200).send(dataPost)
+  }).catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
+// Update answer
+let updatePostAnswer = function (req, res) {
+  Post.findOneAndUpdate(
+    {
+      _id: req.params.idPost
+    },
+    {
+      answer: req.body.answer
+    }
+  )
+  .populate('answer')
+  .populate('userPost')
+  .populate('votePost')
+  .exec()
+  .then(function (dataPost) {
+    res.status(200).send(dataPost)
+  }).catch(function (err) {
+    res.status(500).send(err)
+  })
+}
+
+// Update votePost
+let updateVotePost = function (req, res) {
+  Post.findOneAndUpdate(
+    {
+      _id: req.params.idPost
+    },
+    {
+      votePost: req.body.votePost
     }
   )
   .populate('answer')
@@ -92,6 +136,8 @@ module.exports = {
   findAllPost,
   findPostById,
   updatePost,
+  updatePostAnswer,
+  updateVotePost,
   postNewQuestion,
   removePost
 }

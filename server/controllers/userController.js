@@ -1,4 +1,5 @@
 const User = require('../models/userModel.js')
+const crypt = require('../helper/crypt.js')
 
 // Finding all users
 let findAllUsers = function (req, res) {
