@@ -17,15 +17,24 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+    <button @click="logout">Logout</button>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase'
 export default {
   name: 'HelloWorld',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods: {
+    logout: function () {
+      firebase.auth().signOut().then(() => {
+        this.$router.replace('login')
+      })
     }
   }
 }
