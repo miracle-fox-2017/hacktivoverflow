@@ -17,11 +17,14 @@ const createUser = function(req,res){
       email : req.body.email,
       via : 'register',
     })
+    // console.log(newUser)
     newUser.save().then(function(){
-      res.status(201).send('[+] 1 User Created')
+      res.status(201).send('[+] 1 User Created from register')
     }).catch(function(err){
-      console.log('[-] error User Create')
-      res.status(500).send(errmsg(err))
+      let message = errmsg(err)
+      console.log(message)
+      console.log('[-] error User Create from register')
+      res.send(message).status(500)
     })
   }).catch(function(err){
     if(err){

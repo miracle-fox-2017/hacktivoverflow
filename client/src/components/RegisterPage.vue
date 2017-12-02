@@ -6,18 +6,18 @@
         </div>
         <div class="row clearfix">
           <div class="col_half last">
-            <form>
+            <form @submit.prevent="toRegister">
               <div class="input_field"><span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input type="text" name="text" placeholder="Fullname" required=""/>
+                <input v-model="fullname" type="text" name="fullname" placeholder="Fullname" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                <input type="email" name="email" placeholder="Email" required=""/>
+                <input v-model="email" type="email" name="email" placeholder="Email" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input type="text" name="text" placeholder="Username" required=""/>
+                <input  v-model="username" type="text" name="username" placeholder="Username" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <input type="password" name="phone" placeholder="Password" required=""/>
+                <input v-model="password" type="password" name="password" placeholder="Password" required=""/>
               </div>
               <input class="button" type="submit" value="Sign up"/>
               <div class="row clearfix bottom_row">
@@ -31,8 +31,46 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
+
 export default {
-  name: 'RegisterPage'
+  name: 'RegisterPage',
+  data: function () {
+    return {
+      fullname: '',
+      email: '',
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    toRegister () {
+      let dataRegister = {
+        fullname: this.fullname,
+        email: this.email,
+        username: this.username,
+        password: this.password
+      }
+      this.$http.post('api/users', dataRegister)
+      .then(response => {
+        console.log('response >>', response)
+        if (response.status === 200) {
+          let msg = response.data
+          // alert(msg)
+          swal(
+            'Oops...',
+            msg,
+            'error'
+          )
+        } else {
+          this.$router.push({name: 'LoginPage'})
+        }
+      })
+      .catch(err => {
+        console.log('error >>', err)
+      })
+    }
+  }
 }
 </script>
 
