@@ -19,6 +19,9 @@ app.get('/', function (req, res) {
   res.send('hello world')
 })
 
+const api = require('./routes/api')
+app.use('/api', api)
+
 app.listen(4000, function () {
   console.log('im alive 4000')
 })
