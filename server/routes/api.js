@@ -7,7 +7,7 @@ const answerController = require('../controllers/answer-cont')
 // ================= users 
 router.post('/users', userController.createUser)
 
-router.get('/users/:id', userController.findById)
+router.get('/users/:email', userController.findById)
 
 router.put('/users/:id', userController.findByIdAndUpdate)
 

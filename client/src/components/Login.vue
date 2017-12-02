@@ -1,6 +1,7 @@
 <template>
   <div>
     <h3>Sign In</h3>
+    <p v-if="error">Invalid Input || password must be min 8 chars</p>
     <input type="text" v-model="email" placeholder="Email"><br>
     <input type="password" v-model="password" placeholder="Password"><br>
     <button @click="login">Let Me In</button>
@@ -10,22 +11,32 @@
 
 <script>
 import firebase from 'firebase'
+import { mapActions } from 'vuex'
 export default {
   name: 'Login',
   data: function () {
     return {
       email: '',
-      password: ''
+      password: '',
+      error: false
     }
   },
   methods: {
+    ...mapActions([
+      'findByEmail'
+    ]),
     login: function () {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       .then(() => {
+        console.log(this.email, 'ini this email')
+        this.findByEmail(this.email)
         alert('hello there')
         this.$router.push('hello')
       })
-      .catch(err => console.err(err))
+      .catch(err => {
+        console.log(err)
+        this.error = true
+      })
     }
   }
 }

@@ -27,9 +27,9 @@ const getAllUsers = (req, res) => {
 }
 
 const findById = (req, res) => {
-  User.find({_id: req.params.id})
+  User.find({email: req.params.email})
   .then(user => {
-    res.status(200).send(user)
+    res.status(200).send({user})
   })
   .catch(err => {
     console.log(err)
