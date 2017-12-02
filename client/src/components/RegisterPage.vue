@@ -63,6 +63,11 @@ export default {
             'error'
           )
         } else {
+          swal(
+            'Good job!',
+            'Your Acoount was created',
+            'success'
+          )
           this.$router.push({name: 'LoginPage'})
         }
       })

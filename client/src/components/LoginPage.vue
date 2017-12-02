@@ -7,12 +7,12 @@
         </div>
         <div class="row clearfix">
           <div class="col_half">
-            <form>
+            <form @submit.prevent="toLogin">
               <div class="input_field"><span><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input type="text" name="text" placeholder="Username" required=""/>
+                <input v-model="username" type="text" name="username" placeholder="Username" required=""/>
               </div>
               <div class="input_field"><span><i class="fa fa-lock" aria-hidden="true"></i></span>
-                <input type="password" name="phone" placeholder="Password" required=""/>
+                <input v-model="password" type="password" name="password" placeholder="Password" required=""/>
               </div>
               <input class="button" type="submit" value="Sign in"/>
               <div class="row clearfix bottom_row">
@@ -38,8 +38,43 @@
 </template>
 
 <script>
+import swal from 'sweetalert2'
+
 export default {
-  name: 'LoginPage'
+  name: 'LoginPage',
+  data: function () {
+    return {
+      username: '',
+      password: ''
+    }
+  },
+  methods: {
+    toLogin () {
+      let dataLogin = {
+        username: this.username,
+        password: this.password
+      }
+      this.$http.post('api/users/login', dataLogin)
+      .then(response => {
+        console.log(response.data)
+        if (response.data.success) {
+          swal({
+            title: 'Good job!',
+            text: 'username & password match!',
+            type: 'success'
+          }).then(function () {
+            window.location.href = 'http://localhost:8080/'
+            localStorage.setItem('token', response.data.token)
+            localStorage.setItem('name', response.data.username)
+            localStorage.setItem('user_Id', response.data.user_Id)
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 

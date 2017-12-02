@@ -27,6 +27,13 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  mounted () {
+    // cek token
+    let storage = localStorage.getItem('token')
+    if (storage === null) {
+      this.$router.push({name: 'LoginPage'})
+    }
   }
 }
 </script>
