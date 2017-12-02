@@ -8,7 +8,6 @@ const secret_key = process.env.secretKey
 
 
 const createUser = function(req,res){
-  // console.log(req)
   let saltRound = 10
   bcrypt.hash(req.body.password, saltRound).then(function(hash){
     let newUser = Users({
@@ -16,8 +15,7 @@ const createUser = function(req,res){
       username : req.body.username,
       password : hash,
       email : req.body.email,
-      phone : req.body.phone,
-      via : 'register'
+      via : 'register',
     })
     newUser.save().then(function(){
       res.status(201).send('[+] 1 User Created')
@@ -52,8 +50,7 @@ const updateUser = function(req,res){
       data_Users.fullname = req.body.fullname,
       data_Users.username = req.body.username,
       data_Users.password = hash,
-      data_Users.email = req.body.email,
-      data_Users.phone = req.body.phone
+      data_Users.email = req.body.email
       
       //save update
       data_Users.save().then(function(){
