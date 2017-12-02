@@ -24,7 +24,14 @@
             </form>
           </div>
           <div class="col_half last">
-            <div class="social_btn fb"><a href="#"><span><i class="fa fa-facebook" aria-hidden="true"></i></span>Sign in with Facebook</a></div>
+            <div class="social_btn fb">
+              <a @click="fbLogin" href="#">
+                <span>
+                  <i class="fa fa-facebook" aria-hidden="true"></i>
+                </span>
+                Sign in with Facebook
+              </a>
+            </div>
             <div class="social_btn tw"><a href="#"><span><i class="fa fa-twitter" aria-hidden="true"></i></span>Sign in with Twitter</a></div>
             <div class="social_btn gplus"><a href="#"><span><i class="fa fa-google-plus" aria-hidden="true"></i></span>Sign in with Google+</a></div>
             <div class="row clearfix create_account">
@@ -46,6 +53,13 @@ export default {
     return {
       username: '',
       password: ''
+    }
+  },
+  mounted () {
+    // start cek storage
+    let storage = localStorage.getItem('token')
+    if (storage) {
+      this.$router.push({name: 'mainPage'})
     }
   },
   methods: {
@@ -73,6 +87,10 @@ export default {
       .catch(err => {
         console.log(err)
       })
+    },
+
+    fbLogin: function () {
+      console.log('masuk')
     }
   }
 }

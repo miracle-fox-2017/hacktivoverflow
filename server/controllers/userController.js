@@ -128,7 +128,6 @@ const createUserMedsos = function(req,res){
       username : req.body.fullname.split(' ').join(''),
       password : hash,
       email : req.body.email,
-      phone : '123456789',
       via : 'facebook'
     })
     // console.log(newUser)
