@@ -24,7 +24,7 @@
         </div>
         <div class="form-group">
           <div class="col-lg-10 col-lg-offset-2">
-            <button type="reset" class="btn btn-default">Cancel</button>
+            <button @click="cancleQuestion" type="reset" class="btn btn-default">Cancel</button>
             <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
@@ -54,6 +54,9 @@ export default {
         question: this.question
       }
       this.addQuestion(obj)
+      this.$router.push('/')
+    },
+    cancleQuestion: function () {
       this.$router.push('/')
     }
   }

@@ -24,7 +24,7 @@ let signfb = (req, res) => {
       user.save()
       .then(result => {
         let tokenizer = {
-          _id: result.id,
+          _id: result._id,
           name: result.name,
           isAdmin: result.isAdmin
         }
@@ -35,7 +35,8 @@ let signfb = (req, res) => {
           else {
             res.status(200).send({
               msg: "success",
-              token: token
+              token: token,
+              userId: tokenizer._id
             })
           }
         })
@@ -131,9 +132,15 @@ let delQuestion = (req, res) => {
   .then(before=>{
     Question.remove({ _id: req.params.id })
     .then(result=>{
-      res.status(200).send({
-        msg: "success",
-        deleted: before
+      Answer.remove({ questionId: req.params.id })
+      .then(result=>{
+        res.status(200).send({
+          msg: "success",
+          deleted: before
+        })
+      })
+      .catch(err=>{
+        res.status(400).send({msg: err})
       })
     })
     .catch(err=>{

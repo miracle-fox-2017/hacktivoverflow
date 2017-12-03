@@ -71,6 +71,7 @@ export default {
       .then(({ data }) => {
         if (data.msg === 'success') {
           obj.token = data.token
+          obj._id = data.userId
           localStorage.setItem('dataUser', JSON.stringify(obj))
           this.statusLogin = true
           this.dataUser = obj

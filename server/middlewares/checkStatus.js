@@ -14,7 +14,7 @@ let checkStatus = (req, res, next) => {
       .then(result => {
         if(result){
           let tokenizer = {
-            _id: result.id,
+            _id: result._id,
             name: result.name,
             isAdmin: result.isAdmin
           }
@@ -25,7 +25,8 @@ let checkStatus = (req, res, next) => {
             else {
               res.status(200).send({
                 msg: "success",
-                token: token
+                token: token,
+                userId: result._id
               })
             }
           })

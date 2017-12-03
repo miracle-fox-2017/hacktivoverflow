@@ -6,6 +6,7 @@
           <router-link :to="{ path: '/question/' + question._id }">{{ question.title }}</router-link>
           <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
           <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+          <span v-if="_id == question.userId" @click="removeQuestion" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
         </h4>
         <p>By: {{ question.userId }}</p>
         <span>Vote: XX</span>
@@ -16,6 +17,7 @@
       <div v-for="answer in answers" class="panel-body">
         <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
         <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+        <span v-if="_id == answer.userId" @click="removeAnswer(answer._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
         <p class="answer">{{ answer.answer }}</p>
         <p>By: {{ answer.userId }}</p>
         <span>Vote: XX</span>
@@ -71,13 +73,15 @@ export default {
   data: function () {
     return {
       image: '',
-      answer: ''
+      answer: '',
+      _id: ''
     }
   },
   watch: {
     '$route' (to, from) {
       this.getQuestion(this.$route.params.id)
       this.getAnswer(this.$route.params.id)
+      this._id = JSON.parse(localStorage.getItem('dataUser'))._id
     }
   },
   computed: {
@@ -90,7 +94,9 @@ export default {
     ...mapActions([
       'getQuestion',
       'getAnswer',
-      'postAnswer'
+      'postAnswer',
+      'deleteQuestion',
+      'deleteAnswer'
     ]),
     sendAnswer: function () {
       let newAnswer = {
@@ -103,11 +109,19 @@ export default {
       $('#answer').modal('hide')
       this.image = ''
       this.answer = ''
+    },
+    removeQuestion: function () {
+      this.deleteQuestion(this.$route.params.id)
+      this.$router.push('/')
+    },
+    removeAnswer: function (answerId) {
+      this.deleteAnswer(answerId)
     }
   },
   created: function () {
     this.getQuestion(this.$route.params.id)
     this.getAnswer(this.$route.params.id)
+    this._id = JSON.parse(localStorage.getItem('dataUser'))._id
   }
 }
 </script>
