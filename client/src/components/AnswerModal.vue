@@ -8,11 +8,9 @@
 				</div>
 				<div class="modal-body">
 					<form action="#" method="post">
-						<input type="hidden" class="form-control" id="answer_id" name="answer_id" ref="answer_id" :value="editedAnswer.answerId" />
-
 						<div class="input-group u-full-width">
 							<label>Content</label>
-							<textarea class="form-control" name="content" id="content" ref="answer_content" rows="10">{{ editedAnswer.content }}</textarea>
+							<textarea class="form-control" name="content" id="content" ref="answer_content" rows="10">{{ question.content }}</textarea>
 						</div>
 					</form>
 				</div>
@@ -30,7 +28,7 @@
 
 	export default {
 		name: 'AnswerModal',
-		props: ['questionId'],
+		props: ['question'],
 		data () {
 			return {
 
@@ -38,28 +36,33 @@
 		},
 
 		methods: {
-		  ...mapActions([
-		  	'createAnswer'
-		  ]),
+		 /* ...mapActions([
+		  	'createAnswer',
+		  	'editedAnswer'
+		  ]),*/
 
 		  doNewAnswer() {
 		  	let content = this.$refs.answer_content.value;
 
 		  	if (content.length > 0) {
-
-		  		/*this.createAnswer({
-		  			questionId: this.questionId,
+		  		let newAnswer = {
 		  			content: content,
 		  			owner: this.loggedinUser.accountId,
 		  			username: this.loggedinUser.username
-		  		})*/
+		  		}
+
+		  		this.$http.post('/api/answers/question/'+this.question._id, newAnswer, { headers: { token: this.loggedinUser.token } })
+						.then(({data}) => {
+							alert("Jawaban berhasil dibuat");
+							this.$emit('do-new-answer', data.answer);
+
+						}).catch(err => alert(JSON.stringify({message:'Something Wrong on new Question', error: err.message})));
 		  	}
 		  },
 		},
 
 		computed: {
 		  ...mapState([
-		  	'editedAnswer',
 		  	'loggedinUser'
 		  ])
 		}

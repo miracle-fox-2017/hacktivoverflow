@@ -47,7 +47,7 @@
 			<!-- /.answer-wrap -->
 		</div><!-- /.answer-area -->
 
-		<AnswerModal :questionId="question._id"></AnswerModal>
+		<AnswerModal :question="question" @do-new-answer="setNewAnswer"></AnswerModal>
 		<QuestionEditModal :question="question" @do-update-question="setUpdatedQuestion"></QuestionEditModal>
 	</div>
 	<!-- /.content-wrapper -->
@@ -84,6 +84,10 @@
 				this.question = payload;
 			},
 
+			setNewAnswer(payload){
+				this.question.answerList.push(payload)
+			},
+
 			destroyQuestion(payload) {
 				this.removeQuestion(payload);
 				this.question = {
@@ -105,7 +109,7 @@
 		    this.$http.get('/api/questions/'+questionId)
 		    	.then(({data}) => {
 		    		if (data) {
-		    			console.log(data);
+		    			// console.log(data);
 		    			this.question = data;
 		    			this.answers = data.answerList
 		    			this.qusetionVoteLength = data.uservoteList.length
