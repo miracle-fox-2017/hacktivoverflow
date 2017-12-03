@@ -7,6 +7,10 @@ let answerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  questionId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Question'
+  },
   answer: String,
   image: String,
   vote: [{

@@ -32,10 +32,15 @@ router.delete('/question/:id', verifyToken.loginState, questionController.delQue
 //==========================question end
 
 // | /api/question/:id/answer | POST | answer, image(link) | answer specific question |
-// router.post('/question/:id/answer', verifyToken.loginState, questionController.postBlog)
+router.post('/question/:id/answer/', verifyToken.loginState, questionController.postAnswer)
+
+// | /api/question/:id/answer | GET | (public) | get all answer |
+router.get('/question/:id/answer/', questionController.getAnswers)
 
 // | /api/question/:id/answer/:answerid | DELETE | tokenjwt, params.id(question & answer) | delete answer |
-// router.post('/question/:id/answer', verifyToken.loginState, questionController.postBlog)
+router.delete('/answer/:id', verifyToken.loginState, questionController.delAnswer)
+
+//==========================answer end
 
 // | /api/question/:id/vote/ | POST | tokenjwt, value | give vote specific question |
 // router.post('/question/:id/vote', verifyToken.loginState, questionController.postBlog)

@@ -17,7 +17,6 @@ let questionSchema = new Schema({
     type: Number,
     default: 0
   }],
-  answer: [],
   createdAt: {
     type: Date,
     default: new Date()

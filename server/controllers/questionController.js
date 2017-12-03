@@ -6,6 +6,7 @@ const jsonToken = require('../helpers/jsonToken')
 //require model
 const User = require('../models/user')
 const Question = require('../models/question')
+const Answer = require('../models/answer')
 
 let welcomePage = (req, res) => {
   res.send({msg: 'welcomePage'})
@@ -55,8 +56,7 @@ let postQuestion = (req, res) => {
       title: req.body.title,
       image: req.body.image || '',
       question: req.body.question,
-      vote: [],
-      answer: []
+      vote: []
     })
     question.save()
     .then(result=>{
@@ -76,6 +76,7 @@ let postQuestion = (req, res) => {
 
 let getQuestion = (req, res) => {
   Question.findOne({ _id: req.params.id })
+  //ada exec user
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -89,6 +90,7 @@ let getQuestion = (req, res) => {
 
 let getQuestions = (req, res) => {
   Question.find()
+  //ada exec user
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -143,6 +145,68 @@ let delQuestion = (req, res) => {
   })
 }
 
+//=================answer
+
+let postAnswer = (req, res) => {
+  console.log('--------------post answer')
+  console.log(req.params.id)
+  if(req.body.answer) {
+    let answer = new Answer({
+      questionId: req.params.id,
+      userId: req.decoded._id,
+      image: req.body.image || '',
+      answer: req.body.answer,
+      vote: []
+    })
+    answer.save()
+    .then(result=>{
+      res.status(200).send({
+        msg:"success",
+        author: req.decoded.name,
+        answer: result
+      })
+    })
+    .catch(err=>{
+      res.status(500).send({msg:"unsuccessfull post"})
+    })
+  } else {
+    res.status(400).send({msg: "empty answer"})
+  }
+}
+
+let getAnswers = (req, res) => {
+  Answer.find({ questionId: req.params.id })
+  //disini ada exec username
+  .then(result=>{
+    res.status(200).send({
+      msg: "success",
+      questions: result
+    })
+  })
+  .catch(err=>{
+    res.status(500).send({msg:"canot get questions"})
+  })
+}
+
+let delAnswer = (req, res) => {
+  Answer.findOne({ _id: req.params.id })
+  .then(before=>{
+    Answer.remove({ _id: req.params.id })
+    .then(result=>{
+      res.status(200).send({
+        msg: "success",
+        deleted: before
+      })
+    })
+    .catch(err=>{
+      res.status(400).send({msg: err})
+    })
+  })
+  .catch(err=>{
+    res.status(400).send({msg: err})
+  })
+}
+
 //other routes
 let signup = (req, res) => {
   let user = new User({
@@ -166,12 +230,15 @@ let signin = (req, res) => {
 
 module.exports = {
   welcomePage,
+  signfb,
   postQuestion,
-  getQuestion,
   getQuestions,
+  getQuestion,
   editQuestion,
   delQuestion,
-  signfb
+  postAnswer,
+  getAnswers,
+  delAnswer
 };
 
 
