@@ -1,5 +1,69 @@
 <template lang="html">
-  <h1>ini Question :id</h1>
+  <div class="well wll-sm">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4>
+          <router-link :to="{ path: '/question/1', params: {} }">programming black magic</router-link>
+          <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+          <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+        </h4>
+        <p>By: capung tempur</p>
+        <span>Vote: 10</span>
+        <span>Answer: 5</span>
+      </div>
+      <div class="panel-body panel-question">
+        <p class="question">gimana caranya jadi programmer black magic?</p>
+      </div>
+      <div class="panel-body">
+        <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+        <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+        <p class="answer">pake vi bukan vim ya akan menjadi programmer yang black</p>
+        <p>By: Belalang Lebah</p>
+        <span>Vote: 10</span>
+      </div>
+    </div>
+    <button type="button" class="btn btn-success" name="button" data-toggle="modal" data-target="#answer">Answer</button>
+    <!-- Modal -->
+    <div id="answer" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Answer</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal">
+              <fieldset>
+                <div class="form-group">
+                  <label for="image" class="col-lg-2 control-label">Image Url</label>
+                  <div class="col-lg-10">
+                    <input class="form-control" id="image" placeholder="http://image.url/this_is_jpg.jpg" type="text">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="answer" class="col-lg-2 control-label">Your Answer</label>
+                  <div class="col-lg-10">
+                    <textarea class="form-control" rows="3" id="answer"></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                      <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -7,5 +71,15 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
+.right-fix {
+  margin-left: 1px;
+  margin-top: -2px;
+}
+.panel-question {
+  border-bottom: 1px solid lightgray;
+}
+.answer, .question {
+  color: black;
+}
 </style>

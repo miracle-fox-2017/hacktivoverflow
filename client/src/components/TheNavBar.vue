@@ -11,13 +11,13 @@
         <router-link class="navbar-brand" :to="{ path: '/', params: {} }">Hacktiv Overflow</router-link>
       </div>
       
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
           <li><router-link :to="{ path: '/ask', params: {} }">Ask A Question</router-link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li v-if="!statusLogin" ><button @click="getFbToken" class="btn fix-margin blue-facebook" type="button" name="button"><span class="fa fa-facebook-square"></span> Login with facebook</button></li>
-          <li v-else >{{ dataUser.name }} <img :src="dataUser.picture" class="navbar-profile-picture"> <button @click="logout" type="button" class="btn btn-default fix-margin" name="button">logout</button></li>
+          <li v-else class="fix-dropdown">{{ dataUser.name }} <img :src="dataUser.picture" class="navbar-profile-picture"> <button @click="logout" type="button" class="btn btn-default fix-margin" name="button">logout</button></li>
         </ul>
       </div>
     </div>
@@ -108,5 +108,8 @@ export default {
 .navbar-profile-picture {
   height: 25px;
   border-radius: 50%;
+}
+.fix-dropdown {
+  margin-left: 15px;
 }
 </style>
