@@ -30,6 +30,13 @@ const mutations = {
   },
   setOneQuestion (state, payload) {
     state.question = payload
+  },
+  removeOne (state, payload) {
+    state.questions.forEach((item, index) => {
+      if (item._id === payload._id) {
+        state.questions.splice(index, 1)
+      }
+    })
   }
 }
 
@@ -91,6 +98,30 @@ const actions = {
     .then(({ data }) => {
       console.log(data, '===')
       commit('setOneQuestion', data)
+    })
+    .catch(err => console.log(err))
+  },
+  editQuestionById ({ commit }, payload) {
+    let id = localStorage.getItem('id')
+    payload.userId= id
+    http.put('/api/questions/' + payload.id, {
+      question: payload.question,
+      tag: payload.tag,
+      userId: payload.userId
+    })
+    .then(({ data }) => {
+      console.log(data)
+      commit('removeOne', data)
+      commit('setNewQuestion', payload)
+    })
+    .catch(err => console.log(err))
+  },
+  removeById ({ commit }, payload) {
+    console.log('payload remove', payload)
+    http.delete('api/questions/'+ payload)
+    .then(({ data }) => {
+      console.log(data, 'masuk di remove')
+      commit('removeOne', data)
     })
     .catch(err => console.log(err))
   }
