@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
 import firebase from 'firebase'
 import AskQuestion from '@/components/AskQuestion'
+import DetailQuestion from '@/components/DetailQuestion'
 
 Vue.use(Router)
 
@@ -33,6 +34,7 @@ let router = new Router({
       path: '/hacktivoverflow',
       name: 'HelloWorld',
       component: HelloWorld,
+      props: true,
       meta: {
         requiresAuth: true
       },
@@ -44,6 +46,11 @@ let router = new Router({
           meta: {
             requiresAuth: true
           }
+        },
+        {
+          path: 'questions/:id',
+          name: 'questions',
+          component: DetailQuestion
         }
       ]
     }

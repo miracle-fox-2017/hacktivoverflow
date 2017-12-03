@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="postQuestionToDb(formQuest)">
+    <form @submit.prevent="postQuestionToDb(formQuest), clearField()">
       <div class="field">
         <label class="label">Message</label>
         <div class="control">
@@ -13,14 +13,11 @@
           <input type="text" v-model="formQuest.tag" placeholder="Textarea"></input>
         </div>
       </div>
-    <div class="field is-grouped">
-      <div class="control">
-        <button class="button is-link">Submit</button>
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link" >Submit</button>
+        </div>
       </div>
-      <div class="control">
-        <button class="button is-text">Cancel</button>
-      </div>
-    </div>
     </form>
   </div>
 </template>
@@ -40,7 +37,10 @@ export default {
   methods: {
     ...mapActions([
       'postQuestionToDb'
-    ])
+    ]),
+    clearField: function () {
+      this.formQuest = {}
+    }
   }
 }
 </script>

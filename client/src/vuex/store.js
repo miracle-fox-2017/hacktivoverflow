@@ -11,7 +11,8 @@ const http = axios.create({
 
 Vue.use(Vuex)
 const state = {
-  questions: []
+  questions: [],
+  question: null
 }
 
 const mutations = {
@@ -26,8 +27,10 @@ const mutations = {
   setNewQuestion (state, payload) {
     console.log(payload, 'di set new')
     state.questions.push(payload)
+  },
+  setOneQuestion (state, payload) {
+    state.question = payload
   }
-
 }
 
 const actions = {
@@ -79,6 +82,15 @@ const actions = {
     .then(({ data }) => {
       commit('setNewQuestion', data)
       console.log(data, 'berhasil memasukan data')
+    })
+    .catch(err => console.log(err))
+  },
+  getQuestionById ({ commit }, payload) {
+    let id = payload
+    http.get('/api/questions/' + id)
+    .then(({ data }) => {
+      console.log(data, '===')
+      commit('setOneQuestion', data)
     })
     .catch(err => console.log(err))
   }

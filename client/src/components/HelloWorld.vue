@@ -14,7 +14,7 @@
         <router-view/>
       </div>
     </div>
-    <button @click="logout">Logout</button>
+    <button @click="logout">Logout</button>     
   </div>
 </template>
 
