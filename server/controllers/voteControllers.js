@@ -5,11 +5,12 @@ getAll = (req, res) => {
 }
 
 create = (req, res) => {
-  Vote.create(req.body)
-  .then(question => {
-    res.send(question)
-  })
-  .catch(err => res.status(500).send(err))
+  console.log(req.body);
+  // Vote.create(req.body)
+  // .then(question => {
+  //   res.send(question)
+  // })
+  // .catch(err => res.status(500).send(err))
 }
 
 update = (req, res) => {

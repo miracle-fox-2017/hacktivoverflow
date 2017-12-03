@@ -1,17 +1,24 @@
 <template>
-<div class="ui divided items">
-  <div class="item">
+<div class="ui feed">
+  <div class="event">
+    <div class="label">
+      <img src="../assets/img/user.svg">
+    </div>
     <div class="content">
-      <router-link :to="`/questions/${question._id}`" class="header">{{question.title}}</router-link>
-      <div class="meta">
-        <span class="cinema">{{question.userId.first_name}} {{question.userId.last_name}}</span>
+      <div class="summary" style="font-size: 12px;">
+        <a>{{question.userId.first_name}} {{question.userId.last_name}}</a> posted new question
+        <div class="date">
+          
+        </div>
       </div>
-      <div class="description">
-        <p>{{question.question}}</p>
+      <div class="extra text">
+        <router-link :to="`/questions/${question._id}`"><h3>{{question.title}}</h3></router-link>
+        <p>{{question.question.substring(0, 200)}}</p>
       </div>
-      <!-- <div class="extra">
-        <div class="ui label">IMAX</div>
-        <div class="ui label"><i class="globe icon"></i> Additional Languages</div>
+      <!-- <div class="meta">
+        <a class="like">
+          <i class="like icon"></i> 5 Likes
+        </a>
       </div> -->
     </div>
   </div>

@@ -4,7 +4,7 @@ const answerControllers = require('../controllers/answerControllers')
 const checkAuth = require('../middleware/checkAuth')
 
 router.post('/', checkAuth.isLogin, answerControllers.create);
-router.get('/:id', answerControllers.getAll);
+router.get('/:questionId', answerControllers.getAll);
 router.delete('/:id', checkAuth.isLogin, answerControllers.remove);
 
 module.exports = router;

@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 isLogin = (req, res, next) => {
   if(req.headers.accesstoken) {
     jwt.verify(req.headers.accesstoken, process.env.JWT_SECRET, (err, decode) => {
-      console.log(decode)
-      console.log(decode)
       req.userLogin = decode
       next()
     })

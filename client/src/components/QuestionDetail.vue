@@ -1,23 +1,23 @@
 <template>
   <div class="ui container">
     <di class="ui header">
-      <h2>{{question.title}}</h2>
+      {{question.title}} <br>
+      <i style="color: #ababab; font-size: 12px;">{{question.userId.first_name}} {{question.userId.last_name}}</i>
       <div class="ui divider"></div>
     </di>
     <div class="content">
       <p style="text-align: justify">{{question.question}}</p>
-      <i style="color: #ababab; font-size: 10px;">{{question.userId.first_name}} {{question.userId.last_name}}</i>
     </div>
     <div class="ui divider"></div>
-    <AddAnswer :questionId="question._id"/>
+    <AnswerQuestion :questionId="question._id"/>
   </div>
 </template>
 
 <script>
-import AddAnswer from '@/components/AddAnswer'
+import AnswerQuestion from '@/components/AnswerQuestion'
 export default {
   components: {
-    AddAnswer
+    AnswerQuestion
   },
   data () {
     return {

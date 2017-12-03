@@ -17,7 +17,6 @@ getOne = (req, res) => {
 }
 
 getMy = (req, res) => {
-  console.log('masuk controller')
   Question.find({userId: req.userLogin.id})
   .then(questions => {
     res.send(questions)
@@ -29,7 +28,6 @@ create = (req, res) => {
   req.body.userId = req.userLogin.id
   Question.create(req.body)
   .then(question => {
-    console.log(question)
     res.send(question)
   })
   .catch(err => res.status(500).send(err))
