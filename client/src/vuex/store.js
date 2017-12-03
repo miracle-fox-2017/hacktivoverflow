@@ -44,7 +44,7 @@ const actions = {
     http.get(`/api/users/${email}`)
     .then(({ data }) => {
       let obj = {}
-      data.forEach(x => {
+      data.user.forEach(x => {
         obj.username = x.username
         obj.id = x._id
         obj.email = x.email
