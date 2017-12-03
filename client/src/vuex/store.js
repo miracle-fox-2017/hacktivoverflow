@@ -20,6 +20,11 @@ const mutations = {
   saveQuestion: function (state, payload) {
     state.question = payload
   },
+  editQuestion: function (state, payload) {
+    state.question.title = payload.title
+    state.question.image = payload.image
+    state.question.question = payload.question
+  },
   deleteQuestion: function (state, payload) {
     let q = state.questions
     let pos = q.findIndex(function (e) {
@@ -39,7 +44,7 @@ const mutations = {
       return e._id === payload
     })
     state.answers.splice(pos, 1)
-  },
+  }
 }
 
 const actions = {
@@ -72,6 +77,18 @@ const actions = {
     axios.get('http://localhost:3000/api/question/' + questionId)
     .then(({ data }) => {
       commit('saveQuestion', data.question)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  updatedQuestion: function ({ commit }, newQuestion) {
+    let token = JSON.parse(localStorage.getItem('dataUser')).token
+    axios.put('http://localhost:3000/api/question/' + newQuestion._id, newQuestion, {
+      headers: { token: token }
+    })
+    .then(({ data }) => {
+      commit('editQuestion', newQuestion)
     })
     .catch(err => {
       console.log(err)

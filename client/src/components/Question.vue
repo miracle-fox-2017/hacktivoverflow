@@ -7,6 +7,7 @@
           <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
           <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
           <span v-if="_id == question.userId" @click="removeQuestion" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+          <span v-if="_id == question.userId" @click="editQuestion(question)" class="right-fix pull-right "><button class="btn btn-info btn-sm"type="button" name="button"><i class="fa fa-pencil" aria-hidden="true"></i></button></span>
         </h4>
         <p>By: {{ question.userId }}</p>
         <span>Vote: XX</span>
@@ -24,10 +25,9 @@
       </div>
     </div>
     <button type="button" class="btn btn-success" name="button" data-toggle="modal" data-target="#answer">Answer</button>
-    <!-- Modal -->
+    <!-- Modal Answer -->
     <div id="answer" class="modal fade" role="dialog">
       <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
@@ -61,9 +61,54 @@
             </form>
           </div>
         </div>
-
       </div>
-    </div>
+    </div> <!-- end answer modal -->
+    
+    <!-- Modal Update Question -->
+    <div id="update" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Question</h4>
+          </div>
+          <div class="modal-body">
+            <form v-on:submit.prevent="sendUpdateQuestion" class="form-horizontal">
+              <fieldset>
+                <div class="form-group">
+                  <label for="title" class="col-lg-2 control-label">Title</label>
+                  <div class="col-lg-10">
+                    <input v-model="updateQuestion.title" class="form-control" id="title" placeholder="http://image.url/this_is_jpg.jpg" type="text">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="image" class="col-lg-2 control-label">Image Url</label>
+                  <div class="col-lg-10">
+                    <input v-model="updateQuestion.image" class="form-control" id="image" placeholder="http://image.url/this_is_jpg.jpg" type="text">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="question" class="col-lg-2 control-label">Question</label>
+                  <div class="col-lg-10">
+                    <textarea v-model="updateQuestion.question" class="form-control" rows="3" id="question"></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                      <button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div> <!-- end updateQuestion modal -->
+    
   </div>
 </template>
 
@@ -74,7 +119,13 @@ export default {
     return {
       image: '',
       answer: '',
-      _id: ''
+      _id: '',
+      updateQuestion: {
+        _id: '',
+        title: '',
+        image: '',
+        question: ''
+      }
     }
   },
   watch: {
@@ -95,6 +146,7 @@ export default {
       'getQuestion',
       'getAnswer',
       'postAnswer',
+      'updatedQuestion',
       'deleteQuestion',
       'deleteAnswer'
     ]),
@@ -109,6 +161,19 @@ export default {
       $('#answer').modal('hide')
       this.image = ''
       this.answer = ''
+    },
+    editQuestion: function (question) {
+      this.updateQuestion._id = question._id
+      this.updateQuestion.title = question.title
+      this.updateQuestion.image = question.image
+      this.updateQuestion.question = question.question
+      // eslint-disable-next-line
+      $('#update').modal('show')
+    },
+    sendUpdateQuestion: function () {
+      this.updatedQuestion(this.updateQuestion)
+      // eslint-disable-next-line
+      $('#update').modal('hide')
     },
     removeQuestion: function () {
       this.deleteQuestion(this.$route.params.id)
