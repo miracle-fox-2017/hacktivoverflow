@@ -67,9 +67,18 @@ const actions = {
       .then(ref => console.log(ref.id))
       .catch(err => console.log(err))
   },
+  askQuestion ({ state }, payload) {
+    questionDB.add({
+      title: payload.title,
+      body: payload.body,
+      email: state.userDetails.email
+    })
+      .then(ref => console.log(ref.id))
+      .catch(err => console.log(err))
+  },
   watchQuestions ({ commit }) {
-    questionDB.onSnapshot(snapshot => {
-      commit('addQuestion', snapshot)
+    questionDB.document('questions/{id}').onWrite(event => {
+      commit('addQuestion', event)
     })
   },
   watchAnswers ({ commit }, payload) {

@@ -2,7 +2,7 @@
   <div class="reply">
     <div class="card">
       <div class="card-body">
-        <textarea class="form-control" id="exampleTextarea" rows="3" v-model="reply"></textarea>
+        <textarea class="form-control" rows="3" v-model="reply"></textarea>
       </div>
       <div class="card-footer">
         <button type="button" class="btn btn-outline-info" @click="sendReply">Send</button>
@@ -39,9 +39,7 @@ export default {
       this.$emit('hideme')
     },
     sendReply () {
-      console.log(this.userDetails == null)
       if (this.userDetails == null) {
-        console.log('error tidak ada id')
         this.loginWarning = true
       } else if (this.reply !== '') {
         this.replyQuestion({

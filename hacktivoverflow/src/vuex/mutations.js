@@ -24,10 +24,7 @@ const mutations = {
     state.questionDetail = payload.data()
   },
   addQuestion (state, payload) {
-    for (let update of payload.docChanges) {
-      // console.log(update.id)
-      state.questions.push(update.doc.data())
-    }
+    console.log(payload.data.data())
   },
   addAnswer (state, payload) {
     for (let update of payload.docChanges) {

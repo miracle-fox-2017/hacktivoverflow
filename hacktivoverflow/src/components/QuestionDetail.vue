@@ -40,7 +40,7 @@ export default {
       'getAnswers',
       'getQuestion',
       'watchAnswers',
-      'checkToken'
+      'getUserInfo'
     ])
   },
   computed: {
@@ -54,6 +54,7 @@ export default {
     this.watchAnswers(this.id)
   },
   mounted () {
+    this.getUserInfo()
     this.checkToken()
   }
 }
