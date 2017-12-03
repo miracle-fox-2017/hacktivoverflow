@@ -9,6 +9,7 @@ import 'buefy/lib/buefy.css'
 import 'vue-blu/dist/css/vue-blu.min.css'
 
 Vue.use(VueBlu)
+// Vue.use(Buefy)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

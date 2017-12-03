@@ -13,7 +13,8 @@ const questionSchema = new Schema({
   answers_id: [{
     type: Schema.ObjectId,
     ref: 'Answer'
-  }]
+  }],
+  rating: {type: Number, default: 0}
 });
 
 module.exports = mongoose.model('Question', questionSchema);

@@ -1,132 +1,19 @@
 <template>
   <div id="app">
-    <nav class="navbar is-warning is-fixed-top contai">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <img src="https://hacktiv8.com/img/logo-hacktiv8_bordered--md5--f7ee5fc69819b5ef3849344c119f5e18.png" alt="Modern convertation" width="50" height="80">
-          <h1 class="title"> HacktivOverflow</h1>
-        </a>
-        <div class="navbar-burger burger" data-target="navbarExampleTransparentExample">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div>
-      <div id="navbarExampleTransparentExample" class="navbar-menu">
-        <div class="navbar-start">
-          <a class="navbar-item" href="/">
-            Questions
-          </a>
-          <a class="navbar-item" href="/">
-            Users
-          </a>
-        </div>
-        <div class="navbar-end">
-          <div class="navbar-item">
-            <dropdown trigger="hover">
-            <a class="navbar-link">
-              <span class="icon">
-                  <i class="fa fa-user-o"></i>
-                </span>
-              <span>Username</span>
-            </a>
-            <div slot="content">
-              <menus>
-                <menu-item icon="user">Profile</menu-item>
-                <menu-item icon="lock">Settings</menu-item>
-                <div class="divider"></div>
-                <menu-item icon="">Sign out</menu-item>
-              </menus>
-            </div>
-          </dropdown>
-          </div>
-        </div>
-      </div>
-    </nav>
-    <section class="hero contai is-warning">
-      <div class="hero-body ">
-      <br/><br/>
-      <div class="columns">
-        <div class="column is-two-thirds">
-          <h1 class="title">
-            Welcome to the HacktivOverflow
-          </h1>
-          <figure class="image is-128x128">
-            <img src="https://hacktiv8.com/img/logo-hacktiv8_bordered--md5--f7ee5fc69819b5ef3849344c119f5e18.png">
-          </figure>
-        </div>
-        <div class="column">
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Name</label>
-            </div>
-              <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Name">
-              </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Email</label>
-            </div>
-              <p class="control is-expanded">
-                <input class="input" type="email" placeholder="Email">
-              </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Gender</label>
-            </div>        
-            <p class="control">
-              <label class="radio">
-                <input type="radio" name="question">
-                Male
-              </label>
-              <label class="radio">
-                <input type="radio" name="question">
-                Female
-              </label>
-            </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Username</label>
-            </div>
-              <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Username">
-              </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Password</label>
-            </div>
-              <p class="control is-expanded">
-                <input class="input" type="password" placeholder="Password">
-              </p>
-          </div>
-          <a class="button is-dark">Sign Up</a>
-          <a class="button">Reset</a>
-        </div>
-      </div>
-      </div>
-    </section>
-    <section class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            Hero title
-          </h1>
-          <h2 class="subtitle">
-            <router-view/>
-          </h2>
-        </div>
-      </div>
-    </section>
+    <NavBar></NavBar>
+    <Home/>
   </div>
 </template>
 
 <script>
+import NavBar from '@/components/NavBar'
+import Home from '@/components/Home'
 export default {
-  name: 'app'
+    name: 'app',
+    components: {
+      NavBar,
+      Home
+    }
 }
 </script>
 
@@ -253,5 +140,77 @@ export default {
   html.has-navbar-fixed-bottom-touch {
     padding-bottom: 3.25rem;
   }
+}
+.outer {
+  display: block;
+  text-align: center;
+}
+.tengah {
+  text-align: center;
+}
+
+/*** Base Caption Styles ***/
+figure.embed,
+figure.embed-top,
+figure.overlay,
+figure.embed-over {
+    display: inline-block;
+    text-align: initial;
+    vertical-align: top;
+    position: relative;
+    margin: 0.5em;
+    font-size: 0.8em;
+    overflow: hidden;
+}
+figure.embed img,
+figure.embed-top img,
+figure.overlay img,
+figure.embed-over img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+figure.embed figcaption,
+figure.embed-top figcaption,
+figure.overlay figcaption,
+figure.embed-over figcaption {
+    width: 100%;
+    padding: 0.5em;
+    /* neutral theme */
+    color: rgba(50,50,50,1.0);
+}
+div.stars {
+  width: 120px;
+  display: inline-block;
+}
+
+input.star { display: none; }
+
+label.star {
+  float: left;
+  padding: 2px;
+  font-size: 20px;
+  color: #444;
+  transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+  content: '\f005';
+  color: #FD4;
+  transition: all .25s;
+}
+
+input.star-5:checked ~ label.star:before {
+  color: #FE7;
+  text-shadow: 0 0 20px #952;
+}
+
+input.star-1:checked ~ label.star:before { color: #F62; }
+
+label.star:hover { transform: rotate(-15deg) scale(1.3); }
+
+label.star:before {
+  content: '\f006';
+  font-family: FontAwesome;
 }
 </style>
