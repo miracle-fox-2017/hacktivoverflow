@@ -1,25 +1,37 @@
 <template>
   <div class="hello">
-    <h1> HACKTIV OVER FLOW </h1>
+    <div>
+      <h1> HACKTIV OVER FLOW </h1>
+      <login :checkIn="checkIn"></login>
+    </div>  
     <router-view :questions="questions"/>
   </div>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import login from '@/components/login'
 export default {
+  components: {
+    login
+  },
   computed: {
     questions () {
       return this.$store.state.questions
+    },
+    checkIn () {
+      return this.$store.state.checkIn
     }
   },
   methods: {
     ...mapActions([
-        'getAllQuestion'
+        'getAllQuestion',
+        'isCheckIn'
       ])
   },
   created () {
     this.getAllQuestion()
+    this.isCheckIn()
   }  
 }
 </script>
@@ -40,4 +52,5 @@ li {
 a {
   color: #42b983;
 }
+
 </style>

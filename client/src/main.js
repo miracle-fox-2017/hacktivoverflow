@@ -11,6 +11,7 @@ Vue.config.productionTip = false
 Vue.prototype.$http = axios.create({
   baseURL: 'http://localhost:3000'
 })
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -1,8 +1,13 @@
 <template>
 <div class="container"> 
     <button @click="remove(question._id)" class="btn btn-default pull-right">
-    <span class="glyphicon glyphicon-trash"></span> </button>  
-    <h3>{{ question.userId.name }} </h3> <small> {{ question.title }}</small>
+    <span class="glyphicon glyphicon-trash"></span> </button>
+       <router-link :to="`/edit/${question._id}`">
+        <button class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
+            <span class="glyphicon glyphicon-edit"></span>
+        </button>
+       </router-link>        
+    <h3>{{ question.userId.name }} <small> post this message at {{ question.createdAt }}</small> </h3> <small> {{ question.title }}</small>
     <div class="panel panel-default">
       <div class="panel-body"> {{ question.desc }}</div>
       </div>

@@ -59,6 +59,7 @@ function deleteCommend(req,res) {
 		_id : req.params.commentId
 	})
 	.then(result => {
+		console.log("masuk sini coy",result)
 		res.send(result)
 	})
 	.catch(err => {
@@ -69,14 +70,15 @@ function deleteCommend(req,res) {
 function update(req,res) {
 	Question.findOne({
 		_id : req.params.questionId
-	})
+	}).populate('userId').exec()
 	.then(question => {
 		question.set({
-			userId  : question.userId,
-			title   : req.body.title || question.title,
-			desc    : req.body.desc || question.desc,
-			like    : question.like,
-			comment : question.comment
+			userId  	: question.userId,
+			title   	: req.body.title || question.title,
+			desc    	: req.body.desc || question.desc,
+			like    	: question.like,
+			comment 	: question.comment,
+			createdAt 	: Date.now()
 		})
 		question.save((err, result) => {
 			if(err) res.status(500).send(err)
@@ -115,7 +117,6 @@ function answer(req,res) {
 
 
 function vote(req,res) {
-	console.log("masuk")
 	Question.findOne({
 		_id : req.params.questionId
 	})
@@ -136,9 +137,30 @@ function vote(req,res) {
 	})
 }
 
-function findComment(req,res) {
+function voteComment(req,res) {
 	Comment.findOne({
 		_id : req.params.commentId
+	})
+	.then(comment => {
+		if(comment.commentLike.indexOf(req.params.userId) != -1){
+			let index = comment.commentLike.indexOf(req.params.userId)
+			comment.commentLike.splice(index,1)
+			comment.save()
+			res.send(comment)
+		}else {
+			comment.commentLike.push(req.params.userId)
+			comment.save()
+			res.send(comment)
+		}
+	})
+	.catch(err => {
+		res.status(500).send(err)
+	})
+}
+
+function findComment(req,res) {
+	Comment.find({
+		questionId : req.params.questionId
 	}).populate('userId').populate('questionId').exec()
 	.then(comment => {
 		res.send(comment)
@@ -157,5 +179,6 @@ module.exports = {
 	update,
 	deleteCommend,
 	vote,
-	findComment
+	findComment,
+	voteComment
 }

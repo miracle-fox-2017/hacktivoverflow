@@ -15,11 +15,14 @@ export default new Vuex.Store({
 	state: {
 		questions: '',
 		question: '',
-		answer: []
+		answer: '',
+		token: localStorage.getItem('token'),
+		name:localStorage.getItem('name'),
+		userId: localStorage.getItem('userId'),
+		checkIn: false
 	},
 	mutations: {
 		getAllQuestion (state, payload) {
-			console.log(payload.questions.data)
 			state.questions = payload.questions.data
 		},
 
@@ -28,15 +31,10 @@ export default new Vuex.Store({
 		},
 
 		addQuestion (state, payload) {
-			console.log("masuk sini ga")
-			console.log(payload)
 			state.questions.push(payload.newQuestion.data)
 		},
 		deleteQuestion (state, payload) {
-			console.log(payload)
-			console.log("masuk delete mutations")
 			state.questions.forEach((question,index) => {
-				console.log(question)
 				if(payload.deleteQuestion == question._id){
 					state.questions.splice(index,1)
 				}
@@ -55,15 +53,97 @@ export default new Vuex.Store({
 			})
 		},
 		getComment (state, payload) {
-			console.log(payload.comment.data)
-			state.answer.push(payload.comment.data)
+			state.answer = payload.comment
 		},
 		addComment (state, payload) {
-			console.log(payload)
 			state.answer = payload.newComment.data.comment
+		},
+		commentRemove (state, payload) {
+			state.answer.data.forEach((com, index) => {
+				if(com._id == payload.deleteComment){
+					state.answer.data.splice(index,1)
+				}
+			})
+		},
+		commentVote (state, payload) {
+			state.answer.data.forEach((comment,i) => {
+				if(comment._id == payload.commentId){
+					let searchLike = comment.commentLike.indexOf(payload.voteUpdate);
+					if(searchLike == -1 ){
+						state.answer.data[i].commentLike.push(payload.voteUpdate)
+					}else{
+						state.answer.data[i].commentLike.splice(searchLike,1)
+					}
+				}
+			})			
+		},
+		signIn (state, payload) {
+			state.token = payload.userData.data.token,
+			state.name = payload.userData.data.user.name,
+			state.userId = payload.userData.data.user._id
+			state.checkIn = true
+		},
+		signOut (state, payload) {
+			state.checkIn = false
+			localStorage.clear()
+      		alert(' logout Success ')
+		},
+		editQuestion (state, payload) {
+			state.questions.forEach((question,index) => {
+				if(question._id == payload.questionId){
+					state.questions.splice(index,1,payload.updatedQuestion)
+				}
+			})
+			alert(' update success ')
+		},
+		isCheckIn (state, payload) {
+			if(localStorage.getItem('token') != undefined){
+				state.checkIn = true
+			}else{
+				state.checkIn = false
+			}
 		}
 	},
 	actions: {
+		signIn (context,payload) {
+	      ax.post('users/signin', {
+	        username : payload.username,
+	        password : payload.password
+	      })
+	      .then(result => {
+	        localStorage.setItem("name", result.data.user.name);
+	        localStorage.setItem("token", result.data.token);
+	        localStorage.setItem("userId", result.data.user._id);
+	        alert(' Login Success ')
+	     	context.commit('signIn', {
+	     		userData : result
+	     	})
+	      })
+	      .catch(err => {
+	      	alert(' try again or register ')
+	        console.log(err);
+	      })
+		},
+
+		signUp (context, payload) {
+	      ax.post('users/signup', {
+	        name : payload.name,
+	        username : payload.username,
+	        email : payload.email,
+	        password : payload.password
+	      })
+	      .then(result => {
+	        alert(' Register Success ')
+	      })
+	      .catch(err => {
+	        alert(' Register Failed ')
+	      })
+		},
+
+		signOut (context) {
+			context.commit('signOut')
+		},
+
 		getAllQuestion (context)  {
 			ax.get('questions')
 			.then(result => {
@@ -86,23 +166,31 @@ export default new Vuex.Store({
 		},
 
 		addQuestion (context, payload) {
-			ax.post('questions/5a21183d332c5e732fd16a53', {
+			ax.post(`questions/${context.rootState.userId}`, {
 				title: payload.title,
 				desc: payload.desc
+			}, {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId
+				}
 			})
 			.then(result => {
-				console.log(result)
 				context.commit('addQuestion', {
 					newQuestion : result
 				})
 			})
 			.catch(err => {
+				alert(' Login First ')
 				console.log(err)
 			})
 		},
 		deleteQuestion (context, payload) {
-			ax.delete(`questions/${payload}`, {
-				_id : payload.questionId
+			ax.delete(`questions/${payload}`,{
+				headers : {
+					token  : context.rootState.token,
+					userId : context.rootState.userId
+				}
 			})
 			.then(result => {
 				context.commit('deleteQuestion', {
@@ -110,46 +198,123 @@ export default new Vuex.Store({
 				})
 			})
 			.catch(err => {
+				alert(' Cannot Delete this Post ')				
 				console.log(err)
 			})
 		},
 		voteQuestion (context, payload) {
-			ax.put(`questions/${payload}/vote/5a21183d332c5e732fd16a53`)
+			ax.put(`questions/${payload}/vote/${context.rootState.userId}`,{},{
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId
+				}
+			})
 			.then(result => {
 				context.commit('voteQuestion', {
-					voteUpdate : "5a21183d332c5e732fd16a53",
+					voteUpdate : context.rootState.userId,
 					questionId : payload
 				})
 			})
 			.catch(err => {
+				alert(' you cant like this post LOGIN first ')
 				console.log(err)
 			})
 		},
 		getComment (context, payload) {
-			console.log(payload)
-			ax.get(`questions/comment/${payload}`)
+				ax.get(`questions/comment/${payload}`)
+				.then((result) => {
+					context.commit('getComment', {
+						comment : result
+					})
+				})
+				.catch(err => {
+					alert(' you cant comment this post LOGIN first ')
+					console.log(err);
+				})				
+		},
+		addComment (context, payload) {
+			ax.post(`questions/${payload.questionId}/answer/${context.rootState.userId}`, {
+				desc : payload.desc
+			}, {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId
+				}
+			})
+			.then(result => {	
+				ax.get(`questions/comment/${payload.questionId}`)
+				.then((res) => {
+					context.commit('getComment', {
+						comment : res
+					})
+				})
+				.catch(err => {
+					alert('login first before comment')
+					console.log(err);
+				})				
+			})
+			.catch(err => {
+				alert('login first')
+				console.log(err)
+			})
+		},
+		commentRemove (context,payload) {
+			ax.delete(`questions/comment/${payload}`, {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId
+				}
+			})
 			.then(result => {
-				context.commit('getComment', {
-					comment : result
+				context.commit('commentRemove', {
+					deleteComment : payload
 				})
 			})
 			.catch(err => {
-				console.log(err);
+				alert(' Cannot Delete this Comment ')				
+				console.log(err)
 			})
 		},
-		addComment (context, payload) {
-			console.log(payload)
-			ax.post(`questions/${payload.questionId}/answer/5a21183d332c5e732fd16a53`, {
-				desc : payload.desc
+		commentVote (context,payload) {
+			ax.put(`questions/comment/${payload}/${context.rootState.userId}`, {}, {
+				headers : {
+					token : context.rootState.token,
+					userId: context.rootState.userId
+				}
 			})
 			.then(result => {
-				context.commit('addComment', {
-					newComment : result
+				context.commit('commentVote', {
+					voteUpdate : context.rootState.userId,
+					commentId : payload
 				})
 			})
 			.catch(err => {
 				console.log(err)
+			})			
+		},
+		editQuestion (context, payload) {
+			ax.put(`questions/${payload.questionId}`, {
+				title : payload.title,
+				desc : payload.desc
+			}, {
+				headers : {
+					token : context.rootState.token,
+					userId : context.rootState.userId
+				}
 			})
+			.then (result => {
+				context.commit('editQuestion', {
+					questionId : payload.questionId,
+					updatedQuestion : result.data
+				})
+			})
+			.catch(err => {
+				alert(' cannot edit this questions ')
+				console.log(err)
+			})
+		},
+		isCheckIn (context){
+			context.commit('isCheckIn')
 		}
 	}
 }) 

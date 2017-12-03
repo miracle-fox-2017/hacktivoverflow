@@ -1,13 +1,18 @@
 <template>
 <div class="container"> 
     <button @click="remove" class="btn btn-default pull-right">
-    <span class="glyphicon glyphicon-trash"></span> </button>  
-    <h3 >{{ question.userId.name }} </h3> <small> {{ question.title }}</small>
+    <span class="glyphicon glyphicon-trash"></span> </button>
+     <router-link :to="`/edit/${question._id}`">
+      <button class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
+          <span class="glyphicon glyphicon-edit"></span>
+      </button>
+     </router-link>       
+    <h3 > {{ question.userId.name }} </h3> <small> {{ question.title }}</small>
     <div class="panel panel-default">
       <div class="panel-body"> {{ question.desc }}</div>
       </div>
 <!--       <button @click="voteLike" class="btn btn-default pull-right"><span class="glyphicon glyphicon-thumbs-up"></span> {{ question.like.length }}</button> -->
-      <CommentDetail v-for="(comment,index) in comment" :comment="comment" :key="index"></CommentDetail>
+      <CommentDetail v-for="(comment, index) in answer.data" :comment="comment":key="index" ></CommentDetail>
       <router-link :to="`/`" > 
         <button class="btn btn-default pull-left"> Back
         </button> 
@@ -30,9 +35,9 @@ export default {
     question () {
       return this.$store.state.question
     },
-    comment () {
+    answer () {
       return this.$store.state.answer
-    }
+    }    
   },
   methods: {
     ...mapActions([
@@ -48,7 +53,7 @@ export default {
     },
     voteLike : function () {
       this.voteQuestion(this.questionId)
-    }    
+    } 
   },
   created () {
     this.getQuestion(this.questionId)

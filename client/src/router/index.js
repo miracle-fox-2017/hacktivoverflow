@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import AllQuestions from '@/components/AllQuestions'
 import QuestionDetail from '@/components/QuestionDetail'
+import EditQuestion from '@/components/EditQuestion'
 
 Vue.use(Router)
 
@@ -22,7 +23,12 @@ export default new Router({
 	      	path: ':questionId',
 	      	component: QuestionDetail,
 	      	props: true 
-	      }
+	      },
+	      {
+	      	path: 'edit/:questionId',
+	      	component: EditQuestion,
+	      	props: true 
+	      }	      
       ]
     }
   ]

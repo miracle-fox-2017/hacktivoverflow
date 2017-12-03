@@ -41,7 +41,7 @@
                         data-dismiss="modal">
                             Close
                 </button>
-                <button @click="commentAdd" data-dismiss="modal" type="button" class="btn btn-primary">
+                <button @click.prevent="commentAdd" data-dismiss="modal" type="button" class="btn btn-primary">
                     Submit
                 </button>
             </div>
@@ -63,11 +63,7 @@ export default {
   },
   methods: {
     ...mapActions ([
-        'addQuestion',
-        'getAllQuestion',
-        'addComment',
-        'getComment',
-        'getQuestion'
+        'addComment'
       ]),
     commentAdd: function () {
       let keep = this;
@@ -75,8 +71,6 @@ export default {
         desc : this.desc,
         questionId : this.questionId
       })
-      this.getComment()
-      this.getQuestion(this.questionId)
     }
   }
 }

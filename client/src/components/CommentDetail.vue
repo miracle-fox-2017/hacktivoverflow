@@ -2,37 +2,42 @@
 <div class="container">
 
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
-<div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="panel panel-white post panel-shadow">
-                <div class="post-heading">
-                    <div class="pull-left image">
-                        <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
-                    </div>
-                    <div class="pull-left meta">
-                        <div class="title h5">
-                            <a href="#"><b>{{ answer.userId.name }}</b></a>
-                            comment
+    <div class="container" >
+        <div class="row">
+            <div class="col-sm-8">
+                <button  @click="removeComment(comment._id)" type="button" class="close"> 
+                       <span aria-hidden="true">&times;</span>
+                       <span class="sr-only">Close</span>
+                </button>                  
+                <div class="panel panel-white post panel-shadow">
+                    <div class="post-heading">
+                        <div class="pull-left image">
+                            <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
                         </div>
-                        <h6 class="text-muted time"> {{ answer.commentDate }} </h6>
-                    </div>
-                </div> 
-                <div class="post-description"> 
-                    <p> {{ answer.desc }} </p>
-                    <div class="stats">
-                        <a href="#" class="btn btn-default stat-item">
-                            <i class="fa fa-thumbs-up icon"></i>2
-                        </a>
-<!--                         <a href="#" class="btn btn-default stat-item">
-                            <i class="fa fa-thumbs-down icon"></i>12
-                        </a> -->
+                        <div class="pull-left meta">
+                            <div class="title h5">
+                                <a href="#"><b>{{ comment.userId.name }}</b></a>
+                                comment
+                            </div>
+                            <h6 class="text-muted time"> {{ comment.commentDate }} </h6>
+                        </div>
+                    </div> 
+                    <div class="post-description"> 
+                        <p> {{ comment.desc }}</p>
+                        <div class="stats">
+                            <button @click="voteComment(comment._id)" class="btn btn-default stat-item">
+                                <i class="fa fa-thumbs-up icon"></i>{{ comment.commentLike.length }}
+                            </button>
+                       <!--       <button @click="voteLike(question._id)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-thumbs-up"></span> {{ question.like.length }}</button> -->
+    <!--                         <a href="#" class="btn btn-default stat-item">
+                                <i class="fa fa-thumbs-down icon"></i>12
+                            </a> -->                         
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>	
+    </div>	
 </div>	
 </template>
 
@@ -40,18 +45,18 @@
 import { mapActions } from 'vuex'
 export default {
 	props: ['comment'],
-	computed : {
-		answer () {
-			return this.$store.state.answer
-		}
-	},
-	methods : {
-		...mapActions ([
-			'getComment'
-			])
-	},
-	created () {
-		this.getComment(this.comment._id)
-	}
+    methods : {
+        ...mapActions ([
+            'commentRemove',
+            'commentVote'
+            ]),
+        removeComment : function (commentId) {
+            this.commentRemove(commentId)
+        },
+        voteComment : function (commentId) {
+            this.commentVote(commentId)
+        }
+
+    }
 }	
 </script>
