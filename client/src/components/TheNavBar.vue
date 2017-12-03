@@ -57,31 +57,31 @@ export default {
         console.log(err)
       })
     },
-    logout: function () {
-      localStorage.removeItem('dataUser')
-      localStorage.removeItem('fb_token')
-      this.dataUser = ''
-      this.statusLogin = false
-      this.$router.push('/')
-    },
     loginOnOwnServer: function (obj, AccessToken) {
       this.$http.post('http://localhost:3000/api/signfb', [], {
         headers: { fb_token: AccessToken }
       })
       .then(({ data }) => {
         if (data.msg === 'success') {
-          // obj.token = data.token
+          obj.token = data.token
           localStorage.setItem('dataUser', JSON.stringify(obj))
           this.statusLogin = true
           this.dataUser = obj
         } else {
-          console.log('something wrong')
+          console.log('unsuccessfull connection to server')
         }
       })
       .catch(err => {
         console.log(err)
         this.logout()
       })
+    },
+    logout: function () {
+      localStorage.removeItem('dataUser')
+      localStorage.removeItem('fb_token')
+      this.dataUser = ''
+      this.statusLogin = false
+      this.$router.push('/')
     }
   },
   created: function () {

@@ -6,12 +6,13 @@ const questionController = require('../controllers/questionController')
 //require helper
 const hashPassword = require('../helpers/hashPassword')
 const verifyToken  = require('../middlewares/verifyToken')
+const checkStatus  = require('../middlewares/checkStatus')
 
 //route
 router.get('/', questionController.welcomePage)
 
 // | /api/signfb | POST | token(fb) | get token & store to database |
-router.post('/signfb/', questionController.signfb)
+router.post('/signfb/', checkStatus, questionController.signfb)
 
 // | /api/question | POST | tokenjwt, title, question, image(link) | post new question |
 router.post('/question/', questionController.postQuestion)

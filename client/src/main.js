@@ -6,7 +6,9 @@ import router from './router'
 import store from './vuex/store'
 import axios from 'axios'
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios.create({
+  baseUrl: ''
+})
 
 Vue.config.productionTip = false
 
