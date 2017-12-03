@@ -12,7 +12,7 @@
       <div class="field">
         <div class="actions">
           <button class="ui ok primary button" @click="postNewQuestion(formQuestion)">Submit</button>
-          <button class="ui deny button">Cancle</button>
+          <button class="ui deny button">Cancel</button>
         </div>
       </div>
     </div>

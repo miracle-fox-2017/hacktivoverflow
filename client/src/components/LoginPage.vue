@@ -29,12 +29,47 @@
         </div>
         <div class="ui segment">
           <div class="field" style="text-align: center;">
-            Don't have an account? <a href="#">Sign up</a>
+            Don't have an account? <a @click="modalSignup">Sign up</a>
           </div>
         </div>
       </div>
     </div>
     <!-- <a href="#" @click="signOut();">Sign out</a> -->
+    <div style="padding: 30px !important;" class="ui small modal signup">
+      <i class="close icon"></i>
+      <!-- <div class="ui container"> -->
+        <div class="content">
+          <div class="ui form fluid">
+            <div class="field">
+              <label>Username</label>
+              <input name="username" placeholder="Username" type="text" v-model="formSignup.username">
+            </div>
+            <div class="field">
+              <label>Password</label>
+              <input name="password" placeholder="Password" type="password" v-model="formSignup.password">
+            </div>
+            <div class="field">
+              <label>First Name</label>
+              <input name="first_name" placeholder="First Name" type="text" v-model="formSignup.first_name">
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input name="last_name" placeholder="Last Name" type="text" v-model="formSignup.last_name">
+            </div>
+            <div class="field">
+              <label>Email</label>
+              <input name="email" placeholder="Email" type="email" v-model="formSignup.email">
+            </div>
+            <div class="field">
+              <div class="actions">
+                <button class="ui ok primary button" @click="userSignup">Signup</button>
+                <button class="ui deny button">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      <!-- </div> -->
+    </div>
   </div>
 </template>
 
@@ -47,7 +82,14 @@ export default {
         client_id: '606831286728-13rd42d2k5li26uelcu4u2h49ekhce0f.apps.googleusercontent.com'
       },
       username: '',
-      password: ''
+      password: '',
+      formSignup: {
+        username: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+        email: ''
+      }
     }
   },
   methods: {
@@ -83,6 +125,18 @@ export default {
     onSignInError (error) {
       // `error` contains any error occurred. 
       console.log('OH NOES', error)
+    },
+    modalSignup () {
+      $('.small.modal.signup')
+        .modal('show')
+      ;
+    },
+    userSignup () {
+      this.$http.post('/users/signup', this.formSignup)
+      .then(({data}) => {
+        console.log('Signup success!')
+      })
+      .catch(err => console.log(err))
     }
   }
 }

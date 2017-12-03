@@ -8,20 +8,16 @@
       <p style="text-align: justify">{{question.question}}</p>
     </div>
     <div class="ui divider"></div>
-    <div class="ui form">
-      <div class="field">
-        <label>Answer Question</label>
-        <textarea rows="2"></textarea>
-      </div>
-      <div class="field">
-        <button class="ui primary button">Submit</button>
-      </div>
-    </div>
+    <AddAnswer :questionId="question._id"/>
   </div>
 </template>
 
 <script>
+import AddAnswer from '@/components/AddAnswer'
 export default {
+  components: {
+    AddAnswer
+  },
   data () {
     return {
       question: {}
@@ -29,8 +25,8 @@ export default {
   },
   props: ['id'],
   methods: {
-    getQuestion () {
-      this.$http.get(`/questions/${this.id}`)
+    getQuestion (id) {
+      this.$http.get(`/questions/${id}`)
       .then(({data}) => {
         this.question = data
         console.log(this.question)
@@ -39,11 +35,11 @@ export default {
     }
   },
   mounted () {
-    this.getQuestion()
+    this.getQuestion(this.id)
   },
   watch: {
     id (newId) {
-      this.getOneArticle()
+      this.getQuestion(newId)
     }
   }
 }
