@@ -3,7 +3,8 @@ require('dotenv').config()
 const secret_key = process.env.secretKey
 
 var isLogin = (req, res, next) => {
-  jwt.verify(req.headers.token, secret_key, function(err, decoded) {
+  jwt.verify(req.body.token, secret_key, function(err, decoded) {
+    // console.log(decoded)
     if(decoded) {
       req.header.decoded = decoded
       console.log('decoded>',decoded ,'<decoded');

@@ -6,13 +6,6 @@ import router from './router'
 import store from './vuex/store.js'
 /* eslint-disable */
 import swal from 'sweetalert2'
-// import axios from 'axios'
-// const axiosConfig = {
-//   baseURL: 'http://localhost:3000/',
-//   timeout: 30000,
-// }
-// Vue.prototype.$http = axios.create(axiosConfig)
-
 
 Vue.config.productionTip = false
 

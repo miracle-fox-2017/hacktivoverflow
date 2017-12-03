@@ -28,7 +28,20 @@ const questionsByid = function(req,res){
   let id = {
     _id : ObjectId(req.params.id)
   }
-  Questions.findById(id).then(function(data_Questions){
+  Questions.findById(id).populate('author').then(function(data_Questions){
+    res.status(200).send(data_Questions)
+  }).catch(function(err){
+    res.status(500).send(`[-] err find by id Questions`)
+  })
+}
+
+const questionsByAuthorid = function(req,res){
+  // console.log(req.params.id)
+  let author_id = {
+    _id : ObjectId(req.params.id)
+  }
+  Questions.find({ author : author_id }).then(function(data_Questions){
+    // console.log(data_Questions)
     res.status(200).send(data_Questions)
   }).catch(function(err){
     res.status(500).send(`[-] err find by id Questions`)
@@ -74,6 +87,7 @@ module.exports = {
   createQuestion,
   findAllQuestion,
   questionsByid,
+  questionsByAuthorid,
   updateQuestion,
   destroyQuestions
 }

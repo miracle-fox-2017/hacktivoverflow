@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MainPage from '@/components/MainPage'
+import HelloWorld from '@/components/HelloWorld'
+import MainContent from '@/components/MainContent'
+import DetailQuestion from '@/components/DetailQuestion'
 import LoginPage from '@/components/LoginPage'
 import RegisterPage from '@/components/RegisterPage'
 
@@ -11,15 +13,22 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'mainPage',
-      component: MainPage
-    },
-    {
+      component: HelloWorld,
+      children: [
+        {
+          path: '',
+          component: MainContent
+        }, {
+          path: '/questions/:id/:title',
+          component: DetailQuestion,
+          props: true
+        }
+      ]
+    }, {
       path: '/login',
       component: LoginPage,
       name: 'LoginPage'
-    },
-    {
+    }, {
       path: '/register',
       component: RegisterPage
     }

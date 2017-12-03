@@ -10,7 +10,8 @@ const http = axios.create({
 Vue.use(Vuex)
 
 const state = {
-  users: []
+  users: [],
+  questions: []
 }
 
 const mutations = {
@@ -23,10 +24,59 @@ const mutations = {
   },
   loginUser (state, payload) {
     state.users.push(payload)
+  },
+  getQuestion (state, payload) {
+    state.questions = payload
+  },
+  getQuestionById (state, payload) {
+    state.questions = payload
+  },
+  getQuestionByAuthor (state, payload) {
+    state.questions = payload
+  },
+  createQuestion (state, payload) {
+    state.questions.push(payload)
   }
 }
 
 const actions = {
+  getAllQuestion ({ commit }) {
+    http.get('api/questions').then(({data}) => {
+      commit('getQuestion', data)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+  getQuestionById ({ commit }, questionId) {
+    http.get('api/questions/' + questionId).then(({data}) => {
+      console.log(data)
+      commit('getQuestionById', data)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+  getAllQuestionByAuthor ({ commit }, authorId) {
+    http.get('api/questions/author/' + authorId).then(({data}) => {
+      commit('getQuestionByAuthor', data)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+  saveQuestion ({ commit }, newQuestion) {
+    console.log(newQuestion)
+    http.post('api/questions', newQuestion).then(({data}) => {
+      commit('createQuestion', data)
+    }).catch(err => {
+      console.error(err)
+      if (err) {
+        swal(
+          'Oops...',
+          'Title & Question must be filled!',
+          'error'
+        )
+      }
+    })
+  },
   getAllUsers ({ commit }) {
     http.get('api/users').then(({data}) => {
       commit('setUsers', data)
@@ -43,7 +93,7 @@ const actions = {
           text: 'username & password match!',
           type: 'success'
         }).then(function () {
-          window.location.href = 'http://localhost:8080/'
+          window.location.href = 'http://localhost:8080/questions'
           localStorage.setItem('token', data.token)
           localStorage.setItem('name', data.username)
           localStorage.setItem('user_Id', data.user_Id)

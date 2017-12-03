@@ -1,25 +1,29 @@
 <template>
-  <div class="container">
-    {{ users }}
+  <div>
+    {{ questions.title }}
   </div>
 </template>
 
 <script>
 import {mapActions, mapState} from 'vuex'
+
 export default {
-  name: 'MainPage',
+  props: ['id'],
+  mounted () {
+    console.log('>>>', this.questions[1])
+  },
   computed: {
     ...mapState([
-      'users'
+      'questions'
     ])
   },
   methods: {
     ...mapActions([
-      'getAllUsers'
+      'getQuestionById'
     ])
   },
   created () {
-    this.getAllUsers()
+    this.getQuestionById(this.id)
   }
 }
 </script>
