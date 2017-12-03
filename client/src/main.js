@@ -6,7 +6,7 @@ import router from './router'
 import store from './vuex/store'
 import axios from 'axios'
 
-const rootUrl = "http://localhost:3002";
+const rootUrl = "http://35.186.144.106:3002";
 
 Vue.prototype.$http = axios.create({
   baseURL: rootUrl
