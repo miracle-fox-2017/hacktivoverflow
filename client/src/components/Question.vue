@@ -3,16 +3,15 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4>
-          <router-link :to="{ path: '/question/1', params: {} }">programming black magic</router-link>
+          <router-link :to="{ path: '/question/' + question._id }">{{ question.title }}</router-link>
           <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
           <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
         </h4>
-        <p>By: capung tempur</p>
-        <span>Vote: 10</span>
-        <span>Answer: 5</span>
+        <p>By: {{ question.userId }}</p>
+        <span>Vote: XX</span>
       </div>
       <div class="panel-body panel-question">
-        <p class="question">gimana caranya jadi programmer black magic?</p>
+        <p class="question">{{ question.question }}</p>
       </div>
       <div class="panel-body">
         <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
@@ -67,7 +66,27 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
+  watch: {
+    '$route' (to, from) {
+      this.getQuestion(this.$route.params.id)
+    }
+  },
+  computed: {
+    ...mapState([
+      'question'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'getQuestion'
+    ])
+  },
+  created: function () {
+    this.getQuestion(this.$route.params.id)
+    // this.filterQuestion()
+  }
 }
 </script>
 

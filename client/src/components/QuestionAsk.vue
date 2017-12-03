@@ -1,24 +1,24 @@
 <template lang="html">
   <div class="container">
-    <form class="form-horizontal">
+    <form v-on:submit.prevent="sendQuestion" class="form-horizontal" >
       <fieldset>
         <legend>Ask Question</legend>
         <div class="form-group">
           <label for="title" class="col-lg-2 control-label">Title</label>
           <div class="col-lg-10">
-            <input class="form-control" id="title" placeholder="Title" type="text">
+            <input v-model="title" class="form-control" id="title" placeholder="Title" type="text">
           </div>
         </div>
         <div class="form-group">
           <label for="image" class="col-lg-2 control-label">Image Url</label>
           <div class="col-lg-10">
-            <input class="form-control" id="image" placeholder="http://image.url/this_is_jpg.jpg" type="text">
+            <input v-model="image" class="form-control" id="image" placeholder="http://image.url/this_is_jpg.jpg" type="text">
           </div>
         </div>
         <div class="form-group">
           <label for="question" class="col-lg-2 control-label">Question explanation</label>
           <div class="col-lg-10">
-            <textarea class="form-control" rows="3" id="question"></textarea>
+            <textarea v-model="question" class="form-control" rows="3" id="question"></textarea>
             <span class="help-block">Please ask a clear question.</span>
           </div>
         </div>
@@ -34,7 +34,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
+  data: function () {
+    return {
+      title: '',
+      image: '',
+      question: ''
+    }
+  },
+  methods: {
+    ...mapActions([
+      'addQuestion'
+    ]),
+    sendQuestion: function () {
+      let obj = {
+        title: this.title,
+        image: this.image,
+        question: this.question
+      }
+      this.addQuestion(obj)
+    }
+  }
 }
 </script>
 
