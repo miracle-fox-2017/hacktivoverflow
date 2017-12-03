@@ -1,5 +1,7 @@
 //require helper
 const hashPassword = require('../helpers/hashPassword')
+const fbHelper = require('../helpers/fb')
+const jsonToken = require('../helpers/jsonToken')
 
 //require model
 const User = require('../models/user')
@@ -10,7 +12,40 @@ let welcomePage = (req, res) => {
 }
 
 let signfb = (req, res) => {
-  res.status(200).send({msg:"success"})
+  fbHelper.unwrapToken(req.headers.fb_token, (err, resp) => {
+    if (err) res.status(500).send({err: err})
+    else {
+      let newUser = {
+        username: resp.email,
+        name: resp.name
+      }
+      let user = new User (newUser)
+      user.save()
+      .then(result => {
+        let tokenizer = {
+          _id: result.id,
+          name: result.name,
+          isAdmin: result.isAdmin
+        }
+        jsonToken.signToken(tokenizer, (err, token) => {
+          if (err) {
+            res.status(500).send({err: err})
+          }
+          else {
+            res.status(200).send({
+              msg: "success",
+              token: token
+            })
+          }
+        })
+      })
+      .catch(err => {
+        res.status(500).send({
+          err: err
+        })
+      })
+    }
+  })
 }
 
 let postQuestion = (req, res) => {

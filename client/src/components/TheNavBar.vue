@@ -16,8 +16,8 @@
           <li><router-link :to="{ path: '/ask', params: {} }">Ask A Question</router-link></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><div class="fb-login-button fix-padding" data-max-rows="1" data-size="small" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true"></div></li>
-          <!-- <li><a href="#"><img height="25" src="https://scontent-sin6-2.xx.fbcdn.net/v/t39.2365-6/17639236_1785253958471956_282550797298827264_n.png?oh=499251858fbeca5f9770531c16da6e89&oe=5A89FFEA" /></a></li> -->
+          <li v-if="!statusLogin" ><button @click="getFbToken" class="btn fix-margin blue-facebook" type="button" name="button"><span class="fa fa-facebook-square"></span> Login with facebook</button></li>
+          <li v-else >{{ dataUser.name }} <img :src="dataUser.picture" class="navbar-profile-picture"> <button @click="logout" type="button" class="btn btn-default fix-margin" name="button">logout</button></li>
         </ul>
       </div>
     </div>
@@ -26,11 +26,87 @@
 
 <script>
 export default {
+  data: function () {
+    return {
+      statusLogin: false,
+      dataUser: ''
+    }
+  },
+  methods: {
+    getFbToken: function () {
+      // eslint-disable-next-line
+      FB.login((response) => {
+        localStorage.setItem('fb_token', response.authResponse.accessToken)
+        this.getUser(response.authResponse.accessToken)
+      }, {
+        scope: 'public_profile, email'
+      })
+    },
+    getUser: function (token) {
+      let AccessToken = token
+      this.$http.get('https://graph.facebook.com/me?fields=email,id,name,picture&access_token=' + AccessToken)
+      .then(({ data }) => {
+        let obj = {
+          id: data.id,
+          name: data.name,
+          picture: data.picture.data.url
+        }
+        this.loginOnOwnServer(obj, token)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    logout: function () {
+      localStorage.removeItem('dataUser')
+      localStorage.removeItem('fb_token')
+      this.dataUser = ''
+      this.statusLogin = false
+      this.$router.push('/')
+    },
+    loginOnOwnServer: function (obj, AccessToken) {
+      this.$http.post('http://localhost:3000/api/signfb', [], {
+        headers: { fb_token: AccessToken }
+      })
+      .then(({ data }) => {
+        if (data.msg === 'success') {
+          // obj.token = data.token
+          localStorage.setItem('dataUser', JSON.stringify(obj))
+          this.statusLogin = true
+          this.dataUser = obj
+        } else {
+          console.log('something wrong')
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        this.logout()
+      })
+    }
+  },
+  created: function () {
+    let fbToken = localStorage.getItem('fb_token')
+    if (fbToken) {
+      this.getUser(fbToken)
+    } else {
+      this.logout()
+    }
+  }
 }
 </script>
 
-<style lang="css">
-.fix-padding {
-  padding: 8px;
+<style lang="css" scoped>
+.fix-margin {
+  margin: 8px;
+  padding: 4px;
+}
+.blue-facebook {
+  color: white;
+  background-color: #3B5998;
+  border-radius: 4px;
+}
+.navbar-profile-picture {
+  height: 25px;
+  border-radius: 50%;
 }
 </style>
