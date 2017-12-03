@@ -134,7 +134,7 @@ const editUser = (req , res) =>{
         res.send(
         {
           email : data,
-          msg: 'Email successfully updated!'
+          msg: 'User successfully updated!'
         });
       });
     })
