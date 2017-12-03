@@ -10,6 +10,12 @@ let mutations = {
     console.log('credentials sudah masuk mutations', payload)
     state.loginCredentials = payload
     console.log('credentials sudah di save di state login vuex', state.loginCredentials)
+  },
+  setComments (state, payload) {
+    state.comments = payload
+  },
+  saveNewComment (state, payload) {
+    state.comments.push(payload)
   }
 }
 

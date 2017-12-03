@@ -11,13 +11,21 @@
         </div>
       </div>
     </div>
+    <Comment :postId="postId"></Comment>
+    <PostComment :postId="postId"></PostComment>
   </div>
 </template>
 
 <script>
+import Comment from '@/components/Comment'
+import PostComment from '@/components/PostComment'
 export default {
   name: 'PostDetails',
   props: ['postId'],
+  components: {
+    Comment,
+    PostComment
+  },
   data () {
     return {
       postDetails: {}

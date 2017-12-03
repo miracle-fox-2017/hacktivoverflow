@@ -28,6 +28,22 @@ let actions = {
     }).catch((err) => {
       console.log(err)
     })
+  },
+  getAllComments ({commit}) {
+    axios.get('http://localhost:3000/answer')
+    .then(({data}) => {
+      commit('setComments', data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },
+  postNewComment ({commit}, payload) {
+    axios.post('http://localhost:3000/answer', payload)
+    .then(({data}) => {
+      commit('saveNewComment', data)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 }
 

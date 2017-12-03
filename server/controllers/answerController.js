@@ -3,6 +3,7 @@ const Answer = require('../models/answerModel.js')
 // Find all answer
 let findAllAnswer = function (req, res) {
   Answer.find()
+  .populate('question')
   .populate('userAnswer')
   .populate('voteAnswer')
   .exec()
@@ -19,7 +20,9 @@ let findAnswerById = function (req, res) {
     {
       _id: req.params.idAnswer
     }
-  ).populate('userAnswer')
+  )
+  .populate('question')
+  .populate('userAnswer')
   .populate('voteAnswer')
   .exec()
   .then(function (dataAnswer) {
@@ -35,6 +38,7 @@ let postNewAnswer = function (req, res) {
     {
       title: req.body.title,
       content: req.body.content,
+      question: req.body.question,
       userAnswer: req.body.userAnswer,
       voteAnswer: req.body.voteAnswer,
       createdAt: new Date(),
@@ -60,6 +64,7 @@ let updateAnswer = function (req, res) {
       updatedAt: new Date()
     }
   )
+  .populate('question')
   .populate('userAnswer')
   .populate('voteAnswer')
   .exec()
@@ -80,6 +85,7 @@ let updateVoteAnswer = function (req, res) {
       voteAnswer: req.params.voteAnswer
     }
   )
+  .populate('question')
   .populate('userAnswer')
   .populate('voteAnswer')
   .exec()

@@ -5,6 +5,10 @@ let answerSchema = Schema(
   {
     title: String,
     content: String,
+    question: {
+      type: Schema.Types.ObjectId,
+      ref: 'Post'
+    },
     userAnswer: {
       type: Schema.Types.ObjectId,
       ref: 'User'

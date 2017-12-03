@@ -20,12 +20,14 @@ export default {
   methods: {
     ...mapActions(
       [
-        'getAllPosts'
+        'getAllPosts',
+        'getAllComments'
       ]
     )
   },
   created () {
     this.getAllPosts()
+    this.getAllComments()
   }
 }
 </script>

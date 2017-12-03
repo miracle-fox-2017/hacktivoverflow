@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 let initialState = {
   posts: [],
+  comments: [],
   loginCredentials: {}
 }
 
