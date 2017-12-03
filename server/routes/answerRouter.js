@@ -6,7 +6,7 @@ const answerController = require('../controllers/answerController.js')
 router.get('/', answerController.findAllAnswer)
 
 // Find answer by id
-router.get('/:idAnswer', answerController.findAnswerById)
+router.get('/:idQuestion', answerController.findAnswerById)
 
 // Add new answer
 router.post('/', answerController.postNewAnswer)

@@ -14,6 +14,10 @@ let mutations = {
   setComments (state, payload) {
     state.comments = payload
   },
+  setCommentById (state, payload) {
+    state.commentById = payload
+    console.log('sudah masuk state comment by id', state.commentById)
+  },
   saveNewComment (state, payload) {
     state.comments.push(payload)
     console.log('sudah masuk state comments', state.comments)

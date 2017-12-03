@@ -17,6 +17,7 @@ let answerSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     }],
+    voteCount: Number,
     createdAt: {
       type: Date,
       default: Date.now

@@ -37,6 +37,12 @@ let actions = {
       console.log(err)
     })
   },
+  getCommentById ({commit}, payload) {
+    axios.get(`http://localhost:3000/answer/${payload._id}`)
+    .then(({data}) => {
+      commit('setCommentById', data)
+    })
+  },
   postNewComment ({commit}, payload) {
     axios.post('http://localhost:3000/answer', payload)
     .then(({data}) => {

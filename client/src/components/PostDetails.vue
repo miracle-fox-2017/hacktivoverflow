@@ -19,6 +19,7 @@
 <script>
 import Comment from '@/components/Comment'
 import PostComment from '@/components/PostComment'
+import {mapActions} from 'vuex'
 export default {
   name: 'PostDetails',
   props: ['postId'],
@@ -36,10 +37,17 @@ export default {
       this.$axios.get(`http://localhost:3000/post/${this.postId}`)
       .then(({data}) => {
         this.postDetails = data
+        console.log('ini jalan', this.postDetails)
+        this.getCommentById(this.postDetails)
       }).catch((err) => {
         console.log(err)
       })
-    }
+    },
+    ...mapActions(
+      [
+        'getCommentById'
+      ]
+    )
   },
   created () {
     this.getPostDetails()

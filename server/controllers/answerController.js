@@ -16,9 +16,9 @@ let findAllAnswer = function (req, res) {
 
 // Find answer by id
 let findAnswerById = function (req, res) {
-  Answer.findOne(
+  Answer.find(
     {
-      _id: req.params.idAnswer
+      question: req.params.idQuestion
     }
   )
   .populate('question')
@@ -41,6 +41,7 @@ let postNewAnswer = function (req, res) {
       question: req.body.question,
       userAnswer: req.body.userAnswer,
       voteAnswer: req.body.voteAnswer,
+      voteCount: req.body.voteCount,
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -82,7 +83,8 @@ let updateVoteAnswer = function (req, res) {
       _id: req.params.idAnswer
     },
     {
-      voteAnswer: req.body.voteAnswer
+      voteAnswer: req.body.voteAnswer,
+      voteCount: req.body.voteCount
     }
   )
   .populate('question')
