@@ -11,6 +11,7 @@ const allQuestions = (req, res) => {
 
 const createQuestion = (req, res) => {
   let input = req.body
+  // console.log(input)
   let obj = {
     title : input.title,
     body : input.body,
