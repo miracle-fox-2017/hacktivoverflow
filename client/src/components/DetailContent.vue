@@ -42,6 +42,20 @@
 					<div class="answer-content">
 						{{ answer.content }}
 					</div><!-- /.answer-content -->
+
+					<footer class="vote-area">
+						<ul class="flat-list list-inline vote-list">
+							<li>
+								<a href="#" class="vote-button">
+									<i class="fa fa-thumbs-o-up"></i>
+									<span>{{ answer.uservoteList.length }}</span>
+								</a>
+							</li>
+							<li>
+								<a href="#" @click.prevent="destroyAnswer(index, answer)"><i class="fa fa-trash"></i></a>
+							</li>
+						</ul>
+					</footer>
 				</div><!-- /.answer-item -->
 			</div>
 			<!-- /.answer-wrap -->
@@ -103,6 +117,18 @@
 
 				this.$router.push('/');
 				this.answer = []
+			},
+
+			destroyAnswer(index, answer) {
+				this.$http.delete('/api/answers/delete/'+answer._id, { headers: { token: this.loggedinUser.token } })
+					.then(data => {
+						console.log('Answer deleted');
+						this.question.answerList.splice(index, 1);
+
+					}).catch(err => {
+						console.log({message:'Something Wrong on delete answer', error: err.message})
+						alert("Delete answer Fail")
+					});
 			},
 
 		  getQuestionById (questionId) {

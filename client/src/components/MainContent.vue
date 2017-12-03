@@ -71,7 +71,6 @@ import { mapState, mapActions } from 'vuex'
 				}
 
 				this.initEditQuestion(question);
-				console.log(question)
 			}
 		},
 

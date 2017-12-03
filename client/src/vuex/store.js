@@ -203,7 +203,11 @@ export default new Vuex.Store({
 
 				context.commit('setLoggedinUser', loginData)
 
-			}).catch(err => console.error({message:'Something Wrong on Login', error: err.message}));
+
+			}).catch(err => {
+				alert("Gagal Login. Username / Password salah")
+				console.error({message:'Something Wrong on Login', error: err.message})
+			});
 		},
 
 		updateQuestion(context, payload) {
