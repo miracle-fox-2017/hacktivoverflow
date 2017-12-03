@@ -70,10 +70,24 @@ const destroyAnswer = function(req,res){
   })
 }
 
+const answersByQuestion = function(req,res){
+  // console.log(req.params.id)
+  let questtion_id = {
+    _id : ObjectId(req.params.id)
+  }
+  Answer.find({ question : questtion_id }).populate('by').populate('question').then(function(data_answerQuestions){
+    // console.log(data_Questions)
+    res.status(200).send(data_answerQuestions)
+  }).catch(function(err){
+    res.status(500).send(`[-] err find by id Answer by question`)
+  })
+}
+
 module.exports = {
   createAnswer,
   findAllAnswer,
   answerByid,
   updateAnswer,
-  destroyAnswer
+  destroyAnswer,
+  answersByQuestion
 }
