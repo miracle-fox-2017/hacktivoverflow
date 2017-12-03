@@ -5,7 +5,8 @@ const mutations = {
       questions.push({
         id: doc.id,
         title: doc.data().title,
-        body: doc.data().body
+        body: doc.data().body,
+        email: doc.data().email
       })
     })
     state.questions = questions

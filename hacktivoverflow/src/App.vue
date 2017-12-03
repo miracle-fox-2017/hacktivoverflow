@@ -11,7 +11,7 @@
 <script>
 import navbar from '@/components/TheNavbar'
 import signIn from '@/components/SignIn'
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
   name: 'app',
   components: {
@@ -26,12 +26,13 @@ export default {
       showLogin: false
     }
   },
-  watch: {
-    userDetails () {
-      if (this.userDetails !== null) {
-        // this.showLogin = false
-      }
-    }
+  methods: {
+    ...mapActions([
+      'getUserInfo'
+    ])
+  },
+  mounted () {
+    this.getUserInfo()
   }
 }
 </script>

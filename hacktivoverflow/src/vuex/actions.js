@@ -87,6 +87,20 @@ const actions = {
       .collection('answers').onSnapshot(snapshot => {
         commit('addAnswer', snapshot)
       })
+  },
+  editQuestion ({ state }, payload) {
+    questionDB.doc(payload.questionId).set({
+      title: payload.title,
+      body: payload.body,
+      email: state.userDetails.email
+    })
+      .then(success => console.log(success))
+      .catch(error => console.log(error))
+  },
+  deleteQuestion ({ state }, payload) {
+    questionDB.doc(payload).delete()
+      .then(success => console.log(success))
+      .catch(error => console.log(error))
   }
 }
 

@@ -55,7 +55,6 @@ export default {
   },
   mounted () {
     this.getUserInfo()
-    this.checkToken()
   }
 }
 </script>
