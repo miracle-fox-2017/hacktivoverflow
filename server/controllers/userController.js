@@ -4,3 +4,148 @@ const User = require('../models/userModel')
 const ObjectId = require('mongodb').ObjectId
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
+const allUsers = (req, res) => {
+  User.find()
+  .then(users => res.send(users))
+  .catch(err => res.status(500).send(err))
+}
+
+const createUser = (req, res) => {
+  const saltRounds = 10;
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',req.body.username);
+  let input = req.body
+    User.findOne({
+        username: input.username
+    })
+    .then(user => {
+      // console.log('STATUS', user);
+      if(!user){
+        bcrypt.hash(input.password, saltRounds).then(function(hash) {
+          let obj = {
+            gender: input.gender,
+            picture: input.picture,
+            name: input.name,
+            username: input.username,
+            password: hash,
+            email : input.email
+          }
+          User.create(obj)
+          .then( user => {
+            res.send(
+            {
+              msg: 'Success created account',
+              data: user
+            })
+          })
+        });
+      } else {
+        res.send(
+        {
+          msg: 'Username already exists !!'
+        })
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err)
+    })
+}
+
+const deleteUser = (req, res) => {
+  let id = {_id: ObjectId(req.params.id)}
+  User.deleteOne(id)
+  .then(user => res.send(
+  {
+    msg : 'Data user removed',
+    data : user
+  })
+  )
+  .catch(err => res.status(500).send(err))
+}
+
+const signinUser = (req, res) => {
+  // console.log('MASUK LOGIN', req.body);
+  let signin = req.body
+  User.findOne(
+  {
+    username: signin.username
+  })
+  .then(user => {
+    if(user){
+      bcrypt.compare(signin.password, user.password)
+      .then( result => {
+        if(result){
+          jwt.sign(
+          {
+            id: user._id,
+            name : user.name,
+            username : user.username,
+            email : user.email,
+            picture : user.picture
+          },
+           ' process.env.SECRET_KEY',
+            (err, token) => {
+              // console.log('TOKEN', token);
+              if(!err){
+                console.log(
+                  token, `Welcome ${user.name}`, user._id
+                );
+                res.send(
+                {
+                  token: token,
+                  name : user.name,
+                  user_id: user._id,
+                  email : user.email,
+                  picture : user.picture
+                })
+              } else {
+                res.status(400).send(err)
+              }
+            })
+        } else {
+          res.send({msg: 'Wrong Password or username'})
+        }
+      });
+    } else {
+      res.send({msg: 'Wrong Password or username'})
+    }
+  })
+  .catch(err => {
+    res.status(500).send({msg: 'Wrong Password or username'})
+  })
+}
+
+const editUser = (req , res) =>{
+  let id = ObjectId(req.params.id)
+  let input = req.body
+  const saltRounds = 10;
+  User.findById(id)
+  .then(dataUser => {
+    bcrypt.hash(input.password, saltRounds).then(function(hash) {
+      dataUser.gender = input.gender,
+      dataUser.picture = input.picture,
+      dataUser.name = input.name,
+      dataUser.username = input.username,
+      dataUser.password = hash,
+      dataUser.email = input.email
+      dataUser.save(function(err, data) {
+        if (err) throw err;
+        res.send(
+        {
+          email : data,
+          msg: 'Email successfully updated!'
+        });
+      });
+    })
+  })
+  .catch(err => res.status(500).send(err))
+}
+
+module.exports = {
+  allUsers,
+  createUser,
+  editUser,
+  signinUser,
+  deleteUser
+};
