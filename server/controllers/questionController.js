@@ -49,72 +49,75 @@ let signfb = (req, res) => {
 }
 
 let postQuestion = (req, res) => {
-  if(req.body.title && req.body.article) {
-    let blog = new Blog({
-      userId: req.decoded.id,
+  if(req.body.title && req.body.question) {
+    let question = new Question({
+      userId: req.decoded._id,
       title: req.body.title,
-      article: req.body.article
+      image: req.body.image || '',
+      question: req.body.question,
+      vote: [],
+      answer: []
     })
-    blog.save()
+    question.save()
     .then(result=>{
       res.status(200).send({
         msg:"success",
-        author: req.decoded.username,
-        blogPost: result
+        author: req.decoded.name,
+        newQuestion: result
       })
     })
     .catch(err=>{
       res.status(500).send({msg:"unsuccessfull post"})
     })
   } else {
-    res.status(400).send({msg: "empty title & article"})
+    res.status(400).send({msg: "empty title & question"})
   }
 }
 
 let getQuestion = (req, res) => {
-  Blog.findOne({ _id: req.params.id })
+  Question.findOne({ _id: req.params.id })
   .then(result=>{
     res.status(200).send({
       msg: "success",
-      blogPost: result
+      question: result
     })
   })
   .catch(err=>{
-    res.status(500).send({msg:"unsuccess get blog post"})
+    res.status(500).send({msg:"cannot get question"})
   })
 }
 
 let getQuestions = (req, res) => {
-  Blog.find()
+  Question.find()
   .then(result=>{
     res.status(200).send({
       msg: "success",
-      blogPost: result
+      questions: result
     })
   })
   .catch(err=>{
-    res.status(500).send({msg:"unsuccess get blog post"})
+    res.status(500).send({msg:"canot get questions"})
   })
 }
 
 let editQuestion = (req, res) => {
-  Blog.update({ _id: req.params.id }, {
-    userId: req.decoded.id,
+  Question.update({ _id: req.params.id }, {
+    userId: req.decoded._id,
     title: req.body.title,
-    article: req.body.article
+    image: req.body.image || '',
+    question: req.body.question
   })
   .then(result=>{
-    Blog.findOne({ _id: req.params.id })
+    Question.findOne({ _id: req.params.id })
     .then(newEdit=>{
       res.status(200).send({
         msg: "success",
-        newBlogPost: newEdit
+        question: newEdit
       })
     })
     .catch(err=>{
-      res.status(500).send({msg:"unsuccess get blog post"})
+      res.status(500).send({msg:"cannot edit post"})
     })
-    
   })
   .catch(err=>{
     res.status(400).send({msg: err})
@@ -122,20 +125,18 @@ let editQuestion = (req, res) => {
 }
 
 let delQuestion = (req, res) => {
-  Blog.findOne({ _id: req.params.id })
+  Question.findOne({ _id: req.params.id })
   .then(before=>{
-    Blog.remove({ _id: req.params.id })
+    Question.remove({ _id: req.params.id })
     .then(result=>{
       res.status(200).send({
         msg: "success",
         deleted: before
       })
-      
     })
     .catch(err=>{
       res.status(400).send({msg: err})
     })
-    
   })
   .catch(err=>{
     res.status(400).send({msg: err})

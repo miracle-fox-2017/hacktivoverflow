@@ -15,7 +15,7 @@ router.get('/', questionController.welcomePage)
 router.post('/signfb/', checkStatus, questionController.signfb)
 
 // | /api/question | POST | tokenjwt, title, question, image(link) | post new question |
-router.post('/question/', questionController.postQuestion)
+router.post('/question/', verifyToken.loginState, questionController.postQuestion)
 
 // | /api/question/ | GET | (public) | get all question |
 router.get('/question/', questionController.getQuestions)
