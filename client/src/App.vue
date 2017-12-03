@@ -34,4 +34,43 @@ export default {
 .vote-list li{
   margin-right: 0;
 }
+
+.site-title {
+  font-size: 3rem;
+}
+
+.vote-area {
+  border-top: 1px solid #ccc;
+  padding: 1rem 0;
+  margin: 1rem 0;
+}
+
+.content-tile {
+  margin-top: 0;
+  font-size: 1.7rem;
+  font-weight: bold;
+  margin-bottom: 1.6rem;
+}
+
+.content-title, a {
+  color: #FF5722;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
+}
+
+.widget-title {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.small-mr{
+  margin-right: 0.7rem;
+}
+
+.small-ml{
+  margin-left: 0.7rem;
+}
+
 </style>

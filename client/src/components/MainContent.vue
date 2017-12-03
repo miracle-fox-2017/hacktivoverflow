@@ -6,22 +6,33 @@
 			</h2><!-- /.content-tile -->
 
 			<div class="question-content">
-				{{ question.content }}
+				<div v-html="question.content.substring(0, 250)"></div>
 			</div><!-- /.question-content -->
+
+		<!-- 	<h5 class="author">
+				<i class="fa fa-user small-mr"></i> {{ question.owner.username }} <i class="fa fa-calendar small-ml small-mr"></i> {{ getHumanDate(question.createdAt) }}
+			</h5> -->
 
 			<footer class="vote-area">
 				<ul class="flat-list list-inline vote-list">
 					<li>
-						<a href="#" class="vote-button" @click.prevent="doVoteQuestion(question)">
+						<a href="#" class="vote-button" @click.prevent="doVoteQuestion(question)" title="Vote">
 							<i class="fa fa-thumbs-o-up"></i>
 							<span>{{ question.uservoteList.length }}</span>
 						</a>
 					</li>
 					<li>
-						<a href="#"><i class="fa fa-pencil" @click.prevent="editQuestion(question)" data-toggle="modal" data-target="#questionModal"></i></a>
+
+						<router-link :to="question._id" title="Jawaban">
+							<i class="fa fa-comments"></i>
+							<span>{{ question.answerList.length }}</span>
+						</router-link>
 					</li>
-					<li>
-						<a href="#" @click.prevent="removeQuestion(question._id)"><i class="fa fa-trash"></i></a>
+					<li v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
+						<a href="#" title="Ubah"><i class="fa fa-pencil" @click.prevent="editQuestion(question)" data-toggle="modal" data-target="#questionModal"></i></a>
+					</li>
+					<li v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
+						<a title="Hapus" href="#" @click.prevent="removeQuestion(question._id)"><i class="fa fa-trash"></i></a>
 					</li>
 				</ul>
 			</footer>
@@ -71,7 +82,11 @@ import { mapState, mapActions } from 'vuex'
 				}
 
 				this.initEditQuestion(question);
-			}
+			},
+
+			getHumanDate(date) {
+		 	return new Date(date).toString()
+		 }
 		},
 
 		computed: {

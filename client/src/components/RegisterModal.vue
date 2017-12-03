@@ -8,22 +8,22 @@
 				</div>
 				<div class="modal-body">
 					<form action="#" method="post">
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Username</label>
 							<input type="text" class="form-control" id="username" name="username" ref="username"/>
 						</div>
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Password</label>
 							<input type="password" class="form-control" id="password" name="password" ref="password"/>
 						</div>
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Email</label>
 							<input type="email" class="form-control" id="email" name="email" ref="email"/>
 						</div>
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Full Name</label>
 							<input type="text" class="form-control" id="full_name" name="full_name" ref="full_name"/>
 						</div>

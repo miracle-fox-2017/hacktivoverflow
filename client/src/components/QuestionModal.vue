@@ -63,15 +63,19 @@
 
 		   if (question_title.length > 0 && question_content.length > 0) {
 
-		   	if (this.editedQuestion.questionId !== null && this.editedQuestion.questionId !== '' && typeof this.editedQuestion.questionId !== 'undefined') {
-		   		questionData.questionId = question_id;
+			  if (this.loggedinUser.token === "" || this.loggedinUser.token === null) {
+			  	alert("Login dahulu sebelum menambahkan pertanyaan")
 
-		   		this.updateQuestion(questionData);
+			  } else {
+			   	if (this.editedQuestion.questionId !== null && this.editedQuestion.questionId !== '' && typeof this.editedQuestion.questionId !== 'undefined') {
+			   		questionData.questionId = question_id;
 
-		   	} else {
-	   			this.createQuestion(questionData);
-		   	}
+			   		this.updateQuestion(questionData);
 
+			   	} else {
+		   			this.createQuestion(questionData);
+			   	}
+			  }
 
 		   } else {
 		   	alert("Data pertanyaan harus lengkap");

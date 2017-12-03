@@ -8,12 +8,12 @@
 				</div>
 				<div class="modal-body">
 					<form action="#" method="post">
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Username</label>
 							<input type="text" class="form-control" id="username" name="username" ref="username"/>
 						</div>
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Password</label>
 							<input type="password" class="form-control" id="password" name="password" ref="password"/>
 						</div>

@@ -136,7 +136,7 @@ export default new Vuex.Store({
 				context.commit('setNewQuestion', data.data);
 				alert("Pertanyaan berhasil dibuat");
 
-			}).catch(err => alert(JSON.stringify({message:'Something Wrong on new Question', error: err.message})));
+			}).catch(err => alert('Something Wrong on new Question'));
 		},
 
 		createAnswer(context, newAnswer) {
@@ -146,7 +146,7 @@ export default new Vuex.Store({
 				context.commit('setNewAnswer', { questionId: newAnswer.questionId, answer: data.data });
 				alert("Jawaban berhasil dibuat");
 
-			}).catch(err => alert(JSON.stringify({message:'Something Wrong on new Question', error: err.message})));
+			}).catch(err => alert('Something Wrong on new Question'));
 		},
 
 		voteQuestion(context, payload) {
@@ -156,7 +156,7 @@ export default new Vuex.Store({
 						console.log(payload)
 						 context.commit('setVoteQuestion', payload);
 
-					}).catch(err => alert(JSON.stringify({message:'You are not authorized to vote', error: err.message})));
+					}).catch(err => alert('Harap login dahulu sebelum Vote pertanyaan'));
 			} else {
 				 alert("Harap login dahulu sebelum Vote pertanyaan")
 			}
@@ -174,7 +174,7 @@ export default new Vuex.Store({
 					.then(({data}) => {
 						 context.commit('destroyQuestion', payload)
 
-					}).catch(err => alert(JSON.stringify({message:'You are not authorized to delete', error: err.message})));
+					}).catch(err => alert("Harap login dahulu sebelum hapus pertanyaan"));
 			} else {
 				 alert("Harap login dahulu sebelum hapus pertanyaan")
 			}
@@ -217,7 +217,7 @@ export default new Vuex.Store({
 				.then(({data}) => {
 
 					context.commit('questionUpdated', data.data);
-				}).catch(err => console.log({message:'Something Wrong on update question', error: err.message}));
+				}).catch(err => alert('You are unauthorized to update question'));
 		},
 
 		doLogout(context) {

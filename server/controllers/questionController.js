@@ -27,7 +27,7 @@ const create = (req, res) => {
 }
 
 const findAll = (req, res) => {
-	questionModel.find().sort({createdAt: 'desc'}).exec()
+	questionModel.find().sort({createdAt: 'desc'}).populate('owner').exec()
 		.then(questions => {
 			res.status(200).send(questions);
 
@@ -38,7 +38,7 @@ const findAll = (req, res) => {
 }
 
 const findById = (req, res) => {
-	questionModel.findOne({ _id: req.params.questionId }).populate('answerList').exec()
+	questionModel.findOne({ _id: req.params.questionId }).populate('owner').populate('answerList').exec()
 		.then(questions => {
 			res.status(200).send(questions);
 

@@ -1,11 +1,11 @@
 <template>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-8">
 				<router-view></router-view>
 			</div>
 
-			<div class="col-md-3">
+			<div class="col-md-4">
 				<MainSidebar></MainSidebar>
 			</div>
 		</div>

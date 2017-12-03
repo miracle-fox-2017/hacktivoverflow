@@ -7,8 +7,12 @@
 			</h2><!-- /.content-tile -->
 
 			<div class="question-content">
-				{{ question.content }}
+				<div v-html="question.content"></div>
 			</div><!-- /.question-content -->
+
+			<h5 class="author">
+				<i class="fa fa-user small-mr"></i> {{ questionOwner.username }} <i class="fa fa-calendar small-ml small-mr"></i> {{ getHumanDate(question.createdAt) }}
+			</h5>
 
 			<footer class="vote-area">
 				<ul class="flat-list list-inline vote-list">
@@ -18,10 +22,10 @@
 							<span>{{ qusetionVoteLength }}</span>
 						</a>
 					</li>
-					<li>
+					<li v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
 						<a href="#"><i class="fa fa-pencil" data-toggle="modal" data-target="#questionEditModal"></i></a>
 					</li>
-					<li>
+					<li v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
 						<a href="#" @click.prevent="destroyQuestion(question._id)"><i class="fa fa-trash"></i></a>
 					</li>
 				</ul>
@@ -30,18 +34,21 @@
 		<!-- /.content-item -->
 
 		<div class="answer-area">
-			<h3 class="widget-title">Jawaban
-				<span>
-					<button class="btn btn-primary btn-new-answer" data-toggle="modal" data-target="#answerModal">Tambah Jawaban</button>
-				</span>
-			</h3>
+			<h3 class="widget-title answer-title" id="answer-title">Jawaban untuk <em>"{{ question.title }}"</em></h3>
+			<div v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
+				<button class="btn btn-primary small-mb" data-toggle="modal" data-target="#answerModal"><i class="fa fa-plus small-mr"></i> Jawaban Baru</button>
+				<br /><br />
+			</div>
 
 			<div class="answer-wrap">
 				<div class="answer-item" v-for="(answer, index) in answers" :key="index">
-					<h5 class="author">{{ answer.username }}</h5>
 					<div class="answer-content">
-						{{ answer.content }}
+						<div v-html="answer.content"></div>
 					</div><!-- /.answer-content -->
+
+					<h5 class="author">
+						<i class="fa fa-user small-mr"></i> {{ answer.username }} <i class="fa fa-calendar small-ml small-mr"></i> {{ getHumanDate(answer.createdAt) }}
+					</h5>
 
 					<footer class="vote-area">
 						<ul class="flat-list list-inline vote-list">
@@ -51,7 +58,7 @@
 									<span>{{ answer.uservoteList.length }}</span>
 								</a>
 							</li>
-							<li>
+							<li v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
 								<a href="#" @click.prevent="destroyAnswer(index, answer)"><i class="fa fa-trash"></i></a>
 							</li>
 						</ul>
@@ -82,9 +89,13 @@
 		},
 		data () {
 			return {
-				question: {},
+				question: {
+					createdAt: new Date()
+				},
 				answers: [],
 				qusetionVoteLength: 0,
+				answerCount: 0,
+				questionOwner : {}
 			}
 		},
 
@@ -112,7 +123,7 @@
 					owner: '',
 					tagList: [],
 					uservoteList: [],
-					answerList: []
+					answerList: [],
 				}
 
 				this.$router.push('/');
@@ -137,7 +148,9 @@
 		    		if (data) {
 		    			// console.log(data);
 		    			this.question = data;
-		    			this.answers = data.answerList
+		    			this.questionOwner = data.owner
+		    			this.answers = data.answerList;
+		    			this.answerCount = data.answerList.length;
 		    			this.qusetionVoteLength = data.uservoteList.length
 		    		}
 
@@ -189,6 +202,10 @@
 		 	} else {
 				alert("Login dahulu sebelum vote");
 			}
+		 },
+
+		 getHumanDate(date) {
+		 	return new Date(date).toString()
 		 }
 		},
 
@@ -218,5 +235,10 @@
 <style scoped>
 	.btn-new-answer {
 		margin-left: 3rem;
+	}
+
+	.answer-title {
+		font-weight: 500;
+		margin: 1rem 0 2rem 0;
 	}
 </style>
