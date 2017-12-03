@@ -6,6 +6,7 @@
     </di>
     <div class="content">
       <p style="text-align: justify">{{question.question}}</p>
+      <i style="color: #ababab; font-size: 10px;">{{question.userId.first_name}} {{question.userId.last_name}}</i>
     </div>
     <div class="ui divider"></div>
     <AddAnswer :questionId="question._id"/>

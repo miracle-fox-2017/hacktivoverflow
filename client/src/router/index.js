@@ -5,10 +5,12 @@ import MainPage from '@/components/MainPage'
 import ContentPage from '@/components/ContentPage'
 import QuestionsList from '@/components/QuestionsList'
 import QuestionDetail from '@/components/QuestionDetail'
+import MyAccount from '@/components/MyAccount'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -29,12 +31,19 @@ export default new Router({
               component: QuestionDetail,
               props: true
             }
-            // {
-            //   path: '/questions',
-            //   name: 'QuestionsList',
-            //   component: QuestionsList
-            // },
           ]
+        },
+        {
+          path: '/myaccount',
+          name: 'MyAccount',
+          component: MyAccount,
+          beforeEnter: (to, from, next) => {
+            if (localStorage.getItem('accesstoken')) {
+              next()
+            } else {
+              next('/login')
+            }
+          }
         }
       ]
     },

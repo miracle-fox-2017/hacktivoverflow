@@ -21,8 +21,7 @@
                 <h3>Account Detail</h3>
               </div>
               <div class="ui list">
-                <a class="item">My Account</a>
-                <a class="item">Logout</a>
+                <router-link to="/myaccount" class="item">My Account</router-link>
               </div>
             </div>
 
