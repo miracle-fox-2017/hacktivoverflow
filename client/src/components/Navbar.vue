@@ -4,19 +4,50 @@
       <div href="#" class="header item">
         <img class="ui image logo" src="../assets/img/logo.png">
       </div>
-      <router-link href="#" class="item" to="/">Home</router-link>
+      <router-link class="item" to="/">Home</router-link>
       <a href="#" class="item">Questions</a>
       <a href="#" class="item">Users</a>
-      <div href="#" class="ui right item" tabindex="0">
+      <div href="#" class="ui right item" tabindex="0" v-if="isLogin">
+        <button style="margin-left: 20px;" class="ui primary button" @click="modalQuestion">Ask Question</button>
+        <button style="margin-left: 20px;" class="ui negative button" @click="logout">Logout</button>
+      </div>
+      <div href="#" class="ui right item" tabindex="0" v-else>
         <router-link style="margin-left: 20px;" class="ui button" to="/login">Login</router-link>
       </div>
     <!-- </div> -->
+
+    <div style="padding: 30px !important;" class="ui small modal question">
+      <i class="close icon"></i>
+      <div class="ui container">
+        <AskQuestion/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import AskQuestion from '@/components/AskQuestion'
 export default {
-
+  components: {
+    AskQuestion
+  },
+  data () {
+    return {
+      isLogin: localStorage.getItem('accesstoken')
+    }
+  },
+  methods: {
+    logout () {
+      localStorage.clear()
+      this.$router.push('/login')
+    },
+    modalQuestion () {
+      /* eslint-disable */
+      $('.small.modal.question')
+        .modal('show')
+      ;
+    }
+  }
 }
 </script>
 

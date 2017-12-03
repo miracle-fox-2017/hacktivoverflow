@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const answerControllers = require('../controllers/answerControllers')
+const checkAuth = require('../middleware/checkAuth')
 
-router.post('/', answerControllers.create);
+router.post('/', checkAuth.isLogin, answerControllers.create);
 router.get('/:id', answerControllers.getAll);
-router.delete('/:id', answerControllers.remove);
+router.delete('/:id', checkAuth.isLogin, answerControllers.remove);
 
 module.exports = router;

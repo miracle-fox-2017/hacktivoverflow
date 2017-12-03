@@ -4,7 +4,7 @@
       <h1>List Of Questions</h1>
     </div>
     <div class="row">
-      <div class="column">
+      <div style="text-align: left;" class="column">
         <QuestionSummary v-for="question in questions" :key="question._id" :question="question"/>
       </div>
     </div>

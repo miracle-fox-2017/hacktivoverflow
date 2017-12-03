@@ -22,14 +22,25 @@ export default new Router({
               name: 'QuestionsList',
               component: QuestionsList
             }
+            // {
+            //   path: '/questions',
+            //   name: 'QuestionsList',
+            //   component: QuestionsList
+            // },
+            // {
+            //   path: '/questions/:id',
+            //   name: 'QuestionsList',
+            //   component: QuestionsList,
+            //   props: true
+            // }
           ]
-        },
-        {
-          path: '/login',
-          name: 'LoginPage',
-          component: LoginPage
         }
       ]
+    },
+    {
+      path: '/login',
+      name: 'LoginPage',
+      component: LoginPage
     }
   ]
 })

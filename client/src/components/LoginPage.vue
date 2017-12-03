@@ -58,15 +58,16 @@ export default {
       })
       .then(({data}) => {
         localStorage.setItem('accesstoken', data.accesstoken)
+        this.$router.push('/')
       })
       .catch(err => console.log(err))
     },
-    signOut () {
-      var auth2 = gapi.auth2.getAuthInstance()
-      auth2.signOut().then(function () {
-        console.log('User signed out.')
-      })
-    },
+    // signOut () {
+    //   var auth2 = gapi.auth2.getAuthInstance()
+    //   auth2.signOut().then(function () {
+    //     console.log('User signed out.')
+    //   })
+    // },
     onSignInSuccess (googleUser) {
       var id_token = googleUser.getAuthResponse().id_token;
       this.$http.post('/users/login', {}, {
@@ -76,6 +77,7 @@ export default {
       })
       .then(({data}) => {
         localStorage.setItem('accesstoken', data.accesstoken)
+        this.$router.push('/')        
       })
     },
     onSignInError (error) {
