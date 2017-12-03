@@ -1,8 +1,9 @@
 <template>
   <div>
-    <modal title="Write your Questions" :backdrop="false" :is-show="isShow3" @close="isShow3=false">
-      <form @submit.prevent="">
-        <label class="label">Title</label>
+    
+    <b-aside :is-show="writeQuestion" title="Write your Questions" :show-footer="false" placement="right" :backdrop="false" @close="writeQuestion=false">
+      <form @submit.prevent="createQuestion(ask)">
+      <label class="label">Title</label>
         <p class="control">
           <input class="input" v-model="ask.title" type="text" placeholder="Title">
         </p>
@@ -10,12 +11,13 @@
         <p class="control">
           <textarea class="textarea" v-model="ask.body" placeholder="Ask something usefull"></textarea>
         </p>
-        <div slot="footer">
-          <button @click="isShow3=false" class="button is-light">Cancel</button>
-          <button class="button is-warning">Save</button>
-        </div>
+        <p>
+          <code><strong>The Code</strong> just everything</code>
+        </p>
+         <br/>
+        <button  class="button is-warning"> Asking</button>
       </form>
-    </modal>
+    </b-aside>
     <a @click="toggle3" class="button is-warning">Ask Question</a>
     <hr/><br/>
     <div class="box">
@@ -64,11 +66,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'SideBar',
   data () {
     return {
       isShow3 : false,
+      showModal: false,
+      writeQuestion: false,
       ask: {
         body: '',
         title: ''
@@ -77,12 +82,11 @@ export default {
   },
   methods: {
     toggle3 () {
-      this.isShow3 = true
-    }
+      this.writeQuestion = true
+    },
+    ...mapActions([
+      'createQuestion'
+    ])
   }
 }
 </script>
-
-<style>
-
-</style>

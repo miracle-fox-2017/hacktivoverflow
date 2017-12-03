@@ -9,7 +9,8 @@ const http = axios.create(({
 Vue.use(Vuex)
 
 const state = {
-  users: []
+  users: [],
+  questions: []
 }
 
 const mutations = {
@@ -18,6 +19,12 @@ const mutations = {
   },
   saveUser (state, newUser) {
     state.users.push(newUser)
+  },
+  setQuestions (state, payload) {
+    state.questions = payload
+  },
+  saveQuestion (state, newQuestion) {
+    state.questions.push(newQuestion)
   }
 }
 
@@ -41,6 +48,24 @@ const actions = {
     })
     .catch(err => {
       console.log(err)
+    })
+  },
+  allQuestions ({ commit }) {
+    http.get('/questions')
+    .then(({data}) => {
+      commit('setQuestions', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  createQuestion ({ commit }, newQuestion) {
+    http.post('/questions', newQuestion)
+    .then(({ data }) => {
+      commit('saveQuestion', data.data)
+    })
+    .catch(err => {
+      console.og(err)
     })
   }
 }

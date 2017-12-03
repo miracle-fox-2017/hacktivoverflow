@@ -16,10 +16,10 @@
         <th>Rating</th>
       </tr>
     </tfoot>
-    <tbody>
+    <tbody v-for="question in questions" :key="question._id">
       <tr>
-        <th><span class="icon is-small"><i class="fa fa-heart"></i>2</span></th>
-        <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.</td>
+        <th><span class="icon is-small"><i class="fa fa-heart"></i>{{question.like}}</span></th>
+        <td>{{question.title}}</td>
         <td class="tengah"><i>38</i><br>answer</td>
         <td>
           <div class="stars">
@@ -43,8 +43,22 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
 export default {
-  name: 'QuestionsList'
+  name: 'QuestionsList',
+  computed: {
+    ...mapState([
+      'questions'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'allQuestions'
+    ])
+  },
+  created () {
+    this.allQuestions()
+  }
 }
 </script>
 
