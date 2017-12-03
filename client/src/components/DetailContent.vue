@@ -46,7 +46,7 @@
 					<footer class="vote-area">
 						<ul class="flat-list list-inline vote-list">
 							<li>
-								<a href="#" class="vote-button">
+								<a href="#" class="vote-button" @click.prevent="doVoteAnswer(index, answer)">
 									<i class="fa fa-thumbs-o-up"></i>
 									<span>{{ answer.uservoteList.length }}</span>
 								</a>
@@ -145,8 +145,6 @@
 		  },
 
 		  doVoteQuestion(question) {
-				// console.log(question.uservoteList)
-
 				if (this.loggedinUser.accountId !== null && this.loggedinUser.accountId !== '') {
 					this.voteQuestion({
 						questionId: question._id,
@@ -168,9 +166,30 @@
 				}
 			},
 
-		 /* getAnswers() {
-		  	this.answers = this.answers.concat(this.question.answerList);
-		  }*/
+		 doVoteAnswer(index, answer) {
+		 	if (this.loggedinUser.accountId !== null && this.loggedinUser.accountId !== '') {
+		 		this.$http.put(`/api/answers/update/${answer._id}/vote/${this.loggedinUser.accountId}`, {}, { headers: { token: this.loggedinUser.token } })
+					.then(data => {
+						console.log('Vote updated');
+
+						let answervoteList = this.question.answerList[index].uservoteList;
+						let checkVoteExist = answervoteList.indexOf(this.loggedinUser.accountId)
+
+						if (checkVoteExist < 0) {
+							answervoteList.push(this.loggedinUser.accountId)
+
+						} else {
+							answervoteList.splice(checkVoteExist, 1);
+						}
+
+					}).catch(err => {
+						console.log({message:'Something Wrong on vote answer', error: err.message})
+						alert("Vote answer Fail")
+					});
+		 	} else {
+				alert("Login dahulu sebelum vote");
+			}
+		 }
 		},
 
 		computed: {

@@ -10,7 +10,7 @@
 					<form action="#" method="post">
 						<div class="input-group u-full-width">
 							<label>Content</label>
-							<textarea class="form-control" name="content" id="content" ref="answer_content" rows="10">{{ question.content }}</textarea>
+							<textarea class="form-control" name="content" id="content" ref="answer_content" rows="10"></textarea>
 						</div>
 					</form>
 				</div>
