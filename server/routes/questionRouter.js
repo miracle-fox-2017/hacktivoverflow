@@ -43,10 +43,10 @@ router.delete('/answer/:id', verifyToken.loginState, questionController.delAnswe
 //==========================answer end
 
 // | /api/question/:id/vote/ | POST | tokenjwt, value | give vote specific question |
-// router.post('/question/:id/vote', verifyToken.loginState, questionController.postBlog)
+router.post('/question/:id/vote', verifyToken.loginState, questionController.voteQuestion)
 
-// | /api/question/:id/answer/:answerid/vote | POST | tokenjwt, value | give vote specific answer |
-// router.post('/question/:id/answer/:answerid/vote', verifyToken.loginState, questionController.postBlog)
+// | /api/answer/:id/vote | POST | tokenjwt, value | give vote specific answer |
+router.post('/answer/:id/vote', verifyToken.loginState, questionController.voteAnswer)
 
 //other routes
 // router.post('/signin', hashPassword.reHashed, questionController.signin)

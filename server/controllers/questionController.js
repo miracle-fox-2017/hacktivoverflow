@@ -148,8 +148,6 @@ let delQuestion = (req, res) => {
 //=================answer
 
 let postAnswer = (req, res) => {
-  console.log('--------------post answer')
-  console.log(req.params.id)
   if(req.body.answer) {
     let answer = new Answer({
       questionId: req.params.id,
@@ -180,7 +178,7 @@ let getAnswers = (req, res) => {
   .then(result=>{
     res.status(200).send({
       msg: "success",
-      questions: result
+      answers: result
     })
   })
   .catch(err=>{
@@ -200,6 +198,90 @@ let delAnswer = (req, res) => {
     })
     .catch(err=>{
       res.status(400).send({msg: err})
+    })
+  })
+  .catch(err=>{
+    res.status(400).send({msg: err})
+  })
+}
+
+//=================vote
+
+let voteQuestion = (req, res) => {
+  Question.findOne({ _id: req.params.id })
+  .then(result=>{
+    let before = result
+    let vote = result.vote
+    let pos = vote.findIndex(function(e){
+      return e._id == req.decoded._id
+    })
+    if(pos<0) {
+      vote.push({
+        _id: req.decoded._id,
+        value: req.body.value
+      })
+    } else {
+      if(req.body.value == vote[pos].value){
+        vote.splice(pos,1)
+      } else {
+        vote.splice(pos,1,{
+          _id: req.decoded._id,
+          value: req.body.value
+        })
+      }
+    }
+    result.vote = vote
+    Question.update({ _id: req.params.id }, result)
+    .then(updated=>{
+      res.status(200).send({
+        msg: "success",
+        before: before,
+        updated: result
+      })
+    })
+    .catch(err=>{
+      res.status(500).send({err: err})
+    })
+  })
+  .catch(err=>{
+    res.status(400).send({msg: err})
+  })
+}
+
+let voteAnswer = (req, res) => {
+  Answer.findOne({ _id: req.params.id })
+  .then(result=>{
+    let before = result
+    let vote = result.vote
+    let pos = vote.findIndex(function(e){
+      return e._id == req.decoded._id
+    })
+    if(pos<0) {
+      vote.push({
+        _id: req.decoded._id,
+        value: req.body.value
+      })
+    } else {
+      if(req.body.value == vote[pos].value){
+        vote.splice(pos,1)
+      } else {
+        vote.splice(pos,1,{
+          _id: req.decoded._id,
+          value: req.body.value
+        })
+      }
+    }
+    result.vote = vote
+    Answer.update({ _id: req.params.id }, result)
+    .then(updated=>{
+      res.status(200).send({
+        msg: "success",
+        before: before,
+        updated: result
+      })
+    })
+    .catch(err=>{
+      res.status(500).send({err: err})
     })
   })
   .catch(err=>{
@@ -238,7 +320,9 @@ module.exports = {
   delQuestion,
   postAnswer,
   getAnswers,
-  delAnswer
+  delAnswer,
+  voteQuestion,
+  voteAnswer
 };
 
 

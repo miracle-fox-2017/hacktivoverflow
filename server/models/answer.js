@@ -13,13 +13,7 @@ let answerSchema = new Schema({
   },
   answer: String,
   image: String,
-  vote: [{
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },{
-    type: Number,
-    default: 0
-  }],
+  vote: [],
   createdAt: {
     type: Date,
     default: new Date()

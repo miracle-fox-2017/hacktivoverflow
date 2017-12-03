@@ -10,13 +10,7 @@ let questionSchema = new Schema({
   title: String,
   question: String,
   image: String,
-  vote: [{
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  }, {
-    type: Number,
-    default: 0
-  }],
+  vote: [],
   createdAt: {
     type: Date,
     default: new Date()
