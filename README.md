@@ -14,4 +14,4 @@ Hacktiv8 overflow !!!
 | /api/question/:id/answer | POST | answer, image(link) | answer specific question |
 | /api/answer/:id | DELETE | tokenjwt, params.id(question & answer) | delete answer |
 | /api/question/:id/vote/ | POST | tokenjwt, value | give vote specific question |
-| /api/question/:id/answer/:answerid/vote | POST | tokenjwt, value | give vote specific answer |
+| /api/answer/:id/vote | POST | tokenjwt, value | give vote specific answer |
