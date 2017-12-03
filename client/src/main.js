@@ -7,6 +7,8 @@ import VueBlu from 'vue-blu'
 import Buefy from 'buefy'
 import 'buefy/lib/buefy.css'
 import 'vue-blu/dist/css/vue-blu.min.css'
+import store from './vuex/store'
+
 
 Vue.use(VueBlu)
 // Vue.use(Buefy)
@@ -16,6 +18,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })

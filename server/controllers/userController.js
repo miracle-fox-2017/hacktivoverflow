@@ -15,41 +15,42 @@ const createUser = (req, res) => {
   const saltRounds = 10;
   // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',req.body.username);
   let input = req.body
-    User.findOne({
-        username: input.username
-    })
-    .then(user => {
-      // console.log('STATUS', user);
-      if(!user){
-        bcrypt.hash(input.password, saltRounds).then(function(hash) {
-          let obj = {
-            gender: input.gender,
-            picture: input.picture,
-            name: input.name,
-            username: input.username,
-            password: hash,
-            email : input.email
-          }
-          User.create(obj)
-          .then( user => {
-            res.send(
-            {
-              msg: 'Success created account',
-              data: user
-            })
+  // console.log('INPUT', input)
+  User.findOne({
+      username: input.username
+  })
+  .then(user => {
+    // console.log('STATUS', user);
+    if(!user){
+      bcrypt.hash(input.password, saltRounds).then(function(hash) {
+        let obj = {
+          gender: input.gender,
+          picture: input.picture,
+          name: input.name,
+          username: input.username,
+          password: hash,
+          email : input.email
+        }
+        User.create(obj)
+        .then( user => {
+          res.send(
+          {
+            msg: 'Success created account',
+            data: user
           })
-        });
-      } else {
-        res.send(
-        {
-          msg: 'Username already exists !!'
         })
-      }
-    })
-    .catch(err => {
-      console.log(err);
-      res.status(500).send(err)
-    })
+      });
+    } else {
+      res.send(
+      {
+        msg: 'Username already exists !!'
+      })
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).send(err)
+  })
 }
 
 const deleteUser = (req, res) => {

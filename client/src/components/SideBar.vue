@@ -1,6 +1,22 @@
 <template>
   <div>
-    <a class="button is-warning">Ask Question</a>
+    <modal title="Write your Questions" :backdrop="false" :is-show="isShow3" @close="isShow3=false">
+      <form @submit.prevent="">
+        <label class="label">Title</label>
+        <p class="control">
+          <input class="input" v-model="ask.title" type="text" placeholder="Title">
+        </p>
+        <label class="label">Question</label>
+        <p class="control">
+          <textarea class="textarea" v-model="ask.body" placeholder="Ask something usefull"></textarea>
+        </p>
+        <div slot="footer">
+          <button @click="isShow3=false" class="button is-light">Cancel</button>
+          <button class="button is-warning">Save</button>
+        </div>
+      </form>
+    </modal>
+    <a @click="toggle3" class="button is-warning">Ask Question</a>
     <hr/><br/>
     <div class="box">
       <article class="media">
@@ -49,7 +65,21 @@
 
 <script>
 export default {
-  name: 'SideBar'
+  name: 'SideBar',
+  data () {
+    return {
+      isShow3 : false,
+      ask: {
+        body: '',
+        title: ''
+      }
+    }
+  },
+  methods: {
+    toggle3 () {
+      this.isShow3 = true
+    }
+  }
 }
 </script>
 

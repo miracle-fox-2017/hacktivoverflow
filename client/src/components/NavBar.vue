@@ -23,19 +23,21 @@
         </div>
         <div v-if="login == ''" class="navbar-end">
           <div class="navbar-item">
-            <div class="control is-grouped">
-              <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Username">
-              </p>
-              <p class="control is-expanded">
-                <input class="input" type="password" placeholder="Password">
-              </p>
-              <p class="control">
-                <a class="button is-dark">
-                  Login
-                </a>
-              </p>
-            </div>
+            <form @submit.prevent="checklogin">
+              <div class="control is-grouped">
+                <p class="control is-expanded">
+                  <input class="input" v-model="singin.username" type="text" placeholder="Username">
+                </p>
+                <p class="control is-expanded">
+                  <input class="input" v-model="singin.password" type="password" placeholder="Password">
+                </p>
+                <p class="control">
+                  <button class="button is-dark">
+                    Login
+                  </button>
+                </p>
+              </div>
+            </form>
           </div>
         </div>
         <div v-else class="navbar-end">
@@ -76,73 +78,95 @@
             </div>
         </div>
         <div class="column">
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Name</label>
+          <form @submit.prevent="registerUser(register)">
+            <div class="control is-horizontal">
+              <div class="control-label">
+                <label class="label">Name</label>
+              </div>
+                <p class="control is-expanded">
+                  <input class="input" v-model="register.name" type="text" placeholder="Name">
+                </p>
             </div>
-              <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Name">
-              </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Email</label>
+            <div class="control is-horizontal">
+              <div class="control-label">
+                <label class="label">Email</label>
+              </div>
+                <p class="control is-expanded">
+                  <input class="input" v-model="register.email" type="email" placeholder="Email">
+                </p>
             </div>
-              <p class="control is-expanded">
-                <input class="input" type="email" placeholder="Email">
+            <div class="control is-horizontal">
+              <div class="control-label">
+                <label class="label">Gender</label>
+              </div>        
+              <p class="control">
+                <label class="radio">
+                  <input type="radio" value="male" v-model="register.gender" >
+                  Male
+                </label>
+                <label class="radio">
+                  <input type="radio" value="female" v-model="register.gender">
+                  Female
+                </label>
               </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Gender</label>
-            </div>        
-            <p class="control">
-              <label class="radio">
-                <input type="radio" name="question">
-                Male
-              </label>
-              <label class="radio">
-                <input type="radio" name="question">
-                Female
-              </label>
-            </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Username</label>
             </div>
-              <p class="control is-expanded">
-                <input class="input" type="text" placeholder="Username">
-              </p>
-          </div>
-          <div class="control is-horizontal">
-            <div class="control-label">
-              <label class="label">Password</label>
+            <div class="control is-horizontal">
+              <div class="control-label">
+                <label class="label">Username</label>
+              </div>
+                <p class="control is-expanded">
+                  <input class="input" v-model="register.username" type="text" placeholder="Username">
+                </p>
             </div>
-              <p class="control is-expanded">
-                <input class="input" type="password" placeholder="Password">
-              </p>
-          </div>
-          <a class="button is-dark">Sign Up</a>
-          <a class="button">Reset</a>
+            <div class="control is-horizontal">
+              <div class="control-label">
+                <label class="label">Password</label>
+              </div>
+                <p class="control is-expanded">
+                  <input class="input" v-model="register.password" type="password" placeholder="Password">
+                </p>
+            </div>
+            <button class="button is-dark">Sign Up</button>
+            <a @click="clear" class="button">Reset</a>
+          </form>
         </div>
-      </div>
+        </div>
       </div>
     </section>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Menu',
   data () {
     return {
-      login: 'ss'
+      login: '',
+      register: {        
+        name: '',
+        email: '',
+        username: '',
+        password: '',
+        gender: ''
+      },
+      singin: {
+        username: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    ...mapActions([
+      'registerUser'
+    ]),
+    clear () {
+      this.register.name = '',
+      this.register.email = '',
+      this.register.username = '',
+      this.register.password = '',
+      this.register.gender = ''
     }
   }
 }
 </script>
-
-<style>
-
-</style>
