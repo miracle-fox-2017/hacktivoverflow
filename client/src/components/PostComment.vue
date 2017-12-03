@@ -31,8 +31,14 @@ export default {
       }
     }
   },
+  computed: {
+    idChange () {
+      this.formComment.question = this.postId
+      return this.formComment.question
+    }
+  },
   created () {
-    this.formComment.question = this.postId
+    console.log(this.idChange)
   },
   methods: {
     ...mapActions(
