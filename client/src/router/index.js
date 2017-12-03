@@ -30,7 +30,15 @@ export default new Router({
     },
     {
       path: '/ask',
-      component: QuestionAsk
+      component: QuestionAsk,
+      beforeEnter: (to, from, next) => {
+        let fbToken = localStorage.getItem('fb_token')
+        if (fbToken) {
+          next()
+        } else {
+          next('/')
+        }
+      }
     }
   ]
 })

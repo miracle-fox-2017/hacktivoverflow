@@ -1,5 +1,6 @@
 <template lang="html">
   <div class="well wll-sm">
+    <h3>Question List</h3>
     <div class="panel panel-default">
       <div class="panel-heading">
         <router-link :to="{ path: '/question/1', params: {} }">

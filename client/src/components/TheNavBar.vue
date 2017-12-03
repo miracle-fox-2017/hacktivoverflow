@@ -13,13 +13,20 @@
       
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
-          <li><router-link :to="{ path: '/ask', params: {} }">Ask A Question</router-link></li>
+          <!-- <li><a @click="cekLogin" href="#">Ask A Question</a></li> -->
+          <li @click="cekLogin">
+            <router-link :to="{ path: '/ask', params: {} }">Ask A Question</router-link>
+          </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li v-if="!statusLogin" ><button @click="getFbToken" class="btn fix-margin blue-facebook" type="button" name="button"><span class="fa fa-facebook-square"></span> Login with facebook</button></li>
           <li v-else class="fix-dropdown">{{ dataUser.name }} <img :src="dataUser.picture" class="navbar-profile-picture"> <button @click="logout" type="button" class="btn btn-default fix-margin" name="button">logout</button></li>
         </ul>
       </div>
+    </div>
+    <div v-if="alertPleaseLogin" class="alert alert-dismissible alert-danger">
+      <button @click="dismissAlertLogin" type="button" class="close" data-dismiss="alert">&times;</button>
+      please log in
     </div>
   </nav>
 </template>
@@ -29,6 +36,7 @@ export default {
   data: function () {
     return {
       statusLogin: false,
+      alertPleaseLogin: false,
       dataUser: ''
     }
   },
@@ -82,6 +90,17 @@ export default {
       this.dataUser = ''
       this.statusLogin = false
       this.$router.push('/')
+    },
+    cekLogin: function () {
+      let fbToken = localStorage.getItem('fb_token')
+      if (fbToken) {
+        this.$router.push('/ask')
+      } else {
+        this.alertPleaseLogin = true
+      }
+    },
+    dismissAlertLogin: function () {
+      this.alertPleaseLogin = false
     }
   },
   created: function () {
