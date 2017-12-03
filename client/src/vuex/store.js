@@ -31,7 +31,14 @@ export default new Vuex.Store({
 			accountId: localStorage.getItem('accountId'),
 			token: localStorage.getItem('token'),
 			username: localStorage.getItem('username'),
-		}
+		},
+
+		editedQuestion: {
+			questionId: '',
+			title: '',
+			content : '',
+			tags: []
+		},
 	},
 
 	mutations: {
@@ -43,16 +50,29 @@ export default new Vuex.Store({
 			state.questions.unshift(payload)
 		},
 
+		setNewAnswer(state, payload) {
+			// Find voted question index by _id, if found return the question index
+			let targetQuestionIndex = findIndexByKeyValue(state.questions, "_id", payload.questionId);
+
+			if (targetQuestionIndex !== null) {
+				state.questions[targetQuestionIndex].answerList.unshift(payload.answer)
+			}
+			// state.questions.answerList.unshift(payload)
+		},
+
 		setVoteQuestion(state, payload) {
 			// Find voted question index by _id, if found return the question index
 			let targetQuestionIndex = findIndexByKeyValue(state.questions, "_id", payload.questionId);
-			// Find accountId from the current question, if found return index
-			let findUservoteIndex = Array.from(state.questions[targetQuestionIndex].uservoteList).indexOf(payload.accountId);
 
-			if (findUservoteIndex >= 0) {
-				state.questions[targetQuestionIndex].uservoteList.splice(findUservoteIndex, 1);
-			} else {
-				state.questions[targetQuestionIndex].uservoteList.push(payload.accountId)
+			if (targetQuestionIndex !== null) {
+				// Find accountId from the current question, if found return index
+				let findUservoteIndex = Array.from(state.questions[targetQuestionIndex].uservoteList).indexOf(payload.accountId);
+
+				if (findUservoteIndex >= 0) {
+					state.questions[targetQuestionIndex].uservoteList.splice(findUservoteIndex, 1);
+				} else {
+					state.questions[targetQuestionIndex].uservoteList.push(payload.accountId)
+				}
 			}
 		},
 
@@ -70,7 +90,7 @@ export default new Vuex.Store({
 			}
 		},
 
-		unsetQuestion(state, payload){
+		destroyQuestion(state, payload){
 				// Find voted question index by _id, if found return the question index
 			let targetQuestionIndex = findIndexByKeyValue(state.questions, "_id", payload.questionId);
 
@@ -78,6 +98,25 @@ export default new Vuex.Store({
 				state.questions.splice(targetQuestionIndex, 1)
 			}
 		},
+
+		setEditedQuestion(state, payload) {
+			state.editedQuestion = payload;
+		},
+
+		questionUpdated(state, payload) {
+			let targetQuestionIndex = findIndexByKeyValue(state.questions, "_id", payload.questionId);
+
+			if (targetQuestionIndex >= 0) {
+				state.questions.splice(targetQuestionIndex, 1, payload);
+			}
+
+			state.editedQuestion = {
+				questionId: '',
+				title: '',
+				content : '',
+				tags: []
+			}
+		}
 	},
 
 	actions: {
@@ -100,10 +139,21 @@ export default new Vuex.Store({
 			}).catch(err => alert(JSON.stringify({message:'Something Wrong on new Question', error: err.message})));
 		},
 
+		createAnswer(context, newAnswer) {
+			http.post('/api/answers/question/'+newAnswer.questionId, newAnswer, { headers: { token: context.rootState.loggedinUser.token } })
+			.then(({data}) => {
+
+				context.commit('setNewAnswer', { questionId: newAnswer.questionId, answer: data.data });
+				alert("Jawaban berhasil dibuat");
+
+			}).catch(err => alert(JSON.stringify({message:'Something Wrong on new Question', error: err.message})));
+		},
+
 		voteQuestion(context, payload) {
 			if (payload.questionId !== null) {
 				http.put(`/api/questions/update/${payload.questionId}/vote/${context.rootState.loggedinUser.accountId}`, {}, { headers: { token: context.rootState.loggedinUser.token } })
 					.then(({data}) => {
+						console.log(payload)
 						 context.commit('setVoteQuestion', payload);
 
 					}).catch(err => alert(JSON.stringify({message:'You are not authorized to vote', error: err.message})));
@@ -119,10 +169,10 @@ export default new Vuex.Store({
 						token: context.rootState.loggedinUser.token
 					}
 				}
-				console.log('~~~~~~~~~~~ ', config)
+
 				http.delete(`/api/questions/delete/${payload}`,config)
 					.then(({data}) => {
-						 context.commit('unsetQuestion', payload)
+						 context.commit('destroyQuestion', payload)
 
 					}).catch(err => alert(JSON.stringify({message:'You are not authorized to delete', error: err.message})));
 			} else {
@@ -156,6 +206,16 @@ export default new Vuex.Store({
 			}).catch(err => console.error({message:'Something Wrong on Login', error: err.message}));
 		},
 
+		updateQuestion(context, payload) {
+			let updatedQuestion = payload;
+
+			http.put(`/api/questions/update/${payload.questionId}`, updatedQuestion, { headers: { token: context.rootState.loggedinUser.token } })
+				.then(({data}) => {
+
+					context.commit('questionUpdated', data.data);
+				}).catch(err => console.log({message:'Something Wrong on update question', error: err.message}));
+		},
+
 		doLogout(context) {
 			localStorage.removeItem("email");
 			localStorage.removeItem("full_name");
@@ -166,6 +226,10 @@ export default new Vuex.Store({
 			alert("Logout berhasil");
 
 			context.commit('setLogout');
+		},
+
+		initEditQuestion(context, payload) {
+			context.commit('setEditedQuestion', payload)
 		}
 	}
 })

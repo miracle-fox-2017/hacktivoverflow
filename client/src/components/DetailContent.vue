@@ -11,21 +11,34 @@
 			</div><!-- /.question-content -->
 
 			<footer class="vote-area">
-				<ul class="flat-list list-inline">
-					<li><a href="#" class="vote-button">Vote</a></li>
-					<!-- <li><p>{{ question.uservoteList.length }} Votes</p></li> -->
+				<ul class="flat-list list-inline vote-list">
+					<li>
+						<a href="#" class="vote-button" @click.prevent="doVoteQuestion(question)">
+							<i class="fa fa-thumbs-o-up"></i>
+							<span>{{ qusetionVoteLength }}</span>
+						</a>
+					</li>
+					<li>
+						<a href="#"><i class="fa fa-pencil" data-toggle="modal" data-target="#questionEditModal"></i></a>
+					</li>
+					<li>
+						<a href="#" @click.prevent="destroyQuestion(question._id)"><i class="fa fa-trash"></i></a>
+					</li>
 				</ul>
 			</footer>
 		</div>
 		<!-- /.content-item -->
 
 		<div class="answer-area">
-			<h3 class="widget-title">Jawaban</h3>
+			<h3 class="widget-title">Jawaban
+				<span>
+					<button class="btn btn-primary btn-new-answer" data-toggle="modal" data-target="#answerModal">Tambah Jawaban</button>
+				</span>
+			</h3>
 
 			<div class="answer-wrap">
 				<div class="answer-item" v-for="(answer, index) in answers" :key="index">
-					<h4 class="widget-title answer-title">{{ answer.title }}</h4>
-					<span class="author">{{ answer.owner }}</span>
+					<h5 class="author">{{ answer.username }}</h5>
 					<div class="answer-content">
 						{{ answer.content }}
 					</div><!-- /.answer-content -->
@@ -33,46 +46,128 @@
 			</div>
 			<!-- /.answer-wrap -->
 		</div><!-- /.answer-area -->
+
+		<AnswerModal :questionId="question._id"></AnswerModal>
+		<QuestionEditModal :question="question" @do-update-question="setUpdatedQuestion"></QuestionEditModal>
 	</div>
 	<!-- /.content-wrapper -->
 
 </template>
 
 <script>
+	import AnswerModal from '@/components/AnswerModal'
+	import QuestionEditModal from '@/components/QuestionEditModal'
+	import { mapState, mapActions } from 'vuex'
+
 	export default {
 		name: 'DetailContent',
 		props: ['questionId'],
+		components: {
+			AnswerModal,
+			QuestionEditModal
+		},
 		data () {
 			return {
-				question: '',
-				answers: []
+				question: {},
+				answers: [],
+				qusetionVoteLength: 0,
 			}
 		},
 
 		methods: {
-		  getArticleById () {
-		    this.$http.get('/api/questions/'+this.questionId)
+			...mapActions([
+				'voteQuestion',
+				'removeQuestion',
+			]),
+
+			setUpdatedQuestion(payload){
+				this.question = payload;
+			},
+
+			destroyQuestion(payload) {
+				this.removeQuestion(payload);
+				this.question = {
+					_id : '',
+					title: '',
+					content: '',
+					createdAt: '',
+					owner: '',
+					tagList: [],
+					uservoteList: [],
+					answerList: []
+				}
+
+				this.$router.push('/');
+				this.answer = []
+			},
+
+		  getQuestionById (questionId) {
+		    this.$http.get('/api/questions/'+questionId)
 		    	.then(({data}) => {
 		    		if (data) {
+		    			console.log(data);
 		    			this.question = data;
 		    			this.answers = data.answerList
-		    			// console.log(data.answerList)
+		    			this.qusetionVoteLength = data.uservoteList.length
 		    		}
 
 		    	}).catch(err => console.log({message:'Something Wrong getting single question', error: err.message}));
 		  },
+
+		  doVoteQuestion(question) {
+				// console.log(question.uservoteList)
+
+				if (this.loggedinUser.accountId !== null && this.loggedinUser.accountId !== '') {
+					this.voteQuestion({
+						questionId: question._id,
+						accountId: this.loggedinUser.accountId,
+					})
+
+					let indexVoteQuestion = this.question.uservoteList.indexOf(this.loggedinUser.accountId);
+
+					if (indexVoteQuestion >= 0) {
+						this.question.uservoteList.splice(indexVoteQuestion, 1);
+						this.qusetionVoteLength -= 1
+					} else {
+						this.question.uservoteList.push(this.loggedinUser.accountId)
+						this.qusetionVoteLength += 1
+					}
+
+				} else {
+					alert("Login dahulu sebelum vote");
+				}
+			},
 
 		 /* getAnswers() {
 		  	this.answers = this.answers.concat(this.question.answerList);
 		  }*/
 		},
 
+		computed: {
+			...mapState([
+				'questions',
+				'loggedinUser'
+			])
+		},
+
 		created() {
-			this.getArticleById();
+			this.getQuestionById(this.questionId);
+		},
+
+		mounted() {
+			this.getQuestionById(this.questionId)
+		},
+
+		watch: {
+			questionId(newId) {
+				this.getQuestionById(newId)
+			}
 		}
 	}
 </script>
 
 <style scoped>
-
+	.btn-new-answer {
+		margin-left: 3rem;
+	}
 </style>

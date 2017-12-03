@@ -21,7 +21,7 @@ export default {
     MainHeader,
     LoginModal,
     RegisterModal,
-    QuestionModal
+    QuestionModal,
   }
 }
 </script>

@@ -15,10 +15,10 @@
 						<li>
 							<a href="#" data-toggle="modal" data-target="#registerModal" class="btn btn-success">Register</a>
 						</li>
-						<li>
+						<li v-if="loggedinUser.token === '' || loggedinUser.token === null">
 							<a href="#" data-toggle="modal" data-target="#loginModal" class="btn btn-primary">Login</a>
 						</li>
-						<li>
+						<li v-if="loggedinUser.token !== '' && loggedinUser.token !== null">
 							<a href="#" class="btn btn-danger" @click.prevent="doLogout">Logout</a>
 						</li>
 					</ul>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-	import { mapActions } from 'vuex'
+	import { mapActions, mapState } from 'vuex'
 
 	export default {
 		name: 'MainHeader',
@@ -46,7 +46,13 @@
 		 ...mapActions([
 		 	'doLogout'
 		 ])
-		}
+		},
+
+		computed: {
+			...mapState([
+				'loggedinUser'
+			])
+		},
 	}
 </script>
 

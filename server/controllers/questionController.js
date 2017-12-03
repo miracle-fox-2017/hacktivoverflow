@@ -38,8 +38,7 @@ const findAll = (req, res) => {
 }
 
 const findById = (req, res) => {
-	questionModel.findOne({ _id: req.params.questionId })
-		.populate('owner').populate('answerList').populate('uservoteList').exec()
+	questionModel.findOne({ _id: req.params.questionId }).populate('answerList').exec()
 		.then(questions => {
 			res.status(200).send(questions);
 
@@ -50,7 +49,9 @@ const findById = (req, res) => {
 }
 
 const update = (req, res) => {
-	questionModel.findOne({ _id: req.params.questionId})
+	let ownerId = req.verifiedUser._id;
+
+	questionModel.findOne({ _id: req.params.questionId, owner: ownerId})
 		.then(question => {
 			if (question) {
 
@@ -64,8 +65,6 @@ const update = (req, res) => {
 					if (newTag !== null) {
 						question.tagList = question.tagList.concat(newTag);
 					}
-				} else {
-					question.tagList = req.body.tagList;
 				}
 
 				if (typeof req.body.uservoteList !== 'undefined' && req.body.uservoteList !== null) {
@@ -81,14 +80,10 @@ const update = (req, res) => {
 							question.uservoteList = question.uservoteList.concat(req.body.uservoteList)
 						}
 					}
-				} else {
-					question.uservoteList = req.body.uservoteList;
 				}
 
 				if (typeof req.body.answerList !== 'undefined' && req.body.answerList !== null) {
 					question.answerList = question.answerList.concat(req.body.answerList)
-				} else {
-					question.answerList = req.body.answerList;
 				}
 
 				question.save()
@@ -117,7 +112,7 @@ const destroy = (req, res) => {
 				}).catch(err => res.status(500).send({message:'Something wrong delete question', error: err.message}));
 
 			} else {
-				res.status(500).send({ message: 'Delete question Failed. Question not found'})
+				res.status(401).send({ message: 'Delete question Failed. Question not found'})
 			}
 
 		}).catch(err => res.status(500).send({message:'Something Wrong in delete', error: err.message}));
@@ -146,9 +141,9 @@ const vote = (req, res) => {
 
 				question.save()
 					.then(question => {
-						res.status(200).send({ message: 'Question updated', data: question})
+						res.status(200).send({ message: 'Question voted', data: question})
 
-					}).catch(err => res.status(500).send({message:'Something Wrong on update Question', error: err.message}));
+					}).catch(err => res.status(500).send({message:'Something Wrong on vote Question', error: err.message}));
 
 			} else {
 				res.status(500).send({ message: 'Update question Failed. Question not found'})

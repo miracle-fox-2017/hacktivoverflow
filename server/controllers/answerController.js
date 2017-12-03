@@ -4,24 +4,23 @@ const ObjectId = require('mongodb').ObjectID;
 const helper = require('../helpers/helper');
 
 const create = (req, res) => {
+	let questionId = req.params.questionId;
+
 	let newAnswer = new answerModel({
-		title: req.body.title || null,
 		owner: req.body.owner || null,
 		username: req.body.username || null,
 		content: req.body.content || null,
 		uservoteList:  req.body.uservoteList || [],
-		question: req.body.question || null,
+		question: questionId || null,
 		createdAt: new Date()
 	})
 
 	newAnswer.save()
 		.then(newAnswer => {
-			let answerId = newAnswer._id;
-
-			questionModel.findOne({ _id: req.body.question })
+			questionModel.findOne({ _id: questionId })
 				.then(dataQuestion => {
 					if (dataQuestion) {
-						dataQuestion.answerList.push(answerId);
+						dataQuestion.answerList.push(newAnswer._id);
 
 						dataQuestion.save()
 							.then(updatedQuestion => {
@@ -61,7 +60,6 @@ const update = (req, res) => {
 	answerModel.findOne({ _id: req.params.answerId})
 		.then(answer => {
 			if (answer) {
-				answer.title = req.body.title || answer.title;
 				answer.owner = req.body.owner || answer.owner;
 				answer.content = req.body.content || answer.content;
 				answer.question = req.body.question || answer.question;

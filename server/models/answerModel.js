@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const answerSchema = new Schema({
-	title: String,
-	name: String,
+	username: String,
 	owner:  {
 		type: Schema.Types.ObjectId,
 		ref: 'Account',

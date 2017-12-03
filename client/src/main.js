@@ -12,6 +12,19 @@ Vue.prototype.$http = axios.create({
   baseURL: rootUrl
 })
 
+Vue.prototype.$findIndexByValue = (array, key, valueSearch) => {
+	let result = null;
+
+	array.forEach( function(item, index) {
+		if (item[key] === valueSearch) {
+			result = index;
+		}
+	});
+
+	return result;
+}
+
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
