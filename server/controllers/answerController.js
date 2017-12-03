@@ -95,12 +95,37 @@ const update = (req, res) => {
 }
 
 const destroy = (req, res) => {
-	answerModel.findOne({ _id: req.params.answerId})
+	let answerId = req.params.answerId;
+	let questionId = req.params.questionId;
+	let ownerId = req.verifiedUser._id;
+
+	answerModel.findOne({ _id: answerId, owner: ownerId})
 		.then(answer => {
 			if (answer) {
 				answer.remove()
 					.then(answer => {
-						res.status(200).send({ message: 'Delete Answer Success', data: answer})
+						questionModel.findOne({ _id: questionId })
+						.then(dataQuestion => {
+							if (dataQuestion) {
+								let targetAnswerIndex = dataQuestion.answerList.indexOf(answerId);
+								dataQuestion.answerList.splice(targetAnswerIndex, 1);
+
+								dataQuestion.save()
+								.then(updatedQuestion => {
+									res.status(200).send({
+										message: "Answer deleted, Answerlist spliced",
+										answer: answer,
+										question: updatedQuestion
+									});
+
+								}).catch(err => res.status(500).send({message:'Something Wrong in updating question', error: err.message}));
+
+							} else {
+								res.status(401).send({ message: 'No question found to be added for this answer'})
+							}
+
+						}).catch(err => res.status(500).send({message:'Something Wrong', error: err.message}));
+						// res.status(200).send({ message: 'Delete Answer Success', data: answer})
 
 					}).catch(err => res.status(500).send({message:'Something Wrong', error: err.message}));
 

@@ -120,7 +120,7 @@
 			},
 
 			destroyAnswer(index, answer) {
-				this.$http.delete('/api/answers/delete/'+answer._id, { headers: { token: this.loggedinUser.token } })
+				this.$http.delete(`/api/answers/delete/${answer._id}/question/${this.question._id}`, { headers: { token: this.loggedinUser.token } })
 					.then(data => {
 						console.log('Answer deleted');
 						this.question.answerList.splice(index, 1);

@@ -8,6 +8,6 @@ router.get('/', answerController.findAll);
 router.post('/question/:questionId', middleware.isSignIn,answerController.create);
 router.put('/update/:answerId', middleware.isSignIn, answerController.update);
 router.put('/update/:answerId/vote/:accountId', middleware.isSignIn, answerController.vote);
-router.delete('/delete/:answerId', middleware.isSignIn, answerController.destroy);
+router.delete('/delete/:answerId/question/:questionId', middleware.isSignIn, answerController.destroy);
 
 module.exports = router;
