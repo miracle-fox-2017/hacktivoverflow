@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_URL);
 
 const index = require('./routes/indexRouter');
-const blog = require('./routes/blogRouter');
+const question = require('./routes/questionRouter');
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/blog', blog);
+app.use('/api/', question);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

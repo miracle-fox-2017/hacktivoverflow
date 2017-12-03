@@ -3,34 +3,17 @@ const hashPassword = require('../helpers/hashPassword')
 
 //require model
 const User = require('../models/user')
-const Blog = require('../models/blog')
+const Question = require('../models/question')
 
 let welcomePage = (req, res) => {
   res.send({msg: 'welcomePage'})
 }
 
-let signup = (req, res) => {
-  let user = new User({
-    username: req.body.username,
-    password: req.body.password
-  })
-  user.save()
-  .then(result=>{
-    res.status(200).send({ msg: "success" })
-  })
-  .catch(err=>{
-    res.status(500).send({ msg: err })
-  })
+let signfb = (req, res) => {
+  res.status(200).send({msg:"success"})
 }
 
-let signin = (req, res) => {
-  res.status(200).send({
-    msg:"success",
-    token: req.token
-  })
-}
-
-let postBlog = (req, res) => {
+let postQuestion = (req, res) => {
   if(req.body.title && req.body.article) {
     let blog = new Blog({
       userId: req.decoded.id,
@@ -53,7 +36,7 @@ let postBlog = (req, res) => {
   }
 }
 
-let getBlog = (req, res) => {
+let getQuestion = (req, res) => {
   Blog.findOne({ _id: req.params.id })
   .then(result=>{
     res.status(200).send({
@@ -66,7 +49,7 @@ let getBlog = (req, res) => {
   })
 }
 
-let getBlogs = (req, res) => {
+let getQuestions = (req, res) => {
   Blog.find()
   .then(result=>{
     res.status(200).send({
@@ -79,7 +62,7 @@ let getBlogs = (req, res) => {
   })
 }
 
-let editBlog = (req, res) => {
+let editQuestion = (req, res) => {
   Blog.update({ _id: req.params.id }, {
     userId: req.decoded.id,
     title: req.body.title,
@@ -103,7 +86,7 @@ let editBlog = (req, res) => {
   })
 }
 
-let delBlog = (req, res) => {
+let delQuestion = (req, res) => {
   Blog.findOne({ _id: req.params.id })
   .then(before=>{
     Blog.remove({ _id: req.params.id })
@@ -124,18 +107,44 @@ let delBlog = (req, res) => {
   })
 }
 
-let verify = (req, res) => {
-  res.status(200).send({msg:"success"})
+//other routes
+let signup = (req, res) => {
+  let user = new User({
+    username: req.body.username,
+    password: req.body.password
+  })
+  user.save()
+  .then(result=>{
+    res.status(200).send({ msg: "success" })
+  })
+  .catch(err=>{
+    res.status(500).send({ msg: err })
+  })
+}
+let signin = (req, res) => {
+  res.status(200).send({
+    msg:"success",
+    token: req.token
+  })
 }
 
 module.exports = {
   welcomePage,
-  postBlog,
-  getBlog,
-  getBlogs,
-  editBlog,
-  delBlog,
-  signin,
-  signup,
-  verify
+  postQuestion,
+  getQuestion,
+  getQuestions,
+  editQuestion,
+  delQuestion,
+  signfb
 };
+
+
+
+
+
+
+
+
+
+
+
