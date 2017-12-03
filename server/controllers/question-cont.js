@@ -4,7 +4,8 @@ let message = ''
 const createQuest = (req, res) => {
   Question.create({
     question: req.body.question,
-    userId: req.body.userId
+    userId: req.body.userId,
+    tag: req.body.tag
   })
   .then(question => {
     res.status(200).send(question)
@@ -16,7 +17,7 @@ const createQuest = (req, res) => {
 
 const getAllQuest = (req, res) => {
   Question.find()
-  .populate('userId')
+  .populate('userId', 'username')
   .then(questions => {
     res.status(200).send(questions)
   })
@@ -38,7 +39,8 @@ const findById = (req, res) => {
 
 const findByIdAndUpdate = (req, res) => {
   Question.findByIdAndUpdate({ _id: req.params.id }, {
-    question: req.body.question
+    question: req.body.question,
+    tag: req.body.tag
   })
     .then(question => {
       res.status(200).send(question)

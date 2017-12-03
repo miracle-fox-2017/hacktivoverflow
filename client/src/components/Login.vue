@@ -28,10 +28,9 @@ export default {
     login: function () {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       .then(() => {
-        console.log(this.email, 'ini this email')
         this.findByEmail(this.email)
         alert('hello there')
-        this.$router.push('hello')
+        this.$router.push('hacktivoverflow')
       })
       .catch(err => {
         console.log(err)

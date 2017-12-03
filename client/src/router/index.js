@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
 import firebase from 'firebase'
+import AskQuestion from '@/components/AskQuestion'
 
 Vue.use(Router)
 
@@ -29,12 +30,22 @@ let router = new Router({
       component: SignUp
     },
     {
-      path: '/hello',
+      path: '/hacktivoverflow',
       name: 'HelloWorld',
       component: HelloWorld,
       meta: {
         requiresAuth: true
-      }
+      },
+      children: [
+        {
+          path: 'askquestion',
+          name: 'AskQuestion',
+          component: AskQuestion,
+          meta: {
+            requiresAuth: true
+          }
+        }
+      ]
     }
   ]
 })

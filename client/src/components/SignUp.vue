@@ -38,7 +38,7 @@ export default {
     .then((dataUser) => {
       console.log('berhasil auth')
       this.signup(this.formSignUp)
-      this.$router.push('hello')
+      this.$router.push('hacktivoverflow')
     })
     .catch(err => {
       console.log(err)

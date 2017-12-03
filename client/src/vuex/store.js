@@ -11,17 +11,23 @@ const http = axios.create({
 
 Vue.use(Vuex)
 const state = {
-  username: '',
-  email: '',
-  id: ''
+  questions: []
 }
 
 const mutations = {
   saveUser (state, payload ) {
-    state.username = payload.username
-    state.email = payload.email
-    state.id = payload.id
+    localStorage.setItem('username',payload.username)
+    localStorage.setItem('email', payload.email)
+    localStorage.setItem('id', payload.id)
+  },
+  setQuestions (state, payload) {
+    state.questions = payload
+  },
+  setNewQuestion (state, payload) {
+    console.log(payload, 'di set new')
+    state.questions.push(payload)
   }
+
 }
 
 const actions = {
@@ -51,6 +57,28 @@ const actions = {
       })
       console.log(obj, 'finduser')
       commit('saveUser',  obj)
+    })
+    .catch(err => console.log(err))
+  },
+  getAllQuestions ({ commit }) {
+    http.get('/api/questions')
+    .then(({ data }) => {
+      console.log(data)
+      commit('setQuestions', data)
+    })
+    .catch(err => console.log(err))
+  },
+  postQuestionToDb ({ commit }, payload) {
+    console.log(payload, 'post')
+    let id = localStorage.getItem('id')
+    http.post('/api/questions', {
+      question: payload.message,
+      tag: payload.tag,
+      userId: id
+    })
+    .then(({ data }) => {
+      commit('setNewQuestion', data)
+      console.log(data, 'berhasil memasukan data')
     })
     .catch(err => console.log(err))
   }

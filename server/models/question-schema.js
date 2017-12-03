@@ -6,11 +6,8 @@ const QuestionSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
+  tag: String,
   question: String,
-  answerList: {
-    type: Schema.Types.ObjectId,
-    ref: 'Answer'
-  },
   createdAt: {
     type: Date,
     default: Date.now
