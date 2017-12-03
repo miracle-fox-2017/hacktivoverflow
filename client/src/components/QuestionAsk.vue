@@ -54,6 +54,7 @@ export default {
         question: this.question
       }
       this.addQuestion(obj)
+      this.$router.push('/')
     }
   }
 }
