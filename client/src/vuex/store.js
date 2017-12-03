@@ -15,15 +15,13 @@ const store = new Vuex.Store({
       state.questions = payload
     },
     saveNewQuestion (state, payload) {
-      state.questions.push(payload)
-      console.log('inMutation ', payload)
+      state.questions.unshift(payload)
     }
   },
   actions: {
     getAllQuestions (context) {
       http.get('/questions')
       .then(({data}) => {
-        console.log(data)
         context.commit('setQuestions', data)
       })
       .catch(err => console.log(err))
@@ -37,7 +35,6 @@ const store = new Vuex.Store({
       .then(({data}) => {
         context.commit('saveNewQuestion', data)
         router.push('/')
-        console.log('inAction ', data)
       })
     }
   }

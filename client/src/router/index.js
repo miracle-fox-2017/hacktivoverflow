@@ -4,6 +4,7 @@ import LoginPage from '@/components/LoginPage'
 import MainPage from '@/components/MainPage'
 import ContentPage from '@/components/ContentPage'
 import QuestionsList from '@/components/QuestionsList'
+import QuestionDetail from '@/components/QuestionDetail'
 
 Vue.use(Router)
 
@@ -21,18 +22,18 @@ export default new Router({
               path: '',
               name: 'QuestionsList',
               component: QuestionsList
+            },
+            {
+              path: '/questions/:id',
+              name: 'QuestionDetail',
+              component: QuestionDetail,
+              props: true
             }
             // {
             //   path: '/questions',
             //   name: 'QuestionsList',
             //   component: QuestionsList
             // },
-            // {
-            //   path: '/questions/:id',
-            //   name: 'QuestionsList',
-            //   component: QuestionsList,
-            //   props: true
-            // }
           ]
         }
       ]

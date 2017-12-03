@@ -1,9 +1,17 @@
 const Question = require('../models/questionModel')
 
 getAll = (req, res) => {
-  Question.find().populate('userId')
+  Question.find().populate('userId').sort({createdAt: 'desc'})
   .then(questions => {
     res.send(questions)
+  })
+  .catch(err => res.status(500).send(err))
+}
+
+getOne = (req, res) => {
+  Question.findById(req.params.id).populate('userId')
+  .then(question => {
+    res.send(question)
   })
   .catch(err => res.status(500).send(err))
 }
@@ -28,6 +36,7 @@ remove = (req, res) => {
 
 module.exports = {
   getAll,
+  getOne,
   create,
   update,
   remove
