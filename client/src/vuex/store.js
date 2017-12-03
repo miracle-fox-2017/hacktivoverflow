@@ -11,7 +11,8 @@ Vue.use(Vuex)
 
 const state = {
   users: [],
-  questions: []
+  questions: [],
+  answers: []
 }
 
 const mutations = {
@@ -36,10 +37,22 @@ const mutations = {
   },
   createQuestion (state, payload) {
     state.questions.push(payload)
+  },
+  getAnswerByQuestion (state, payload) {
+    state.answers = payload
   }
 }
 
 const actions = {
+  findAnswerByQuestion ({ commit }, questionId) {
+    // console.log('id quest >>>', questionId)
+    http.get('api/answers/questions/' + questionId).then(({data}) => {
+      console.log('answerquest', data)
+      commit('getAnswerByQuestion', data)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
   getAllQuestion ({ commit }) {
     http.get('api/questions').then(({data}) => {
       commit('getQuestion', data)
@@ -49,7 +62,7 @@ const actions = {
   },
   getQuestionById ({ commit }, questionId) {
     http.get('api/questions/' + questionId).then(({data}) => {
-      console.log(data)
+      // console.log(data)
       commit('getQuestionById', data)
     }).catch(err => {
       console.error(err)

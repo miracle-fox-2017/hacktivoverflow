@@ -61,7 +61,7 @@ export default {
     // start cek storage
     let storage = localStorage.getItem('token')
     if (storage) {
-      this.$router.push({name: 'mainPage'})
+      this.$router.push({name: 'MainContent'})
     }
   },
   methods: {

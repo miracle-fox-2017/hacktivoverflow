@@ -1,6 +1,6 @@
 <template>
  <div>
-    <div  v-for="(question, index) in questions" :key="index" >
+    <div v-for="(question, index) in questions" :key="index" >
     <router-link style="text-decoration: none;" :to="'/questions/' + question._id + '/' + question.title.split(' ').join('-')">
     <div class="listQuestion list-group">
       <a href="" class="list-group-item list-group-item-action flex-column align-items-start">

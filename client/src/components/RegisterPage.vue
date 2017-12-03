@@ -48,6 +48,13 @@ export default {
     ...mapActions([
       'registerUser'
     ])
+  },
+  mounted () {
+    // start cek storage
+    let storage = localStorage.getItem('token')
+    if (storage) {
+      this.$router.push({name: 'MainContent'})
+    }
   }
 }
 </script>

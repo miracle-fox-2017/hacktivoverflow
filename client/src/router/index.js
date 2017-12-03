@@ -17,6 +17,7 @@ export default new Router({
       children: [
         {
           path: '',
+          name: 'MainContent',
           component: MainContent
         }, {
           path: '/questions/:id/:title',

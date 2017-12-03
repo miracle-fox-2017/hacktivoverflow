@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="row">
+    <div style="margin-bottom: 5%;" class="row">
       <div class="col-sm-8">
         <router-view :questions="questions"/>
       </div>
