@@ -82,7 +82,7 @@ let updateVoteAnswer = function (req, res) {
       _id: req.params.idAnswer
     },
     {
-      voteAnswer: req.params.voteAnswer
+      voteAnswer: req.body.voteAnswer
     }
   )
   .populate('question')
