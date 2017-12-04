@@ -32,14 +32,27 @@ const mutations = {
     state.questions = payload
   },
   getQuestionByAuthor (state, payload) {
+    console.log(payload)
     state.questions = payload
   },
   createQuestion (state, payload) {
+    console.log('data di mutations >>', payload)
     state.questions.push(payload)
   },
   deleteQuestion (state, payload) {
     const index = state.questions.findIndex((question) => question.id === payload)
     state.questions.splice(index, 1)
+  },
+  updatedQuestion (state, payload) {
+    console.log('data di update quest mutations >>', payload)
+    state.questions.forEach((question, index) => {
+      if (question._id === payload._id) {
+        console.log('INDEX >>', state.questions)
+        console.log('quest iterasi >>>', question)
+        state.questions[index].title = payload.title
+        state.questions[index].question_content = payload.question_content
+      }
+    })
   },
   getAnswerByQuestion (state, payload) {
     console.log('data di mutations >>', payload)
@@ -47,6 +60,10 @@ const mutations = {
   },
   createAnswer (state, payload) {
     state.answers.push(payload)
+  },
+  deleteAnswer (state, payload) {
+    const index = state.answers.findIndex((answer) => answer.id === payload)
+    state.answers.splice(index, 1)
   }
 }
 
@@ -69,6 +86,15 @@ const actions = {
       console.error(err)
     })
   },
+  deleteAnswer ({ commit }, answerId) {
+    console.log(answerId)
+    let enjoyKey = localStorage.getItem('token')
+    http.delete('/api/answers/' + answerId, { headers: {token: enjoyKey} }).then(({data}) => {
+      commit('deleteAnswer', answerId)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
   // END ANSWER //
 
   // START QUESTION //
@@ -81,7 +107,7 @@ const actions = {
   },
   getQuestionById ({ commit }, questionId) {
     http.get('api/questions/' + questionId).then(({data}) => {
-      // console.log(data)
+      console.log('getQuestionById', data)
       commit('getQuestionById', data)
     }).catch(err => {
       console.error(err)
@@ -97,6 +123,7 @@ const actions = {
   saveQuestion ({ commit }, newQuestion) {
     // console.log('newQuestion >>', newQuestion)
     http.post('api/questions', newQuestion).then(({data}) => {
+      console.log('ini data actions', data)
       commit('createQuestion', data)
     }).catch(err => {
       console.error(err)
@@ -105,8 +132,20 @@ const actions = {
   deleteQuestion ({ commit }, questionId) {
     console.log(questionId)
     let enjoyKey = localStorage.getItem('token')
-    http.delete('api/questions/' + questionId, { headers: {token: enjoyKey} }).then(({data}) => {
+    http.delete('api/questions/' + questionId, { headers: {token: enjoyKey} })
+    .then(({data}) => {
       commit('deleteQuestion', questionId)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+  updateNewQuestion ({ commit }, newQuestion) {
+    console.log('newQuestion >>', newQuestion)
+    let enjoyKey = localStorage.getItem('token')
+    http.put('api/questions/' + newQuestion._id, newQuestion, { headers: {token: enjoyKey} })
+    .then(({data}) => {
+      console.log('ini data update quest actions', data)
+      commit('updatedQuestion', data)
     }).catch(err => {
       console.error(err)
     })

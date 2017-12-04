@@ -8,8 +8,8 @@ const createAnswer = function(req,res){
     answer_content: req.body.answer_content,
     by: req.header.decoded.id
   })
-  newAnswer.save().then(function(){
-    res.status(201).send('[+] create 1 Answer')
+  newAnswer.save().then(function(newAnswer){
+    res.status(201).send(newAnswer)
   }).catch(function(err){
     res.status(500).send(err.errors.title.message)
     console.log(err, '[-] create Answer')
@@ -64,6 +64,7 @@ const destroyAnswer = function(req,res){
   let id = {
     _id : ObjectId(req.params.id)
   }
+  console.log('delete answer', id)
   Answer.findByIdAndRemove(id).then(function(){
     res.status(200).send(`[-] deleted 1 Answer`)
   }).catch(function(err){

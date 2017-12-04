@@ -4,6 +4,8 @@
       <article v-for="(answer, index) in answers" :key="index" class="comment">
         <a class="comment-img">
           <img src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png" alt="" width="50" height="50" />
+          <button v-if="owner" style="position:absolute; margin-top:6%; font-size:10px;" type="button" class="btn btn-outline-warning btn-sm">Update</button>
+          <button v-if="owner" @click="deleteAnswer(answer._id)" style="margin-top:13%; font-size:11px;" type="button" class="btn btn-outline-danger btn-sm">Delete</button>
         </a>
         <div class="comment-body">
           <div class="text">
@@ -17,23 +19,40 @@
 </template>
 
 <script>
+import {mapActions, mapState} from 'vuex'
 export default {
   name: 'DetailQuestionAnswer',
   props: ['answers'],
   data: function () {
     return {
       answerBy: '',
-      load: this.answers
+      load: this.answers,
+      user: localStorage.getItem('user_Id'),
+      owner: ''
     }
   },
+  computed: {
+    ...mapState([
+      'questions'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'deleteAnswer',
+      'getAllQuestionByAuthor'
+    ])
+  },
   created () {
-    // console.log(this.answers)
+    // cek owner
+    this.getAllQuestionByAuthor(this.user)
+    if (this.questions[0].author === this.user) {
+      this.owner = true
+    }
+
     this.answers.forEach(answer => {
-      // this.answerBy = answer.by.fullname
       this.answerBy = answer
     })
     return this.load
-    // console.log('ini >>>', this.answers)
   }
 }
 </script>

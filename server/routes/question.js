@@ -8,7 +8,7 @@ router.post('/', Login.isLogin, Question.createQuestion)
 router.get('/', Question.findAllQuestion)
 router.get('/:id', Question.questionsByid)
 router.get('/author/:id', Question.questionsByAuthorid)
-router.put('/:id', Login.isLogin, Question.updateQuestion)
+router.put('/:id', LoginDelete.isLoginDelete, Question.updateQuestion)
 router.delete('/:id', LoginDelete.isLoginDelete, Question.destroyQuestions)
 
 module.exports = router

@@ -8,8 +8,9 @@ const createQuestion = function(req,res){
     author: req.header.decoded.id
   })
   // console.log(newQuestion)
-  newQuestion.save().then(function(){
-    res.status(201).send('1 Question Created')
+  newQuestion.save().then(function(newQuestion){
+    console.log('create quest controller', newQuestion)
+    res.status(201).send(newQuestion)
   }).catch(function(err){
     res.status(500).send(err.errors.title.message)
     console.log(err, '[-] create task')
@@ -55,16 +56,13 @@ const updateQuestion = function(req,res){
     _id : ObjectId(req.params.id)
   }
   Questions.findById(id).then(function(data_Question){
-    // console.log(data_Article)
+    // console.log('>>>>', data_Question)
     data_Question.title = req.body.title,
-    data_Question.question_content = req.body.question_content,
-    data_Question.author = req.header.decoded.id
+    data_Question.question_content = req.body.question_content
     // save
     data_Question.save().then(function(data_Question){
-      res.status(201).send({
-        message : `[+] 1 Question created`,
-        data_Question : data_Question
-      })
+      console.log('[+] 1 question updated')
+      res.status(201).send(data_Question)
     }).catch(function(err){
       res.status(500).send(`[-] err update Question`)
     })
