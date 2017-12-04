@@ -13,15 +13,23 @@
         <span>Vote: {{ totalQuestionVote }}</span>
       </div>
       <div class="panel-body panel-question">
+        <img class="img-responsive margin-fix" :src="question.image" alt="">
         <p class="question">{{ question.question }}</p>
       </div>
       <div v-for="a in answers" class="panel-body">
-        <span @click="voteAnswerUp(a)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
-        <span @click="voteAnswerDown(a)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
-        <span v-if="userLogin == a.userId" @click="removeAnswer(a._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
-        <p class="answer">{{ a.answer }}</p>
-        <p>By: {{ a.name }}</p>
-        <span>Vote: {{ a.upVote.length - a.downVote.length }}</span>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <p>By: {{ a.name }}</p>
+            <span>Vote: {{ a.upVote.length - a.downVote.length }}</span>
+            <span @click="voteAnswerUp(a)" class="answer-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+            <span @click="voteAnswerDown(a)" class="answer-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+            <span v-if="userLogin == a.userId" @click="removeAnswer(a._id)" class="answer-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+          </div>
+          <div class="panel-body">
+            <img class="img-responsive margin-fix" :src="a.image" alt="">
+            <p class="answer">{{ a.answer }}</p>
+          </div>
+        </div>
       </div>
     </div>
     <button type="button" class="btn btn-success" name="button" data-toggle="modal" data-target="#answer">Answer</button>
@@ -135,7 +143,7 @@ export default {
       this.getAnswer(this.$route.params.id)
       if (this.statusLogin) {
         this._id = JSON.parse(localStorage.getItem('dataUser'))._id
-        this.statusLogin = true
+        this.changeLogin(true)
       }
     }
   },
@@ -168,7 +176,7 @@ export default {
       'deleteAnswer',
       'voteQuestion',
       'voteAnswer',
-      'changeLoginState'
+      'changeLogin'
     ]),
     sendAnswer: function () {
       let newAnswer = {
@@ -233,8 +241,6 @@ export default {
       } else {
         alert('please login')
       }
-    },
-    changeLoginState: function () {
     }
   },
   created: function () {
@@ -242,7 +248,7 @@ export default {
     this.getAnswer(this.$route.params.id)
     if (this.statusLogin) {
       this._id = JSON.parse(localStorage.getItem('dataUser'))._id
-      this.statusLogin = true
+      this.changeLogin(true)
     }
   }
 }
@@ -253,10 +259,17 @@ export default {
   margin-left: 1px;
   margin-top: -2px;
 }
+.answer-fix {
+  margin-left: 1px;
+  margin-top: -20px;
+}
 .panel-question {
   border-bottom: 1px solid lightgray;
 }
 .answer, .question {
   color: black;
+}
+.margin-fix {
+  margin: 3px;
 }
 </style>
