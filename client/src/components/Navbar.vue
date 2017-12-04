@@ -27,7 +27,7 @@
 <script>
   export default {
     name: 'Navbar',
-    data () {
+    data: function () {
       return {
         token: localStorage.getItem('token')
       }
@@ -55,7 +55,7 @@
         window.location.reload()
       }
     },
-    created () {
+    created: () => {
       window.fbAsyncInit = function () {
         window.FB.init({
           appId: '1826498564044116',
@@ -65,7 +65,8 @@
         })
       };
       (function (d, s, id) { // Load the SDK asynchronously
-        var js, fjs = d.getElementsByTagName(s)[0]
+        var js
+        var fjs = d.getElementsByTagName(s)[0]
         if (d.getElementById(id)) return
         js = d.createElement(s)
         js.id = id

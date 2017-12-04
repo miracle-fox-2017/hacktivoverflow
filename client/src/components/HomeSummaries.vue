@@ -1,8 +1,14 @@
 <template>
   <article class="row">
-    <div class="two wide column">Votes</div>
-    <div class="two wide column">Answers</div>
-    <div class="seven wide column">{{ question.title }}</div>
+    <div class="one center aligned wide column">
+      0
+      <i class="thumbs outline up icon"></i>
+    </div>
+    <div class="one center aligned wide column">
+      0
+      <i class="comments outline icon"></i>
+    </div>
+    <div class="nine wide column">{{ question.title }}</div>
     <div class="three wide column none-shadow" v-for="(tag, index) in question.tags" :key="index">
       <a class="ui small red horizontal label">{{ tag }}</a>
     </div>
@@ -12,7 +18,7 @@
 
 <script>
   export default {
-    name: 'QuestionsSummaries',
+    name: 'HomeSummaries',
     props: ['question']
   }
 </script>

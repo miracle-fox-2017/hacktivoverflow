@@ -22,11 +22,12 @@ class Question {
     .catch(err => res.status(500).send(err))
   }
 
-  static getById (req, res) {
-    let id = {_id: ObjectId(req.params.id)}
-
-    QuestionModel.findById(id)
-    .then(question => res.send(question))
+  static getByUserId (req, res) {
+    // console.log(req.verifyUser);
+    QuestionModel.find({questioner: req.verifyUser.id}).populate('questioner')
+    .then(questions => {
+      res.send(questions)
+    })
     .catch(err => res.status(500).send(err))
   }
 

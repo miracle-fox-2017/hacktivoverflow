@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import QuestionsSummaries from '@/components/QuestionsSummaries'
+import HomeSummaries from '@/components/HomeSummaries'
+import Dashboard from '@/components/Dashboard'
+import DashboardSummaries from '@/components/DashboardSummaries'
 
 Vue.use(Router)
 
@@ -14,7 +16,15 @@ export default new Router({
       children: [{
         path: '',
         name: 'Home',
-        component: QuestionsSummaries
+        component: HomeSummaries
+      }]
+    }, {
+      path: '/dashboard',
+      component: Dashboard,
+      children: [{
+        path: '',
+        name: 'Dashboard',
+        component: DashboardSummaries
       }]
     }
   ]

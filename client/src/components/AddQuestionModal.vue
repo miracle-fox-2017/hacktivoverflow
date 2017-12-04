@@ -37,7 +37,7 @@
   import { mapActions } from 'vuex'
   export default {
     name: 'AddQuestionModal',
-    data: () => {
+    data: function () {
       return {
         newQuestion: {
           title: null,

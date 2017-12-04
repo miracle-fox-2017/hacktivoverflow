@@ -7,7 +7,7 @@ router.post('/', checkAuth.isLogin, questionController.create)
 
 // read
 router.get('/', questionController.getAll)
-router.get('/:id', questionController.getById)
+router.post('/dashboard', checkAuth.isLogin, questionController.getByUserId)
 
 // update
 router.put('/:id', checkAuth.isLogin, questionController.update)
