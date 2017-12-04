@@ -78,7 +78,7 @@
             </div>
         </div>
         <div class="column">
-          <form @submit.prevent="registerUser(register)">
+          <form @submit.prevent="registersUser">
             <div class="control is-horizontal">
               <div class="control-label">
                 <label class="label">Name</label>
@@ -164,44 +164,52 @@ export default {
     ])
   },
   methods: {
+    registersUser () {
+      // console.log('MASUK', data)
+      this.registerUser({...this.register})
+      this.clear()
+    },
     ...mapActions([
       'registerUser',
       'checkLogin',
       'clearSession'
     ]),
     clear () {
+      console.log('clear jalan')
       this.register.name = '',
       this.register.email = '',
       this.register.username = '',
       this.register.password = '',
-      this.register.gender = ''
+      this.register.gender = '',
+      this.singin.usernam = '',
+      this.singin.password = ''
     },
     loGout () {
       console.log('KELUAR')
       localStorage.clear()
       this.clearSession()
       this.status = false
-      this.$router.push('/')
     }
   },
   created () {
     let parsing = JSON.parse(localStorage.getItem('token'))
     console.log('APA INI', parsing)
-    if(parsing.token) {
+    if(parsing) {
       this.status = true
       this.name = localStorage.getItem('username')
       this.user_id = localStorage.getItem('user_id')
-      this.$router.push('/')
     }
   },
   watch: {
     login () {
       let parsing = JSON.parse(localStorage.getItem('token'))
-      localStorage.setItem('username', parsing.name)
-      localStorage.setItem('user_id', parsing.user_id)
-      this.name = localStorage.getItem('username')
-      this.user_id = localStorage.getItem('user_id')
-      this.status = true
+      if(parsing) {
+        localStorage.setItem('username', parsing.name)
+        localStorage.setItem('user_id', parsing.user_id)
+        this.name = localStorage.getItem('username')
+        this.user_id = localStorage.getItem('user_id')
+        this.status = true
+      }
     },
     logGout () {
       this.$router.push('/')

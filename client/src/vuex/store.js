@@ -11,7 +11,8 @@ Vue.use(Vuex)
 const state = {
   users: [],
   questions: [],
-  login: ''
+  login: '',
+  question: ''
 }
 
 const mutations = {
@@ -32,6 +33,10 @@ const mutations = {
   },
   clearLogin (state) {
     state.login = ''
+  },
+  setQuestionDetail (state, detailQuestion) {
+    // console.log(detailQuestion)
+    state.question = detailQuestion
   }
 }
 
@@ -95,6 +100,17 @@ const actions = {
   },
   clearSession ({ commit }) {
     commit('clearLogin')
+  },
+  detailQuestion ({ commit }, id) {
+    console.log('MASUK ACTION')
+    http.get(`/questions/${id}`)
+    .then(({data}) => {
+      // console.log(data)
+      commit('setQuestionDetail',data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 }
 

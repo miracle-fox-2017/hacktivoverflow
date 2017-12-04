@@ -13,9 +13,9 @@ const allUsers = (req, res) => {
 
 const createUser = (req, res) => {
   const saltRounds = 10;
-  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',req.body.username);
+  // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',req.body);
   let input = req.body
-  // console.log('INPUT', input)
+  console.log('INPUT', input)
   User.findOne({
       username: input.username
   })
@@ -66,7 +66,7 @@ const deleteUser = (req, res) => {
 }
 
 const signinUser = (req, res) => {
-  // console.log('MASUK LOGIN', req.body);
+  console.log('MASUK LOGIN', req.body);
   let signin = req.body
   User.findOne(
   {

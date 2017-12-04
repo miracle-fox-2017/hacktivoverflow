@@ -1,6 +1,5 @@
 <template>
-  <div>
-    
+  <div> 
     <b-aside :is-show="writeQuestion" title="Write your Questions" :show-footer="false" placement="right" :backdrop="false" @close="writeQuestion=false">
       <form @submit.prevent="createQuestion(ask)">
       <label class="label">Title</label>
@@ -29,10 +28,8 @@
         </div>
         <div class="media-content">
           <div class="content">
-            <p>
-              <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-              <br>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean efficitur sit amet massa fringilla egestas. Nullam condimentum luctus turpis.
+            <p >
+              
             </p>
           </div>
           <nav class="level is-mobile">
@@ -52,23 +49,18 @@
       </article>
     </div>
     <timeline>
-      <timeline-item date="2 minutes ago" type="primary">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante soe aiea ose dos soois.
-      </timeline-item>
-      <timeline-item date="Sat, 5 Mar" type="primary">
-        <p>adipiscing elit lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-      </timeline-item>
-      <timeline-item date="Sun, 11 Feb" type="success">
-        Call to customer Jacob and discuss the detail.
+      <timeline-item class="style='text-align:left;'" date="100 minutes ago" type="primary" v-for="question in questions" :key="question._id">
+        <router-link :to="'/question/detail/'+question._id">{{ question.title }}</router-link>
       </timeline-item>
     </timeline>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'SideBar',
+  props: ['id'],
   data () {
     return {
       user_id : '',
@@ -82,6 +74,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState([
+      'questions'
+    ])
+  },
   methods: {
     toggle3 () {
       let token = localStorage.getItem('token')
@@ -92,10 +89,13 @@ export default {
       }
     },
     ...mapActions([
-      'createQuestion'
+      'createQuestion',
+      'allQuestions',
+      'questionById'
     ])
   },
   created () {
+    this.allQuestions()
     this.ask.user_id = localStorage.getItem('user_id')
   },
   watch: {
@@ -104,8 +104,18 @@ export default {
       localStorage.setItem('username', parsing.name)
       localStorage.setItem('user_id', parsing.user_id)
       this.user_id = localStorage.getItem('user_id')
+    },
+    questions () {
+      this.questionById(this.id)
     }
   }
 
 }
 </script>
+<style>
+.timeline-item .timeline-item-main {
+    margin-left: 24px;
+    padding-bottom: 16px;
+    text-align: initial!important;
+}
+</style>

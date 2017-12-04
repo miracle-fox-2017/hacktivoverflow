@@ -12,6 +12,7 @@ const allQuestions = (req, res) => {
 
 const createQuestion = (req, res) => {
   let input = req.body
+  console.log(input)
   // console.log('INI APA', req.decoded.id)
   let obj = {
     title : input.title,
@@ -67,9 +68,26 @@ const editQuestion = (req , res) =>{
   .catch(err => res.status(500).send(err))
 }
 
+const getQuestion = (req, res) => {
+  let id = ObjectId(req.params.id)
+  // console.log('MASUK')
+  Question.findOne({
+    _id: id
+  })
+  .populate('user_id')
+  .then(dataQuestion => {
+    // console.log('APA DAPAT', dataQuestion)
+    res.send(dataQuestion)
+  })
+  .catch(err => {
+    res.status(500).send(err) 
+    console.log(err)})
+}
+
 module.exports = {
   allQuestions,
   createQuestion,
   editQuestion,
-  deleteQuestion
+  deleteQuestion,
+  getQuestion
 };
