@@ -37,6 +37,10 @@ const mutations = {
   setQuestionDetail (state, detailQuestion) {
     // console.log(detailQuestion)
     state.question = detailQuestion
+  },
+  saveAnswer (state, newAnswer) {
+    // console.log(state.question, newAnswer)
+    state.question.answers_id.unshift(newAnswer)
   }
 }
 
@@ -107,6 +111,21 @@ const actions = {
     .then(({data}) => {
       // console.log(data)
       commit('setQuestionDetail',data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  createAnswer ({ commit }, dataAnswer) {
+    // console.log('INI DI ACTIONS', dataAnswer)
+    http.post('/answers', dataAnswer, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({ data }) => {
+      console.log('HASIL CREATE ACTIONS', data)
+      commit('saveAnswer', data.data)
     })
     .catch(err => {
       console.log(err)

@@ -91,7 +91,7 @@ export default {
     ...mapActions([
       'createQuestion',
       'allQuestions',
-      'questionById'
+      'detailQuestion'
     ])
   },
   created () {
@@ -105,8 +105,8 @@ export default {
       localStorage.setItem('user_id', parsing.user_id)
       this.user_id = localStorage.getItem('user_id')
     },
-    questions () {
-      this.questionById(this.id)
+    id (newId) {
+      this.detailQuestion(this.id)
     }
   }
 

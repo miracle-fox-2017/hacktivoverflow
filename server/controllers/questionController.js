@@ -1,12 +1,14 @@
 // const mongoose = require('mongoose').connect('mongodb://vbagustinus:anakjalanan@smartshop-shard-00-00-hibsb.mongodb.net:27017,smartshop-shard-00-01-hibsb.mongodb.net:27017,smartshop-shard-00-02-hibsb.mongodb.net:27017/todo?ssl=true&replicaSet=smartshop-shard-0&authSource=admin');
 const mongoose = require('mongoose').connect('mongodb://localhost/hacktivoverflow');
 const Question = require('../models/questionModel')
+const User = require('../models/userModel')
 const ObjectId = require('mongodb').ObjectId
 
 const allQuestions = (req, res) => {
   Question.find()
   .populate('user_id')
-  .then(users => res.send(users))
+  .populate({path: 'answers_id', options: { sort: { 'created_at': 'desc' } } })
+  .then(questions => res.send(questions))
   .catch(err => res.status(500).send(err))
 }
 
@@ -75,6 +77,7 @@ const getQuestion = (req, res) => {
     _id: id
   })
   .populate('user_id')
+  .populate({path: 'answers_id', options: { sort: { 'created_at': 'desc' } } })
   .then(dataQuestion => {
     // console.log('APA DAPAT', dataQuestion)
     res.send(dataQuestion)

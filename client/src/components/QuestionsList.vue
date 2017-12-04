@@ -24,7 +24,7 @@
             <small>by : {{ question.user_id.name }}</small>
           </span>
         </td>
-        <td class="tengah"><i>38</i><br>answer</td>
+        <td class="tengah"><i>{{ question.answers_id.length }}</i><br>answer</td>
         <td>
           <div class="stars">
             <form action="">
@@ -57,8 +57,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'allQuestions',
-      'questionById'
+      'allQuestions'
     ])
   },
   created () {

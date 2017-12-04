@@ -193,7 +193,7 @@ export default {
   },
   created () {
     let parsing = JSON.parse(localStorage.getItem('token'))
-    console.log('APA INI', parsing)
+    // console.log('APA INI', parsing)
     if(parsing) {
       this.status = true
       this.name = localStorage.getItem('username')

@@ -9,10 +9,11 @@ const answerSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  answer_id: {
+  question_id: {
     type: Schema.ObjectId,
     ref: 'Answer'
-  }
+  },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('Answer', answerSchema);
