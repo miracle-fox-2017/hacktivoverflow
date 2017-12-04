@@ -19,15 +19,26 @@ const store = new Vuex.Store({
   mutations: {
     setQuestions: (state, payload) => {
       state.questions = payload
+    },
+    setNewQuestion: (state, payload) => {
+      state.questions.push(payload)
     }
   },
   actions: {
-    getAllQuestions: (context, payload) => {
+    getAllQuestions: ({ commit }) => {
       http.get(`/questions`)
       .then(({ data }) => {
-        context.commit('setQuestions', data)
+        commit('setQuestions', data)
       })
       .catch(err => console.error(err))
+    },
+    addQuestion: ({ commit }, payload) => {
+      http.post('/questions', payload, {headers: {token: localStorage.getItem('token')}})
+      .then(({ data }) => {
+        // console.log(response);
+        commit('setNewQuestion', data)
+      })
+      .catch(err => console.log(err))
     }
   }
 })

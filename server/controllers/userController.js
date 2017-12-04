@@ -8,7 +8,6 @@ class User {
     UserModel.findOne({facebookId: req.body.id})
     .then(user => {
       if(user) {
-        // console.log('-------------> gerbang tol jwt');
         jwt.sign(user)
         .then(token => {
           console.log('ini token -->', {token: token})
@@ -16,7 +15,6 @@ class User {
         })
         .catch(err => res.status(500).send(err))
       } else {
-        // console.log('-------------> masuk create');
         let user = new UserModel({
           facebookId: req.body.id,
           name: req.body.name,
@@ -25,10 +23,9 @@ class User {
           email: req.body.email,
           isAdmin: req.body.isAdmin
         })
-        // console.log(user)
+
         user.save()
         .then(user => {
-          // console.log('-----> masuk ga?');
           jwt.sign(user)
           .then(token => {
             res.send({token: token})
@@ -38,7 +35,6 @@ class User {
           })
         })
         .catch(err => {
-          // console.log(err);
           res.status(500).send(err)
         })
       }
@@ -51,7 +47,6 @@ class User {
   static getAll (req, res) {
     UserModel.find()
     .then(users => {
-      // console.log(users);
       res.send(users)
     })
     .catch(err => res.status(500).send(err))
@@ -62,7 +57,6 @@ class User {
 
     UserModel.findById(id)
     .then(user => {
-      // console.log(user);
       res.send(user)
     })
     .catch(err => res.status(500).send(err))
@@ -71,7 +65,6 @@ class User {
   static getOne (req, res) {
     UserModel.findOne({name: req.body.name})
     .then(user => {
-      // console.log(user);
       res.send(user)
     })
     .catch(err => res.status(500).send(err))
@@ -82,7 +75,6 @@ class User {
 
     UserModel.findById(id)
     .then(user => {
-      // console.log(user);
       user.name = req.body.name || user.name,
       user.gender = req.body.gender || user.gender,
       user.picture = req.body.picture || user.picture,

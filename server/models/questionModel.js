@@ -11,7 +11,7 @@ const questionSchema = new Schema({
   title: {
       type: String
   },
-  question: {
+  content: {
       type: String
   },
   tags: [{

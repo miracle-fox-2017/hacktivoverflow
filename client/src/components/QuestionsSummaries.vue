@@ -2,7 +2,7 @@
   <article class="row">
     <div class="two wide column">Votes</div>
     <div class="two wide column">Answers</div>
-    <div class="column">{{ question.title }}</div>
+    <div class="seven wide column">{{ question.title }}</div>
     <div class="three wide column none-shadow" v-for="(tag, index) in question.tags" :key="index">
       <a class="ui small red horizontal label">{{ tag }}</a>
     </div>
@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    name: 'QuestionsSummariesComponent',
+    name: 'QuestionsSummaries',
     props: ['question']
   }
 </script>

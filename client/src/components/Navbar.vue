@@ -4,13 +4,20 @@
       <router-link class="item" to="/"><i class="home icon"></i>Home</a></router-link>
       <router-link class="item" to="/blog"><i class="file text outline icon"></i>Articles</a></router-link>
       <router-link class="item" to="/admin" v-if="token"><i class="dashboard icon"></i>Dashboard</a></router-link>
-      <div class="right item">
+      <div id="remove" class="right item">
         <div v-if="token">
-          <button class="ui basic button none-shadow" @click="logout">Logout</button>
+          <!-- <button class="ui basic button none-shadow" @click="logout">Logout</button> -->
+          <button class="ui facebook button" @click="logout">
+            <i class="sign out icon"></i>
+            Sign out
+          </button>
         </div>
         <div v-else>
-          <button class="ui basic button none-shadow" @click="login">Login</button>
-          <button class="ui basic button">Signup</button>
+          <!-- <button class="ui basic button none-shadow" @click="login">Login</button> -->
+          <button class="ui facebook button" @click="login">
+            <i class="facebook icon"></i>
+            Sign in with Facebook
+          </button>
         </div>
       </div>
     </nav>
@@ -19,7 +26,7 @@
 
 <script>
   export default {
-    name: 'NavbarComponent',
+    name: 'Navbar',
     data () {
       return {
         token: localStorage.getItem('token')
@@ -31,12 +38,12 @@
           console.log('fblogin response ', response)
           if (response.status === 'connected') {
             window.FB.api('/me', {fields: ['id', 'name', 'gender', 'picture', 'email']}, dataUser => {
-               this.$http.post('/users', dataUser)
-               .then(result => {
-                 window.localStorage.setItem('token', result.data.token)
-                 window.location.reload()
-               })
-               .catch(err => console.log(err))
+              this.$http.post('/users', dataUser)
+              .then(result => {
+                window.localStorage.setItem('token', result.data.token)
+                window.location.reload()
+              })
+              .catch(err => console.log(err))
             })
           } else {
             console.log('User cancelled login or did not fully authorize.')
@@ -70,4 +77,14 @@
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+  #remove:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 1px;
+    background: transparent;
+  }
+</style>

@@ -6,9 +6,10 @@
           <h2 class="ui header">Lates Question</h2>
         </div>
         <div class="two wide column">
-          <button class="ui primary button">
+          <button class="ui positive button" @click="addQuestionModal">
             Ask Question
           </button>
+          <AddQuestionModal/>
         </div>
       </div>
 
@@ -45,18 +46,31 @@
 </template>
 
 <script>
+  /* global $ */
   import { mapGetters, mapActions } from 'vuex'
+  import AddQuestionModal from '@/components/AddQuestionModal'
   export default {
-    name: 'HomeComponent',
+    name: 'Home',
+    components: {
+      AddQuestionModal
+    },
     computed: {
       ...mapGetters(['questions'])
     },
     methods: {
-      ...mapActions(['getAllQuestions'])
+      ...mapActions(['getAllQuestions']),
+      addQuestionModal () {
+        $('.ui.modal').modal('show')
+      }
     },
     created: function () {
       this.getAllQuestions()
-    }
+    },
+    // watch: {
+      // questions () {
+        // this.getAllQuestions()
+      // }
+    // },
   }
 </script>
 

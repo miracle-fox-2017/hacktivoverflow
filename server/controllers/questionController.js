@@ -5,9 +5,9 @@ class Question {
   static create (req, res) {
     // console.log(req.body);
     let question = new QuestionModel({
-      questioner: req.body.questioner,
+      questioner: req.verifyUser.id,
       title: req.body.title,
-      question: req.body.question,
+      content: req.body.content,
       tags: req.body.tags
     })
     // console.log(question);
@@ -36,7 +36,7 @@ class Question {
     QuestionModel.findById(id)
     .then(question => {
       question.title = req.body.title || question.title,
-      question.question = req.body.question || question.question,
+      question.content = req.body.content || question.content,
       question.tags = req.body.tags || question.tags,
       question.updatedAt = new Date()
       // console.log(question);

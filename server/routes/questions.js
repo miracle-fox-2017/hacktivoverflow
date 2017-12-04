@@ -3,16 +3,16 @@ const questionController = require('../controllers/questionController')
 const checkAuth = require('../middleware/checkAuth')
 
 // create
-router.post('/', questionController.create)
+router.post('/', checkAuth.isLogin, questionController.create)
 
 // read
 router.get('/', questionController.getAll)
 router.get('/:id', questionController.getById)
 
 // update
-router.put('/:id', questionController.update)
+router.put('/:id', checkAuth.isLogin, questionController.update)
 
 // delete
-router.delete('/:id', questionController.remove)
+router.delete('/:id', checkAuth.isLogin, questionController.remove)
 
 module.exports = router
