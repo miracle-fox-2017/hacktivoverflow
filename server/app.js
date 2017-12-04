@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+require('dotenv').config()
 
 const cors = require('cors')
 const app = express()
@@ -15,7 +16,7 @@ const voteAnswers = require('./routes/voteAnswers');
 const voteQuestions = require('./routes/voteQuestions');
 
 // mongoose connect
-mongoose.connect('mongodb://localhost/overflow',{
+mongoose.connect(process.env.MONGO_ATLAS,{
   useMongoClient: true
 });
 
