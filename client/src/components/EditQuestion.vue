@@ -38,7 +38,10 @@ export default {
         }
       })
       .then(question => {
-        console.log(question)
+        /* eslint-disable */
+        $('.small.modal.edit')
+          .modal('hide')
+        ;
       })
       .catch(err => console.log(err))
     },

@@ -12,7 +12,7 @@ const users = require('./routes/users');
 const questions = require('./routes/questions');
 const answers = require('./routes/answers');
 const voteAnswers = require('./routes/voteAnswers');
-// const voteQuestions = require('./routes/voteQuestions');
+const voteQuestions = require('./routes/voteQuestions');
 
 // mongoose connect
 mongoose.connect('mongodb://localhost/overflow',{
@@ -38,7 +38,7 @@ app.use('/users', users);
 app.use('/questions', questions);
 app.use('/answers', answers);
 app.use('/voteAnswers', voteAnswers);
-// app.use('/voteQuestions', voteQuestions)
+app.use('/voteQuestions', voteQuestions)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -9,6 +9,6 @@ var VoteAnswerSchema = mongoose.Schema({
 
 VoteAnswerSchema.index({ answerId: 1, userId: 1}, { unique: true });
 
-var VoteAnswer = mongoose.model('Vote', VoteAnswerSchema)
+var VoteAnswer = mongoose.model('VoteAnswer', VoteAnswerSchema)
 
 module.exports = VoteAnswer

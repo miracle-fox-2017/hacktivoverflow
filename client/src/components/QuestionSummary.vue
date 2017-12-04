@@ -14,9 +14,9 @@
       </div>
       <div class="extra text">
         <router-link :to="`/questions/${question._id}`"><h3>{{question.title}}</h3></router-link>
-        <p>{{question.question.substring(0, 200)}}</p>
+        <p>{{question.question.substring(0, 200)}}. . .</p>
       </div>
-      <VoteQuestion/>
+      <VoteQuestion :questionId="question._id"/>
       <CommentsQuestion :questionId="question._id"/>
     </div>
   </div>

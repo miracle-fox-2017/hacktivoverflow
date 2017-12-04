@@ -17,7 +17,6 @@ export default {
   created () {
     this.$http.get(`/answers/${this.questionId}`)
     .then(({data}) => {
-      console.log(data)
       this.answers = data
     })
     .catch(err => console.log(err))

@@ -17,7 +17,7 @@ export default {
   methods: {
     voteAnswer () {
       let index = this.votes.map(v => { return v.userId }).indexOf(localStorage.getItem('userId'))
-      console.log(index)
+      // console.log(index)
       // if (index == -1) {
       this.$http.post('/voteAnswers', {
         answerId: this.answerId,
@@ -32,7 +32,6 @@ export default {
       })
       // eslint-disable-next-line
       .catch(err => {
-        console.log(localStorage)
         this.$http.delete(`/voteAnswers/${this.votes[index]._id}`, {
           headers: {
             accesstoken: localStorage.getItem('accesstoken')

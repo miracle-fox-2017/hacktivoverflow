@@ -30,7 +30,6 @@ export default {
       this.$http.get(`/questions/${id}`)
       .then(({data}) => {
         this.question = data
-        console.log(this.question)
       })
       .catch(err => console.log(err))
     }
