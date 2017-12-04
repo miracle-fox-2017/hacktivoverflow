@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
-var VoteSchema = mongoose.Schema({
+var VoteAnswerSchema = mongoose.Schema({
   answerId: {type: mongoose.Schema.Types.ObjectId, ref: 'Answer'},  
   userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   vote: Boolean,
   createdAt: {type: Date, default: Date.now}
 })
 
-VoteSchema.index({ answerId: 1, userId: 1}, { unique: true });
+VoteAnswerSchema.index({ answerId: 1, userId: 1}, { unique: true });
 
-var Vote = mongoose.model('Vote', VoteSchema)
+var VoteAnswer = mongoose.model('Vote', VoteAnswerSchema)
 
-module.exports = Vote
+module.exports = VoteAnswer

@@ -1,15 +1,7 @@
-const Vote = require('../models/voteModel')
+const VoteAnswer = require('../models/voteAnswerModel')
 
 getAnswers = (req, res) => {
-  Vote.find({answerId: req.params.answerId})
-  .then(votes => {
-    res.send(votes)
-  })
-  .catch(err => res.status(500).send(err))
-}
-
-getQuestions = (req, res) => {
-  Vote.find({questionId: req.params.questionId})
+  VoteAnswer.find({answerId: req.params.answerId})
   .then(votes => {
     res.send(votes)
   })
@@ -17,14 +9,12 @@ getQuestions = (req, res) => {
 }
 
 create = (req, res) => {
-  console.log(req.userLogin.id)
   req.body.userId = req.userLogin.id
-  Vote.create(req.body)
+  VoteAnswer.create(req.body)
   .then(vote => {
     res.send(vote)
   })
   .catch(err => {
-    console.log(err)
     res.status(500).send(err)
   })
 }
@@ -34,7 +24,7 @@ update = (req, res) => {
 }
 
 remove = (req, res) => {
-  Vote.remove({userId: req.userLogin.id, _id: req.params.id})
+  VoteAnswer.remove({userId: req.userLogin.id, _id: req.params.id})
   .then(voteDeleted => {
     let vote = {
       status: 'deleted',
@@ -47,7 +37,6 @@ remove = (req, res) => {
 
 module.exports = {
   getAnswers,
-  getQuestions,
   create,
   update,
   remove

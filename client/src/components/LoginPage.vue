@@ -119,6 +119,7 @@ export default {
         }
       })
       .then(({data}) => {
+        localStorage.setItem('userId', data.userId)        
         localStorage.setItem('accesstoken', data.accesstoken)
         this.$router.push('/')        
       })

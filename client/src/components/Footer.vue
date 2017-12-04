@@ -48,6 +48,9 @@ export default {
     margin-top: 80px;
     padding-top: 30px;
     color: #ddd;
+    /* position: fixed; */
+    width: 100%;
+    bottom: 0;
   }
 
   .footer h3 {

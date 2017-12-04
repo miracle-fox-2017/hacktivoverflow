@@ -16,37 +16,38 @@ export default {
   },
   methods: {
     voteAnswer () {
-      let index = this.votes.map(v => {return v.userId}).indexOf(localStorage.getItem('userId'))
+      let index = this.votes.map(v => { return v.userId }).indexOf(localStorage.getItem('userId'))
       console.log(index)
       // if (index == -1) {
-        this.$http.post('/votes', {
-          answerId: this.answerId,
-          votes: true
-        }, {
+      this.$http.post('/voteAnswers', {
+        answerId: this.answerId,
+        votes: true
+      }, {
+        headers: {
+          accesstoken: localStorage.getItem('accesstoken')
+        }
+      })
+      .then(({data}) => {
+        this.votes.push(data)
+      })
+      // eslint-disable-next-line
+      .catch(err => {
+        console.log(localStorage)
+        this.$http.delete(`/voteAnswers/${this.votes[index]._id}`, {
           headers: {
             accesstoken: localStorage.getItem('accesstoken')
           }
         })
-        .then(({data}) => {
-          this.votes.push(data)
+        .then(response => {
+          this.votes.splice(index, 1)
         })
-        .catch(err => {
-          this.$http.delete(`/votes/${this.votes[index]._id}`, {
-            headers: {
-              accesstoken: localStorage.getItem('accesstoken')
-            }
-          })
-          .then(response => {
-            this.votes.splice(index, 1)
-          })
-          .catch(error => console.log(error))
-        })
+        .catch(error => console.log(error))
+      })
       // } else {
-        // console.log(this.votes[index]._id)
-      
+      // console.log(this.votes[index]._id)
     },
     getVotes () {
-      this.$http.get(`/votes/answers/${this.answerId}`)
+      this.$http.get(`/voteAnswers/answers/${this.answerId}`)
       .then(({data}) => {
         this.votes = data
       })

@@ -34,7 +34,11 @@ create = (req, res) => {
 }
 
 update = (req, res) => {
-  
+  Question.findByIdAndUpdate(req.params.id, { $set: req.body}, { new: true })
+  .then(question => {
+    res.send(question)
+  })
+  .catch(err => res.status(500).send(err))
 }
 
 remove = (req, res) => {

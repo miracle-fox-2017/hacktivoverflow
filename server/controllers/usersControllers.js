@@ -41,6 +41,7 @@ login = (req, res) => {
       User.findOne({google_id: data.sub})
       .then(user => {
         tokenGenerate(user, function(token) {
+          token.userId = user._id
           res.send(token)
         })
       })
@@ -57,6 +58,7 @@ login = (req, res) => {
         User.create(userGoogle)
         .then(newUser => {
           tokenGenerate(newUser, function(token) {
+            token.userId = newUser._id            
             res.send(token)
           })
         })

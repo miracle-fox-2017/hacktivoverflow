@@ -21,22 +21,32 @@
             </td>
             <td>{{question.question.substring(0, 100)}}</td>
             <td class="three wide center aligned">
-              <button class="ui positive button">Edit</button>
+              <button class="ui positive button" @click="modalEdit(question._id)">Edit</button>
               <button class="ui negative button" @click="deleteQuestions(question._id)">Delete</button>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <div style="padding: 30px !important;" class="ui small modal edit">
+      <i class="close icon"></i>
+      <div class="ui container">
+        <EditQuestion :questionId="idQuestionTemp"/>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import EditQuestion from '@/components/EditQuestion'
 export default {
+  components: {
+    EditQuestion
+  },
   data () {
     return {
       questions: [],
-      checkQuestions: []
+      idQuestionTemp: ''
     }
   },
   methods: {
@@ -51,10 +61,16 @@ export default {
         this.questions.splice(index, 1)
       })
       .catch(err => console.log(err))
+    },
+    modalEdit (id) {
+      /* eslint-disable */
+      this.idQuestionTemp = id
+      $('.small.modal.edit')
+        .modal('show')
+      ;
     }
   },
   created () {
-    console.log('masuk')
     this.$http.get('/questions/myquestions', {
       headers: {
         accesstoken: localStorage.getItem('accesstoken')

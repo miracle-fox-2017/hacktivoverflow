@@ -17,7 +17,7 @@
         <p>{{question.question.substring(0, 200)}}</p>
       </div>
       <VoteQuestion/>
-      <CommentsQuestion/>
+      <CommentsQuestion :questionId="question._id"/>
     </div>
   </div>
   <div class="ui divider"></div>
