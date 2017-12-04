@@ -10,9 +10,9 @@
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
         <li v-if="user" class="nav-item">
-          <!-- <router-link style="text-decoration: none;"  :to="'questions/author/' + authorId"> -->
+          <router-link style="text-decoration: none;"  :to="'/author/' + authorId">
             <a @click="getAllQuestionByAuthor(authorId)" class="nav-link" href="">Your Question</a>
-          <!-- </router-link> -->
+          </router-link>
         </li>
         <li v-if="user" class="nav-item">
           <a data-toggle="modal" data-target="#ModalCreate" class="nav-link" href="">Create Question</a>

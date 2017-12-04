@@ -26,8 +26,10 @@ export default {
       load: this.answers
     }
   },
-  mounted () {
+  created () {
+    // console.log(this.answers)
     this.answers.forEach(answer => {
+      // this.answerBy = answer.by.fullname
       this.answerBy = answer
     })
     return this.load

@@ -91,7 +91,7 @@ const actions = {
     })
   },
   saveQuestion ({ commit }, newQuestion) {
-    console.log(newQuestion)
+    // console.log('newQuestion >>', newQuestion)
     http.post('api/questions', newQuestion).then(({data}) => {
       commit('createQuestion', data)
     }).catch(err => {
