@@ -31,7 +31,7 @@
     <div style="padding: 30px !important;" class="ui small modal edit">
       <i class="close icon"></i>
       <div class="ui container">
-        <EditQuestion :questionId="idQuestionTemp"/>
+        <EditQuestion :questionId="idQuestionTemp" @questionEdited="questionEdited"/>
       </div>
     </div>
   </div>
@@ -68,6 +68,10 @@ export default {
       $('.small.modal.edit')
         .modal('show')
       ;
+    },
+    questionEdited (value) {
+      let index = this.questions.map(q => { return q._id }).indexOf(value._id)
+      this.questions.splice(index, 1, value)
     }
   },
   created () {

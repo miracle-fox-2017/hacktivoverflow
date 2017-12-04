@@ -37,7 +37,8 @@ export default {
           accesstoken: localStorage.getItem('accesstoken')
         }
       })
-      .then(question => {
+      .then(({data}) => {
+        this.$emit('questionEdited', data)
         /* eslint-disable */
         $('.small.modal.edit')
           .modal('hide')
