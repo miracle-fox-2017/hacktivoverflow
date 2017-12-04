@@ -108,10 +108,7 @@ export default {
     if (fbToken) {
       this.getUser(fbToken)
     } else {
-      localStorage.removeItem('dataUser')
-      localStorage.removeItem('fb_token')
-      this.dataUser = ''
-      this.statusLogin = false
+      this.logout()
     }
   }
 }

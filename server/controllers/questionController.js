@@ -53,11 +53,13 @@ let signfb = (req, res) => {
 let postQuestion = (req, res) => {
   if(req.body.title && req.body.question) {
     let question = new Question({
+      name: req.decoded.name,
       userId: req.decoded._id,
       title: req.body.title,
       image: req.body.image || '',
       question: req.body.question,
-      vote: []
+      upVote: [],
+      downVote: []
     })
     question.save()
     .then(result=>{
@@ -77,8 +79,7 @@ let postQuestion = (req, res) => {
 
 let getQuestion = (req, res) => {
   Question.findOne({ _id: req.params.id })
-  .populate('userId')
-  .exec()
+  //ada exec user
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -92,8 +93,7 @@ let getQuestion = (req, res) => {
 
 let getQuestions = (req, res) => {
   Question.find()
-  .populate('userId')
-  .exec()
+  //ada exec user
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -107,6 +107,7 @@ let getQuestions = (req, res) => {
 
 let editQuestion = (req, res) => {
   Question.update({ _id: req.params.id }, {
+    name: req.decoded.name,
     userId: req.decoded._id,
     title: req.body.title,
     image: req.body.image || '',
@@ -159,11 +160,13 @@ let delQuestion = (req, res) => {
 let postAnswer = (req, res) => {
   if(req.body.answer) {
     let answer = new Answer({
+      name: req.decoded.name,
       questionId: req.params.id,
       userId: req.decoded._id,
       image: req.body.image || '',
       answer: req.body.answer,
-      vote: []
+      upVote: [],
+      downVote: []
     })
     answer.save()
     .then(result=>{
@@ -183,8 +186,7 @@ let postAnswer = (req, res) => {
 
 let getAnswers = (req, res) => {
   Answer.find({ questionId: req.params.id })
-  .populate('userId')
-  .exec()
+  //disini ada exec username
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -221,26 +223,34 @@ let voteQuestion = (req, res) => {
   Question.findOne({ _id: req.params.id })
   .then(result=>{
     let before = result
-    let vote = result.vote
-    let pos = vote.findIndex(function(e){
-      return e._id == req.decoded._id
+    //req.body.value = 1 / -1
+    let downVote = result.downVote
+    let upVote = result.upVote
+    let posDown = downVote.findIndex(function(e){
+      return e == req.decoded._id
     })
-    if(pos<0) {
-      vote.push({
-        _id: req.decoded._id,
-        value: req.body.value
-      })
-    } else {
-      if(req.body.value == vote[pos].value){
-        vote.splice(pos,1)
+    let posUp = upVote.findIndex(function(e){
+      return e == req.decoded._id
+    })
+    if(req.body.value < 0){
+      if(posDown == -1) {
+        downVote.push(req.decoded._id)
+        if(posUp != -1) {
+          upVote.splice(posUp, 1)
+        }
       } else {
-        vote.splice(pos,1,{
-          _id: req.decoded._id,
-          value: req.body.value
-        })
+        downVote.splice(posDown, 1)
+      }
+    } else {
+      if(posUp == -1) {
+        upVote.push(req.decoded._id)
+        if(posDown != -1) {
+          downVote.splice(posDown, 1)
+        }
+      } else {
+        upVote.splice(posUp, 1)
       }
     }
-    result.vote = vote
     Question.update({ _id: req.params.id }, result)
     .then(updated=>{
       res.status(200).send({
@@ -262,26 +272,34 @@ let voteAnswer = (req, res) => {
   Answer.findOne({ _id: req.params.id })
   .then(result=>{
     let before = result
-    let vote = result.vote
-    let pos = vote.findIndex(function(e){
-      return e._id == req.decoded._id
+    //req.body.value = 1 / -1
+    let downVote = result.downVote
+    let upVote = result.upVote
+    let posDown = downVote.findIndex(function(e){
+      return e == req.decoded._id
     })
-    if(pos<0) {
-      vote.push({
-        _id: req.decoded._id,
-        value: req.body.value
-      })
-    } else {
-      if(req.body.value == vote[pos].value){
-        vote.splice(pos,1)
+    let posUp = upVote.findIndex(function(e){
+      return e == req.decoded._id
+    })
+    if(req.body.value < 0){
+      if(posDown == -1) {
+        downVote.push(req.decoded._id)
+        if(posUp != -1) {
+          upVote.splice(posUp, 1)
+        }
       } else {
-        vote.splice(pos,1,{
-          _id: req.decoded._id,
-          value: req.body.value
-        })
+        downVote.splice(posDown, 1)
+      }
+    } else {
+      if(posUp == -1) {
+        upVote.push(req.decoded._id)
+        if(posDown != -1) {
+          downVote.splice(posDown, 1)
+        }
+      } else {
+        upVote.splice(posUp, 1)
       }
     }
-    result.vote = vote
     Answer.update({ _id: req.params.id }, result)
     .then(updated=>{
       res.status(200).send({
@@ -297,6 +315,44 @@ let voteAnswer = (req, res) => {
   .catch(err=>{
     res.status(400).send({msg: err})
   })
+  // Answer.findOne({ _id: req.params.id })
+  // .then(result=>{
+  //   let before = result
+  //   let vote = result.vote
+  //   let pos = vote.findIndex(function(e){
+  //     return e._id == req.decoded._id
+  //   })
+  //   if(pos<0) {
+  //     vote.push({
+  //       _id: req.decoded._id,
+  //       value: req.body.value
+  //     })
+  //   } else {
+  //     if(req.body.value == vote[pos].value){
+  //       vote.splice(pos,1)
+  //     } else {
+  //       vote.splice(pos,1,{
+  //         _id: req.decoded._id,
+  //         value: req.body.value
+  //       })
+  //     }
+  //   }
+  //   result.vote = vote
+  //   Answer.update({ _id: req.params.id }, result)
+  //   .then(updated=>{
+  //     res.status(200).send({
+  //       msg: "success",
+  //       before: before,
+  //       updated: result
+  //     })
+  //   })
+  //   .catch(err=>{
+  //     res.status(500).send({err: err})
+  //   })
+  // })
+  // .catch(err=>{
+  //   res.status(400).send({msg: err})
+  // })
 }
 
 //other routes

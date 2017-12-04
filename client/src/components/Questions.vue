@@ -10,10 +10,10 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-md-3 col-sm-3">
-            <p>Vote: XX</p>
+            <p>Vote: {{ question.upVote.length - question.downVote.length }}</p>
           </div>
           <div class="col-md-9 col-sm-9">
-            <p>By: {{ question.userId.name }}</p>
+            <p>By: {{ question.name }}</p>
             <p>On: {{ question.createdAt }}</p>
           </div>
         </div>

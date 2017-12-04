@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 let questionSchema = new Schema({
+  name: String,
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'User'
@@ -10,7 +11,8 @@ let questionSchema = new Schema({
   title: String,
   question: String,
   image: String,
-  vote: [],
+  upVote: [],
+  downVote: [],
   createdAt: {
     type: Date,
     default: new Date()

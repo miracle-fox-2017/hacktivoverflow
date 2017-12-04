@@ -44,6 +44,17 @@ const mutations = {
       return e._id === payload
     })
     state.answers.splice(pos, 1)
+  },
+  saveVoteQuestion: function (state, payload) {
+    state.question = payload
+  },
+  saveVoteAnswer: function (state, payload) {
+    let a = state.answers
+    let pos = a.findIndex(function (e) {
+      return e._id === payload._id
+    })
+    state.answers[pos].upVote = payload.upVote
+    state.answers[pos].downVote = payload.downVote
   }
 }
 
