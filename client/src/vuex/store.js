@@ -14,7 +14,7 @@ const state = {
 
 const mutations = {
   saveNewQuestion: function (state, payload) {
-    console.log(payload)
+    state.questions.push(payload)
   },
   saveQuestions: function (state, payload) {
     state.questions = payload
@@ -69,22 +69,22 @@ const mutations = {
 const actions = {
   addQuestion: function ({ commit }, newQuestion) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.post('http://localhost:3000/api/question', {
+    axios.post('http://vps.masfaris.com:3004/api/question', {
       title: newQuestion.title,
       image: newQuestion.image,
       question: newQuestion.question
     }, {
       headers: { token: token }
     })
-    .then(resp => {
-      console.log(resp)
+    .then(({ data }) => {
+      commit('saveNewQuestion', data.newQuestion)
     })
     .catch(err => {
       console.log(err)
     })
   },
   getQuestions: function ({ commit }) {
-    axios.get('http://localhost:3000/api/question')
+    axios.get('http://vps.masfaris.com:3004/api/question')
     .then(({ data }) => {
       commit('saveQuestions', data.questions)
     })
@@ -93,7 +93,7 @@ const actions = {
     })
   },
   getQuestion: function ({ commit }, questionId) {
-    axios.get('http://localhost:3000/api/question/' + questionId)
+    axios.get('http://vps.masfaris.com:3004/api/question/' + questionId)
     .then(({ data }) => {
       commit('saveQuestion', data.question)
     })
@@ -103,7 +103,7 @@ const actions = {
   },
   updatedQuestion: function ({ commit }, newQuestion) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.put('http://localhost:3000/api/question/' + newQuestion._id, newQuestion, {
+    axios.put('http://vps.masfaris.com:3004/api/question/' + newQuestion._id, newQuestion, {
       headers: { token: token }
     })
     .then(({ data }) => {
@@ -115,7 +115,7 @@ const actions = {
   },
   deleteQuestion: function ({ commit }, questionId) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.delete('http://localhost:3000/api/question/' + questionId, {
+    axios.delete('http://vps.masfaris.com:3004/api/question/' + questionId, {
       headers: { token: token }
     })
     .then(({ data }) => {
@@ -126,7 +126,7 @@ const actions = {
     })
   },
   getAnswer: function ({ commit }, questionId) {
-    axios.get('http://localhost:3000/api/question/' + questionId + '/answer')
+    axios.get('http://vps.masfaris.com:3004/api/question/' + questionId + '/answer')
     .then(({ data }) => {
       commit('saveAnswer', data.answers)
     })
@@ -136,7 +136,7 @@ const actions = {
   },
   postAnswer: function ({ commit }, newAnswer) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.post('http://localhost:3000/api/question/' + newAnswer.questionId + '/answer', {
+    axios.post('http://vps.masfaris.com:3004/api/question/' + newAnswer.questionId + '/answer', {
       image: newAnswer.image,
       answer: newAnswer.answer
     }, {
@@ -151,7 +151,7 @@ const actions = {
   },
   deleteAnswer: function ({ commit }, answerId) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.delete('http://localhost:3000/api/answer/' + answerId, {
+    axios.delete('http://vps.masfaris.com:3004/api/answer/' + answerId, {
       headers: { token: token }
     })
     .then(({ data }) => {
@@ -163,7 +163,7 @@ const actions = {
   },
   voteQuestion: function ({ commit }, question) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.post('http://localhost:3000/api/question/' + question._id + '/vote', {
+    axios.post('http://vps.masfaris.com:3004/api/question/' + question._id + '/vote', {
       value: question.value
     }, {
       headers: { token: token }
@@ -177,7 +177,7 @@ const actions = {
   },
   voteAnswer: function ({ commit }, answer) {
     let token = JSON.parse(localStorage.getItem('dataUser')).token
-    axios.post('http://localhost:3000/api/answer/' + answer._id + '/vote', {
+    axios.post('http://vps.masfaris.com:3004/api/answer/' + answer._id + '/vote', {
       value: answer.value
     }, {
       headers: { token: token }
