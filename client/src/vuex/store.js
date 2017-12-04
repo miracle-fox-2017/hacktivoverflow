@@ -171,6 +171,7 @@ const actions = {
     })
   },
   voteQuestion: function ({ commit }, question) {
+    console.log(question.userId)
     let token = JSON.parse(localStorage.getItem('dataUser')).token
     axios.post('http://localhost:3000/api/question/' + question._id + '/vote', {
       value: question.value

@@ -77,7 +77,8 @@ let postQuestion = (req, res) => {
 
 let getQuestion = (req, res) => {
   Question.findOne({ _id: req.params.id })
-  //ada exec user
+  .populate('userId')
+  .exec()
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -91,7 +92,8 @@ let getQuestion = (req, res) => {
 
 let getQuestions = (req, res) => {
   Question.find()
-  //ada exec user
+  .populate('userId')
+  .exec()
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -181,7 +183,8 @@ let postAnswer = (req, res) => {
 
 let getAnswers = (req, res) => {
   Answer.find({ questionId: req.params.id })
-  //disini ada exec username
+  .populate('userId')
+  .exec()
   .then(result=>{
     res.status(200).send({
       msg: "success",

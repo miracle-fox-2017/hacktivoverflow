@@ -13,7 +13,7 @@
             <p>Vote: {{ question.totalVote }}</p>
           </div>
           <div class="col-md-9 col-sm-9">
-            <p>By: {{ question.userId }}</p>
+            <p>By: {{ question.userId.name }}</p>
             <p>On: {{ question.createdAt }}</p>
           </div>
         </div>

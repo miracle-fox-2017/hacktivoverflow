@@ -6,10 +6,10 @@
           <router-link :to="{ path: '/question/' + question._id }">{{ question.title }}</router-link>
           <span @click="voteQuestionUp(question)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
           <span @click="voteQuestionDown(question)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
-          <span v-if="_id == question.userId" @click="removeQuestion" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
-          <span v-if="_id == question.userId" @click="editQuestion(question)" class="right-fix pull-right "><button class="btn btn-info btn-sm"type="button" name="button"><i class="fa fa-pencil" aria-hidden="true"></i></button></span>
+          <span v-if="statusLogin && _id == question.userId._id" @click="removeQuestion" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+          <span v-if="statusLogin && _id == question.userId._id" @click="editQuestion(question)" class="right-fix pull-right "><button class="btn btn-info btn-sm"type="button" name="button"><i class="fa fa-pencil" aria-hidden="true"></i></button></span>
         </h4>
-        <p>By: {{ question.userId }}</p>
+        <p>By: {{ question.userId.name }}</p>
         <span>Vote: {{ totalQuestionVote }}</span>
       </div>
       <div class="panel-body panel-question">
@@ -18,9 +18,9 @@
       <div v-for="a in answers" class="panel-body">
         <span @click="voteAnswerUp(a)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
         <span @click="voteAnswerDown(a)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
-        <span v-if="_id == a.userId" @click="removeAnswer(a._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+        <span v-if="statusLogin && _id == a.userId._id" @click="removeAnswer(a._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
         <p class="answer">{{ a.answer }}</p>
-        <p>By: {{ a.userId }}</p>
+        <p>By: {{ a.userId.name }}</p>
         <span>Vote: {{ a.totalVote }}</span>
       </div>
     </div>
@@ -117,23 +117,29 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data: function () {
     return {
+      questionAuthor: '',
       image: '',
       answer: '',
-      _id: '',
+      _id: 0,
       updateQuestion: {
         _id: '',
         title: '',
         image: '',
         question: ''
       },
-      index: 0
+      statusLogin: false
     }
   },
   watch: {
     '$route' (to, from) {
       this.getQuestion(this.$route.params.id)
       this.getAnswer(this.$route.params.id)
-      this._id = JSON.parse(localStorage.getItem('dataUser'))._id
+      if (localStorage.getItem('dataUser')) {
+        this._id = JSON.parse(localStorage.getItem('dataUser'))._id
+        this.statusLogin = true
+      } else {
+        this.statusLogin = false
+      }
     }
   },
   computed: {
@@ -164,6 +170,13 @@ export default {
       }
       this.index += 1
       return 0
+    },
+    getName: function () {
+      let name = this.question
+      this.questionAuthor = name.userId
+      if(this.questionAuthor) {
+        return this.questionAuthor.name
+      }
     }
   },
   methods: {
@@ -243,10 +256,16 @@ export default {
   created: function () {
     this.getQuestion(this.$route.params.id)
     this.getAnswer(this.$route.params.id)
-    this._id = JSON.parse(localStorage.getItem('dataUser'))._id
+    if (localStorage.getItem('dataUser')) {
+      this._id = JSON.parse(localStorage.getItem('dataUser'))._id
+      this.statusLogin = true
+    } else {
+      this.statusLogin = false
+    }
   },
   updated: function () {
-    this.getAnswer(this.$route.params.id)
+    // this.getAnswer(this.$route.params.id)
+    console.log('updated')
   }
 }
 </script>
