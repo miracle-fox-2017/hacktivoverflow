@@ -1,19 +1,20 @@
 <template>
 <div class="container"> 
-    <button v-if="checkIn" @click="remove" class="btn btn-default pull-right">
-    <span class="glyphicon glyphicon-trash"></span> </button>
+    <!-- <button v-if="isOwner(question,userId)" @click="remove" class="btn btn-default pull-right"> -->
+    <!-- <span class="glyphicon glyphicon-trash"></span> </button> -->
      <router-link :to="`/edit/${question._id}`">
-      <button  v-if="checkIn" class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
+  <!--     <button  v-if="isOwner(question,userId)" class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
           <span class="glyphicon glyphicon-edit"></span>
-      </button>
+      </button> -->
      </router-link>       
-    <h3 > {{ question.userName }} <small> post this message at {{ question.createdAt }} </small></h3> <small> {{ question.title }}</small>
+    <h3 > {{ question.userName }} <small> post this message at {{ question.createdAt }} </small></h3> 
+    <h2> {{ question.title }} </h2>
     <div class="panel panel-default">
       <div class="panel-body"> {{ question.desc }}</div>
       </div>
       <CommentDetail v-for="(comment, index) in answer.data" :comment="comment":key="index" ></CommentDetail>
       <router-link :to="`/`" > 
-        <button class="btn btn-default pull-left"> Back
+        <button class="btn btn-default pull-left back"> Back
         </button> 
       </router-link>      
       <AddComment :questionId="questionId"></AddComment>
@@ -39,7 +40,10 @@ export default {
     },
     checkIn() {
       return this.$store.state.checkIn
-    }  
+    },
+    userId() {
+      return this.$store.state.userId
+    }       
   },
   methods: {
     ...mapActions([
@@ -55,7 +59,14 @@ export default {
     },
     voteLike : function () {
       this.voteQuestion(this.questionId)
-    } 
+    },
+    isOwner : function(question,user) {
+      if(question.userId._id == user){
+        return true
+      }else{
+        return false
+      }
+    }     
   },
   created () {
     this.getQuestion(this.questionId)
@@ -89,6 +100,11 @@ h3 {
 }
 .panel-body {
   color: #C2185B;
+}
+
+.back {
+  margin-top: 20px;
+  margin-left: 15px;
 }
 
 .container {

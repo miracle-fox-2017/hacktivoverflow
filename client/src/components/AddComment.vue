@@ -3,7 +3,7 @@
 
 
 <!-- Button trigger modal -->
-<button class="btn btn-default pull-right" data-toggle="modal" data-target="#myModalHorizontal" ><span class="glyphicon glyphicon-comment"></span> comment </button>
+<button class="btn btn-default pull-right " data-toggle="modal" data-target="#myModalHorizontal" ><span class="glyphicon glyphicon-comment"></span> comment </button>
 
 <!-- Modal -->
 <div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog" 

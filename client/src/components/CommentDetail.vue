@@ -5,7 +5,7 @@
     <div class="container" >
         <div class="row">
             <div class="col-sm-8">
-                <button  @click="removeComment(comment._id)" type="button" class="close"> 
+                <button  v-if="isOwner(comment,userId)"  @click="removeComment(comment._id)" type="button" class="close"> 
                        <span aria-hidden="true">&times;</span>
                        <span class="sr-only">Close</span>
                 </button>                  
@@ -25,8 +25,8 @@
                     <div class="post-description"> 
                         <p> {{ comment.desc }}</p>
                         <div class="stats">
-                                <a  href="#" v-if="liked(userId)" @click="voteComment(comment._id)" class="fa fa-thumbs-up icon white"> {{ comment.commentLike.length }} </a>                        
-                                <a  href="#" v-else="liked(userId)" @click="voteComment(comment._id)" class="fa fa-thumbs-up icon blue"> {{ comment.commentLike.length }} </a>
+                                <a  href="#" v-if="liked(userId)" @click.prevent="voteComment(comment._id)" class="fa fa-thumbs-up icon white"> {{ comment.commentLike.length }} </a>                        
+                                <a  href="#" v-else="liked(userId)" @click.prevent="voteComment(comment._id)" class="fa fa-thumbs-up icon blue"> {{ comment.commentLike.length }} </a>
                         </div>
                     </div>
                 </div>
@@ -58,13 +58,18 @@ export default {
         },
         liked : function(user) {
           if(this.comment.commentLike.indexOf(user) != -1){
-            console.log("masuk")
             return false
           }else{
-            console.log("tidakmasuk")
             return true
           }
-        }        
+        },
+        isOwner : function(comment,user) {
+          if(comment.userId._id == user){
+            return true
+          }else{
+            return false
+          }
+        }                
 
     }
 }	

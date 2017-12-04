@@ -1,13 +1,14 @@
 <template>
 <div class="container"> 
-    <button v-if="checkIn" @click="remove(question._id)" class="btn btn-default pull-right">
+    <button v-if="isOwner(question,userId)" @click="remove(question._id)" class="btn btn-default pull-right">
     <span class="glyphicon glyphicon-trash"></span> </button>
        <router-link :to="`/edit/${question._id}`">
-        <button v-if="checkIn" class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
+        <button v-if="isOwner(question,userId)" class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
             <span class="glyphicon glyphicon-edit"></span>
         </button>
        </router-link>        
-    <h3>{{ question.userName }} <small> post this message at {{ question.createdAt }}</small> </h3> <small> {{ question.title }}</small>
+    <h3>{{ question.userName }} <small> post this message at {{ question.createdAt }}</small> </h3> 
+    <h2> {{ question.title }} </h2>
     <div class="panel panel-default">
       <div class="panel-body"> {{ question.desc }}</div>
       </div>
@@ -15,8 +16,8 @@
         <button class="btn btn-default pull-left"> Show Detail or Answer 
         </button> 
       </router-link>
-      <a href="#" v-if="liked(userId)" @click="voteLike(question._id)" class="glyphicon glyphicon-thumbs-up pull-right white"> {{ question.like.length }} </a>
-       <a href="#" v-else="liked(userId)" @click="voteLike(question._id)" class="glyphicon glyphicon-thumbs-up pull-right blue"> {{ question.like.length }} </a>
+      <a href="#" v-if="liked(userId)" @click.prevent="voteLike(question._id)" class="glyphicon glyphicon-thumbs-up pull-right white"> {{ question.like.length }} </a>
+       <a href="#" v-else="liked(userId)" @click.prevent="voteLike(question._id)" class="glyphicon glyphicon-thumbs-up pull-right blue"> {{ question.like.length }} </a>
     </div>  
 </div>
 </template>
@@ -48,11 +49,16 @@ export default {
     },
     liked : function(questionId) {
       if(this.question.like.indexOf(questionId) != -1){
-        console.log("masuk")
         return false
       }else{
-        console.log("tidakmasuk")
         return true
+      }
+    },
+    isOwner : function(question,user) {
+      if(question.userId._id == user){
+        return true
+      }else{
+        return false
       }
     }
   },

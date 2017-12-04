@@ -4,6 +4,9 @@
      <h1> HACKTIV OVER FLOW </h1>
     </div>      
     <router-view />
+    <div class="footer hacktiv">
+      <small> Copyright by Ahmad </small>
+    </div>
   </div>
 </template>
 
@@ -29,6 +32,10 @@ html,body {
 .header {
   background-color: #FF5722;
   color: #FFFFFF;
+}
+
+.hacktiv {
+  margin: 10px 0 10px 0;
 }
 
 h1 {
