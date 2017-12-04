@@ -22,7 +22,15 @@ update = (req, res) => {
 }
 
 remove = (req, res) => {
-  
+  Answer.findByIdAndRemove(req.params.id)
+  .then(answerDeleted => {
+    let answer = {
+      status: 'deleted',
+      data: answerDeleted
+    }
+    res.send(answer)
+  })
+  .catch(err => res.status(500).send(err))
 }
 
 module.exports = {

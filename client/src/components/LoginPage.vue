@@ -29,7 +29,10 @@
         </div>
         <div class="ui segment">
           <div class="field" style="text-align: center;">
-            Don't have an account? <a @click="modalSignup">Sign up</a>
+            Don't have an account? <a href="" @click="modalSignup">Sign up</a>
+          </div>
+          <div class="field" style="text-align: center;">
+            <router-link to="/">Back to Home.</router-link>
           </div>
         </div>
       </div>

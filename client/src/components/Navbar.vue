@@ -1,18 +1,18 @@
 <template>
   <div class="ui borderless main menu fixed stackable" style="position: fixed; top: 0px; left: auto; z-index: 10; padding: 0 50px;">
     <!-- <div class="ui text container"> -->
-      <div href="#" class="header item">
+      <div class="header item">
         <img class="ui image logo" src="../assets/img/logo.png">
       </div>
       <router-link class="item" to="/">Home</router-link>
-      <a href="#" class="item">Questions</a>
-      <a href="#" class="item">Users</a>
-      <div href="#" class="ui right item" tabindex="0" v-if="isLogin">
+      <a class="item">Questions</a>
+      <a class="item">Users</a>
+      <div class="ui right item" tabindex="0" v-if="isLogin">
         <router-link style="margin-left: 20px;" class="ui primary button" to="/myaccount">My Account</router-link>
         <button style="margin-left: 20px;" class="ui primary button" @click="modalQuestion">Ask Question</button>
         <button style="margin-left: 20px;" class="ui negative button" @click="logout">Logout</button>
       </div>
-      <div href="#" class="ui right item" tabindex="0" v-else>
+      <div class="ui right item" tabindex="0" v-else>
         <router-link style="margin-left: 20px;" class="ui button" to="/login">Login</router-link>
       </div>
     <!-- </div> -->

@@ -1,10 +1,10 @@
 <template>
   <div class="ui container">
-    <di class="ui header">
+    <div class="ui header">
       {{question.title}} <br>
-      <i style="color: #ababab; font-size: 12px;">{{question.userId.first_name}} {{question.userId.last_name}}</i>
+      <i style="color: #ababab; font-size: 12px;">{{question.userId.first_name + ' ' + question.userId.last_name}}</i>
       <div class="ui divider"></div>
-    </di>
+    </div>
     <div class="content">
       <p style="text-align: justify">{{question.question}}</p>
     </div>
