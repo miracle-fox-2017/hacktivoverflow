@@ -107,7 +107,11 @@ class AnswerController {
                       res.status(400).send(err)
                     }
                     else {
-                      res.status(200).send(hasilanswer)
+                      Answer.findOne({_id: req.params.id}).populate('by').populate('voters').exec((err, hasilpopulate) => {
+                        res.status(200).send(hasilpopulate)
+                      }).catch((err) => {
+                        res.status(404).send(err)
+                      })
                     }
                   })
                 }
@@ -123,7 +127,11 @@ class AnswerController {
                       res.status(400).send(err)
                     }
                     else {
-                      res.status(200).send(hasilanswer)
+                      Answer.findOne({_id: req.params.id}).populate('by').populate('voters').exec((err, hasilpopulate) => {
+                        res.status(200).send(hasilpopulate)
+                      }).catch((err) => {
+                        res.status(404).send(err)
+                      })
                     }
                   })
                 }

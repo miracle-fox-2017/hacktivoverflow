@@ -7,7 +7,7 @@ const questionController = require('../controllers/questionController');
 router.post('/create', loginmiddle.isLogin, questionController.create)
 router.get('/getall', questionController.read)
 router.delete('/delete/:id', questionController.delete)
-router.put('/update/:id', questionController.update)
+router.put('/update/:id', loginmiddle.isLogin, questionController.update)
 router.put('/vote/:id', loginmiddle.isLogin, questionController.vote)
 router.put('/unvote/:id', loginmiddle.isLogin, questionController.unvote)
 router.get('/getOne/:id', questionController.readOne)

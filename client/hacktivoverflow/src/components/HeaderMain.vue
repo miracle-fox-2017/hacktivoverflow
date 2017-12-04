@@ -33,7 +33,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Login</h5>
+              <h5 class="modal-title">Register</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -61,6 +61,44 @@
           </div>
         </div>
       </div>
+      <!-- modal register -->
+      <div class="modal fade" id="registermodal">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Login</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <fieldset>
+                  <div class="form-group">
+                    <label for="emailinput">Name</label>
+                    <input type="text" class="form-control" id="emailinput" aria-describedby="emailHelp" placeholder="Masukkan name anda" v-model="name">
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                  </div>
+                  <div class="form-group">
+                    <label for="emailinput">Email</label>
+                    <input type="email" class="form-control" id="emailinput" aria-describedby="emailHelp" placeholder="Masukkan email anda" v-model="email">
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                  </div>
+                  <div class="form-group">
+                    <label for="passwordinput">Password</label>
+                    <input type="password" class="form-control" id="passwordinput" aria-describedby="emailHelp" placeholder="masukkan password" v-model="password">
+                    <small id="emailHelp" class="form-text text-muted"></small>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" v-on:click="register" data-dismiss="modal">Register</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
   </nav>
 </template>
 
@@ -70,6 +108,7 @@ export default {
   name: 'HeaderMain',
   data () {
     return {
+      name: '',
       email: '',
       password: ''
     }
@@ -94,6 +133,19 @@ export default {
     logout: function () {
       localStorage.removeItem('access_token')
       location.reload()
+    },
+
+    register: function () {
+      axios.post('http://localhost:3000/api/user/signup', {
+        name: this.name,
+        email: this.email,
+        password: this.password
+      })
+      .then((response) => {
+        this.name = ''
+        this.email = ''
+        this.password = ''
+      })
     }
   }
 }
