@@ -5,8 +5,11 @@
         <a class="navbar-brand"><router-link to="/">Hacktiv Overflow</router-link></a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="#">Page 2</a></li>
-        <li> <router-link to="/login">Sign in</router-link></li>
+        <li><a href="#">Questions</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li v-if="isLogin"> <a href="#" v-on:click="logout">Logout</a></li>
+        <li v-else> <router-link to="/login">Sign in</router-link></li>
       </ul>
     </div>
   </nav>
@@ -14,7 +17,18 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      isLogin: localStorage.getItem('token')
+    }
+  },
+  methods: {
+    logout () {
+      localStorage.clear();
+      this.$router.push('/login')
+      location.reload();
+    }
+  }
 }
 </script>
 

@@ -40,13 +40,13 @@ export default {
         password: this.password
       })
       .then(response => { 
-        console.log(response)
         if(response.data == "invalid email or password"){
           this.error = true
         }
         else {
           this.error = false
-
+          localStorage.setItem('token', response.data)
+          location.reload();
         }
       })
       .catch(err => { console.log(err) })

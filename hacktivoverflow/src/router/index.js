@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import TheHomePage from '@/components/TheHomePage'
 import TheLogin from '@/components/TheLogin'
 import TheSignup from '@/components/TheSignup'
+import TheQuestion from '@/components/TheQuestion'
 
 Vue.use(Router)
 
@@ -12,12 +13,24 @@ export default new Router({
     {
       path: '/',
       name: 'TheHomePage',
-      component: TheHomePage
+      component: TheHomePage,
+      children: [{
+        path: '',
+        name: 'TheQuestion',
+        component: TheQuestion
+      }]
     },
     {
       path: '/login',
       name: 'TheLogin',
-      component: TheLogin
+      component: TheLogin,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('token')) { 
+          next({ path: '/' }) 
+        } else {
+          next()
+        }
+      }
     },
     {
       path: '/signup',
