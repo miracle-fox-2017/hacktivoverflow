@@ -1,5 +1,5 @@
 <template>
-  <div class="ui modal">
+  <div id="askQuestion" class="ui modal">
   <i class="close icon"></i>
   <div class="header">
     Ask Question
@@ -50,7 +50,16 @@
       ...mapActions(['addQuestion']),
       submitQuestion () {
         this.addQuestion(this.newQuestion)
+        // this.clearForm()
+        // $('#askQuestion').modal('hide')
       }
+      // ,clearForm () {
+      //   this.newQuestion.title = null,
+      //   this.newQuestion.content = null,
+      //   this.newQuestion.tags = null
+      //   console.log(this.newQuestion);
+      //   return this.newQuestion
+      // }
     }
   }
 </script>

@@ -2,8 +2,7 @@
   <header class="ui attached stackable menu">
     <nav class="ui container">
       <router-link class="item" to="/"><i class="home icon"></i>Home</a></router-link>
-      <router-link class="item" to="/blog"><i class="file text outline icon"></i>Articles</a></router-link>
-      <router-link class="item" to="/admin" v-if="token"><i class="dashboard icon"></i>Dashboard</a></router-link>
+      <router-link class="item" to="/dashboard" v-if="token"><i class="dashboard icon"></i>Dashboard</a></router-link>
       <div id="remove" class="right item">
         <div v-if="token">
           <!-- <button class="ui basic button none-shadow" @click="logout">Logout</button> -->

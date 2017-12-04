@@ -6,7 +6,8 @@
     </div>
     <div class="three wide column">
       <div class="ui right floated buttons">
-        <button id="btnstyle" class="ui active button">Edit</button>
+        <button id="btnstyle" class="ui active button" @click="editQuestionModal(userQuestion)">Edit</button>
+        <EditQuestionModal :userQuestion="userQuestion"/>
         <div class="or"></div>
         <button id="btnstyle" class="ui negative button" @click="submitDeleteQuestion(userQuestion)">Delete</button>
       </div>
@@ -16,14 +17,21 @@
 
 <script>
   import { mapActions } from 'vuex'
+  import EditQuestionModal from '@/components/EditQuestionModal'
   export default {
     name: 'DashboardSummaries',
     props: ['userQuestion'],
+    components: {
+      EditQuestionModal
+    },
     methods: {
       ...mapActions(['deleteQuestion']),
       submitDeleteQuestion (userQuestion) {
-        // console.log(userQuestion._id);
         this.deleteQuestion(userQuestion._id)
+      },
+      editQuestionModal (userQuestion) {
+        console.log(userQuestion);
+        $('#editQuestion').modal('show')
       }
     }
   }

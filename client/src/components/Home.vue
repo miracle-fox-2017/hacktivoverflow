@@ -32,7 +32,7 @@
     methods: {
       ...mapActions(['getAllQuestions']),
       addQuestionModal () {
-        $('.ui.modal').modal('show')
+        $('#askQuestion').modal('show')
       }
     },
     created: function () {
