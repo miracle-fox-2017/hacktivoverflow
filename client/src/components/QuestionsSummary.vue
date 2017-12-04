@@ -1,9 +1,9 @@
 <template>
 <div class="container"> 
-    <button @click="remove(question._id)" class="btn btn-default pull-right">
+    <button v-if="checkIn" @click="remove(question._id)" class="btn btn-default pull-right">
     <span class="glyphicon glyphicon-trash"></span> </button>
        <router-link :to="`/edit/${question._id}`">
-        <button class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
+        <button v-if="checkIn" class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
             <span class="glyphicon glyphicon-edit"></span>
         </button>
        </router-link>        
@@ -15,7 +15,8 @@
         <button class="btn btn-default pull-left"> Show Detail or Answer 
         </button> 
       </router-link>
-      <button @click="voteLike(question._id)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-thumbs-up"></span> {{ question.like.length }}</button>
+      <a href="#" v-if="liked(userId)" @click="voteLike(question._id)" class="glyphicon glyphicon-thumbs-up pull-right white"> {{ question.like.length }} </a>
+       <a href="#" v-else="liked(userId)" @click="voteLike(question._id)" class="glyphicon glyphicon-thumbs-up pull-right blue"> {{ question.like.length }} </a>
     </div>  
 </div>
 </template>
@@ -24,6 +25,15 @@
 import { mapActions } from 'vuex'
 export default {
   props: ['question'],
+  computed : {
+    checkIn() {
+      return this.$store.state.checkIn
+    },
+    userId() {
+      return this.$store.state.userId
+    }      
+
+  },  
   methods: {
     ...mapActions([
       'deleteQuestion',
@@ -35,6 +45,15 @@ export default {
     },
     voteLike : function (questionId) {
       this.voteQuestion(questionId)
+    },
+    liked : function(questionId) {
+      if(this.question.like.indexOf(questionId) != -1){
+        console.log("masuk")
+        return false
+      }else{
+        console.log("tidakmasuk")
+        return true
+      }
     }
   },
   created () {
@@ -57,6 +76,7 @@ li {
   margin: 0 10px;
 }
 a {
+  text-decoration: none;
   color: #42b983;
 }
 
@@ -71,6 +91,13 @@ h3 {
   color: #C2185B;
 }
 
+.white {
+  color: black;
+}
+
+.blue {
+  color: blue;
+}
 .container {
   margin-top: 20px;
   background-color: #F5F5F5;

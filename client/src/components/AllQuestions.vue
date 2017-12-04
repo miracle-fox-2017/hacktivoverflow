@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-  <AddQuestion></addQuestion>
+  <AddQuestion v-if="checkIn"></addQuestion>
   <QuestionsSummary v-for="(question, index) in questions" :question="question" :key="index"></QuestionsSummary>
 </div>
 </template>
@@ -10,6 +10,11 @@ import QuestionsSummary from '@/components/QuestionsSummary'
 import AddQuestion from '@/components/AddQuestion'
 export default {
   props: ['questions'],
+  computed : {
+    checkIn() {
+      return this.$store.state.checkIn
+    }    
+  },  
   components : {
     QuestionsSummary,
     AddQuestion

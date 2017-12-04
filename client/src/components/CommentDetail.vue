@@ -25,13 +25,8 @@
                     <div class="post-description"> 
                         <p> {{ comment.desc }}</p>
                         <div class="stats">
-                            <button @click="voteComment(comment._id)" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-up icon"></i>{{ comment.commentLike.length }}
-                            </button>
-                       <!--       <button @click="voteLike(question._id)" class="btn btn-default pull-right"><span class="glyphicon glyphicon-thumbs-up"></span> {{ question.like.length }}</button> -->
-    <!--                         <a href="#" class="btn btn-default stat-item">
-                                <i class="fa fa-thumbs-down icon"></i>12
-                            </a> -->                         
+                                <a  href="#" v-if="liked(userId)" @click="voteComment(comment._id)" class="fa fa-thumbs-up icon white"> {{ comment.commentLike.length }} </a>                        
+                                <a  href="#" v-else="liked(userId)" @click="voteComment(comment._id)" class="fa fa-thumbs-up icon blue"> {{ comment.commentLike.length }} </a>
                         </div>
                     </div>
                 </div>
@@ -45,6 +40,11 @@
 import { mapActions } from 'vuex'
 export default {
 	props: ['comment'],
+    computed : {
+        userId() {
+          return this.$store.state.userId
+        }  
+    },
     methods : {
         ...mapActions ([
             'commentRemove',
@@ -55,7 +55,16 @@ export default {
         },
         voteComment : function (commentId) {
             this.commentVote(commentId)
-        }
+        },
+        liked : function(user) {
+          if(this.comment.commentLike.indexOf(user) != -1){
+            console.log("masuk")
+            return false
+          }else{
+            console.log("tidakmasuk")
+            return true
+          }
+        }        
 
     }
 }	
@@ -74,6 +83,7 @@ li {
   margin: 0 10px;
 }
 a {
+    text-decoration: none;
   color: #42b983;
 }
 .container {
@@ -86,8 +96,16 @@ a {
     background-color: #FFFFFF;    
 }
 
-.post-description:hover {
- 
+.voteComment {
+    background-color: blue;
+}
+
+.white {
+  color: black;
+}
+
+.blue {
+  color: blue;
 }
 
 

@@ -11,7 +11,7 @@
     Logout
 </button>
 
-<button class="btn btn-primary btn-xs pull-right" v-if="!checkIn" data-toggle="modal" data-target="#register sidebutton">
+<button class="btn btn-primary btn-xs pull-right" v-if="!checkIn" data-toggle="modal" data-target="#register">
     Register
 </button>
 <!-- Login -->
@@ -27,7 +27,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Add your question
+                    Login
                 </h4>
             </div>
             
@@ -80,7 +80,7 @@
                        <span class="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    Add your question
+                    Register
                 </h4>
             </div>
             
@@ -164,7 +164,8 @@ export default {
     ...mapActions([
       'signIn',
       'signUp',
-      'signOut'
+      'signOut',
+      'isCheckIn'
       ]),
     createUser: function () {
       this.signUp({
@@ -183,6 +184,9 @@ export default {
     logout () {
       this.signOut()
     }
+  },
+  created () {
+    this.isCheckIn()
   }
 }
 </script>

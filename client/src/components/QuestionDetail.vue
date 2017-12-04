@@ -1,9 +1,9 @@
 <template>
 <div class="container"> 
-    <button @click="remove" class="btn btn-default pull-right">
+    <button v-if="checkIn" @click="remove" class="btn btn-default pull-right">
     <span class="glyphicon glyphicon-trash"></span> </button>
      <router-link :to="`/edit/${question._id}`">
-      <button class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
+      <button  v-if="checkIn" class="btn btn-default pull-right" data-toggle="modal" data-target="ModalHorizontal">
           <span class="glyphicon glyphicon-edit"></span>
       </button>
      </router-link>       
@@ -11,7 +11,6 @@
     <div class="panel panel-default">
       <div class="panel-body"> {{ question.desc }}</div>
       </div>
-<!--       <button @click="voteLike" class="btn btn-default pull-right"><span class="glyphicon glyphicon-thumbs-up"></span> {{ question.like.length }}</button> -->
       <CommentDetail v-for="(comment, index) in answer.data" :comment="comment":key="index" ></CommentDetail>
       <router-link :to="`/`" > 
         <button class="btn btn-default pull-left"> Back
@@ -37,7 +36,10 @@ export default {
     },
     answer () {
       return this.$store.state.answer
-    }    
+    },
+    checkIn() {
+      return this.$store.state.checkIn
+    }  
   },
   methods: {
     ...mapActions([
