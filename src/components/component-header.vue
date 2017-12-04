@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-default" style="margin-bottom:0;">
+  <nav id="navbar" class="navbar navbar-default" style="margin-bottom:0;">
     <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -16,6 +16,10 @@
         <ul class="nav navbar-nav">
           <li><router-link :to="'/user/'+loggedInUserId">Your Post</router-link></li>
         </ul>
+        <div class="navbar-right">
+          <button type="button" v-if="loginState" @click="logout">Logout</button>
+          <button type="button" v-else @click="login">Login</button>
+        </div>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
   </nav>
@@ -24,7 +28,8 @@
 export default {
   data(){
     return{
-      loggedInUserId:""
+      loggedInUserId:"",
+      loginState:localStorage.getItem("login_token") != null
     }
   },
   beforeCreate(){
@@ -44,6 +49,31 @@ export default {
         console.log(err);
       });
     }
+  },
+  methods:{
+    login(){
+      this.$router.push("/access");
+    },
+    logout(){
+      localStorage.removeItem("login_token");
+      this.$router.push("/access");
+    }
   }
 }
 </script>
+<style lang="scss">
+#navbar {
+  .navbar-right {
+    height: 50px;
+    button {
+      top: 50%;
+      height: 30px;
+      position: relative;
+      padding-left: 10px;
+      padding-right: 10px;
+      border: 1px solid #FFF;
+      transform: translateY(-50%);
+    }
+  }
+}
+</style>

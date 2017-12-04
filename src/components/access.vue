@@ -89,6 +89,7 @@ html,body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-attachment: fixed;
   background-image: url("../assets/polygon-background.jpg");
 }
 .access-form {
