@@ -4,24 +4,24 @@
       <div class="panel-heading">
         <h4>
           <router-link :to="{ path: '/question/' + question._id }">{{ question.title }}</router-link>
-          <span @click="voteQuestionUp(question)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
-          <span @click="voteQuestionDown(question)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+          <span class="right-fix pull-right "><button @click="upVoteQuestion" class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+          <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
           <span v-if="statusLogin && _id == question.userId._id" @click="removeQuestion" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
           <span v-if="statusLogin && _id == question.userId._id" @click="editQuestion(question)" class="right-fix pull-right "><button class="btn btn-info btn-sm"type="button" name="button"><i class="fa fa-pencil" aria-hidden="true"></i></button></span>
         </h4>
-        <p>By: {{ question.userId.name }}</p>
-        <span>Vote: {{ totalQuestionVote }}</span>
+        <p>By: {{ question.userId }}</p>
+        <span>Vote: XX</span>
       </div>
       <div class="panel-body panel-question">
         <p class="question">{{ question.question }}</p>
       </div>
-      <div v-for="a in answers" class="panel-body">
-        <span @click="voteAnswerUp(a)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
-        <span @click="voteAnswerDown(a)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
-        <span v-if="statusLogin && _id == a.userId._id" @click="removeAnswer(a._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
-        <p class="answer">{{ a.answer }}</p>
-        <p>By: {{ a.userId.name }}</p>
-        <span>Vote: {{ a.totalVote }}</span>
+      <div v-for="answer in answers" class="panel-body">
+        <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+        <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+        <span v-if="_id == answer.userId._id" @click="removeAnswer(answer._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+        <p class="answer">{{ answer.answer }}</p>
+        <p>By: {{ answer.userId }}</p>
+        <span>Vote: XX</span>
       </div>
     </div>
     <button type="button" class="btn btn-success" name="button" data-toggle="modal" data-target="#answer">Answer</button>
@@ -174,7 +174,7 @@ export default {
     getName: function () {
       let name = this.question
       this.questionAuthor = name.userId
-      if(this.questionAuthor) {
+      if (this.questionAuthor) {
         return this.questionAuthor.name
       }
     }
@@ -186,8 +186,7 @@ export default {
       'postAnswer',
       'updatedQuestion',
       'deleteQuestion',
-      'voteQuestion',
-      'voteAnswer'
+      'deleteAnswer'
     ]),
     sendAnswer: function () {
       let newAnswer = {
@@ -220,37 +219,6 @@ export default {
     },
     removeAnswer: function (answerId) {
       this.deleteAnswer(answerId)
-    },
-    voteQuestionUp: function (question) {
-      if (this.checkStatusLogin()) {
-        question.value = 1
-        this.voteQuestion(question)
-      }
-    },
-    voteQuestionDown: function (question) {
-      if (this.checkStatusLogin()) {
-        question.value = -1
-        this.voteQuestion(question)
-      }
-    },
-    voteAnswerUp: function (answer) {
-      if (this.checkStatusLogin()) {
-        answer.value = 1
-        this.voteAnswer(answer)
-      }
-    },
-    voteAnswerDown: function (answer) {
-      if (this.checkStatusLogin()) {
-        answer.value = -1
-        this.voteAnswer(answer)
-      }
-    },
-    checkStatusLogin: function () {
-      if (localStorage.getItem('dataUser')) {
-        return true
-      } else {
-        return false
-      }
     }
   },
   created: function () {

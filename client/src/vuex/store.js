@@ -15,13 +15,6 @@ const mutations = {
     console.log(payload)
   },
   saveQuestions: function (state, payload) {
-    for (let i = 0; i < payload.length; i++) {
-      let totalVote = 0
-      for (let j = 0; j < payload[i].vote.length; j++) {
-        totalVote += payload[i].vote[j].value
-      }
-      payload[i].totalVote = totalVote
-    }
     state.questions = payload
   },
   saveQuestion: function (state, payload) {
@@ -40,13 +33,6 @@ const mutations = {
     state.questions.splice(pos, 1)
   },
   saveAnswer: function (state, payload) {
-    for (let i = 0; i < payload.length; i++) {
-      let totalVote = 0
-      for (let j = 0; j < payload[i].vote.length; j++) {
-        totalVote += payload[i].vote[j].value
-      }
-      payload[i].totalVote = totalVote
-    }
     state.answers = payload
   },
   postAnswer: function (state, payload) {
@@ -58,20 +44,6 @@ const mutations = {
       return e._id === payload
     })
     state.answers.splice(pos, 1)
-  },
-  saveVoteQuestion: function (state, payload) {
-    state.question = payload
-  },
-  saveVoteAnswer: function (state, payload) {
-    let totalVote = 0
-    for (let j = 0; j < payload.vote.length; j++) {
-      totalVote += payload.vote[j].value
-    }
-    payload.totalVote = totalVote
-    let pos = state.answers.findIndex(function (e) {
-      return e._id === payload._id
-    })
-    state.answers[pos] = payload
   }
 }
 
@@ -171,7 +143,6 @@ const actions = {
     })
   },
   voteQuestion: function ({ commit }, question) {
-    console.log(question.userId)
     let token = JSON.parse(localStorage.getItem('dataUser')).token
     axios.post('http://localhost:3000/api/question/' + question._id + '/vote', {
       value: question.value
