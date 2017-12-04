@@ -58,12 +58,12 @@ const actions = {
   },
   findAnswerByQuestion ({ commit }, questionId) {
     // console.log('id quest >>>', questionId)
-    http.get('api/answers/questions/' + questionId).then(({data}) => {
-      // console.log('answerquest', data)
-      commit('getAnswerByQuestion', data)
-    }).catch(err => {
-      console.error(err)
-    })
+    // http.get('api/answers/questions/' + questionId).then(({data}) => {
+    //   console.log('answerquest', data)
+    //   commit('getAnswerByQuestion', data)
+    // }).catch(err => {
+    //   console.error(err)
+    // })
   },
   // END ANSWER //
 
