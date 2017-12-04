@@ -5,6 +5,7 @@ const loginmiddle = require('../middleware/login');
 const answerController = require('../controllers/answerController');
 
 router.get('/getall', answerController.read)
+router.get('/getbyquestion/:id', answerController.answerbyquestion)
 router.post('/create', loginmiddle.isLogin, answerController.create)
 router.put('/update/:id', answerController.update)
 router.delete('/delete/:id', answerController.delete)

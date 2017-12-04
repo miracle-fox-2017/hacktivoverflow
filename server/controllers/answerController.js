@@ -7,11 +7,17 @@ class AnswerController {
     Answer
           .create({
             content: req.body.content,
-            by: req.body.by,
+            by: req.header.decoded._id,
             question: req.body.question_id,
           })
           .then((answer) => {
-            res.status(201).send(answer)
+            Answer
+            .findOne({_id: answer._id})
+            .populate('by')
+            .populate('voters')
+            .exec((err, hasil) => {
+              res.status(200).send(hasil)
+            })
           })
           .catch((err) => {
             res.status(400).send(err)
@@ -85,34 +91,48 @@ class AnswerController {
   }
 
   static vote(req, res) {
-    Answer
-          .findOne({_id: req.params.id})
-          .then((hasilanswer) => {
-            if(!hasilanswer) {
-              res.status(404).send({})
-            }
-            else {
 
-              if(hasilanswer.voters.indexOf(req.body.user_id) == -1) {
-                Answer
-                     .updateOne({ _id: req.params.id },{ $push: { voters: req.body.user_id }})
-                     .then((response) => {
-                       res.status(200).send(response)
-                     })
-                     .catch((err) => {
-                       res.status(400).send(err)
-                     })
+    Answer
+            .findOne({_id: req.params.id})
+            .then((hasilanswer) => {
+              if(!hasilanswer) {
+                res.status(404).send({})
               }
               else {
-                res.status(400).send({
-                  error: "User has vote this question"
-                })
+
+                if(hasilanswer.voters.indexOf(req.header.decoded._id) == -1) {
+                  hasilanswer.voters.push(req.header.decoded._id)
+                  hasilanswer.save(function(err) {
+                    if(err) {
+                      res.status(400).send(err)
+                    }
+                    else {
+                      res.status(200).send(hasilanswer)
+                    }
+                  })
+                }
+                else {
+                  hasilanswer.voters.forEach((hasil, index) => {
+                    if(hasil == req.header.decoded._id) {
+                      hasilanswer.voters.splice(index, 1)
+                      return
+                    }
+                  })
+                  hasilanswer.save(function(err) {
+                    if(err) {
+                      res.status(400).send(err)
+                    }
+                    else {
+                      res.status(200).send(hasilanswer)
+                    }
+                  })
+                }
               }
-            }
-          })
-          .catch((err) => {
-            res.status(404).send(err)
-          })
+            })
+            .catch((err) => {
+              res.status(404).send(err)
+            })
+
   }
 
   static unvote(req, res) {
@@ -143,6 +163,15 @@ class AnswerController {
           })
           .catch((err) => {
             res.status(404).send(err)
+          })
+  }
+
+  static answerbyquestion(req, res) {
+    Answer
+          .find({question: req.params.id}).populate('by').exec((err, hasil) => {
+            res.status(200).send(hasil)
+          }).catch((err) => {
+            res.status(400).send(err)
           })
   }
 

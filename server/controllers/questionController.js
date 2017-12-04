@@ -13,7 +13,13 @@ class QuestionController {
               author: req.header.decoded._id,
             })
             .then((question) => {
-              res.status(201).send(question)
+              Question
+              .findOne({_id: question._id})
+              .populate('author')
+              .populate('voters')
+              .exec((err, hasil) => {
+                res.status(200).send(hasil)
+              })
             })
             .catch((err) => {
               res.status(400).send(err)
@@ -25,13 +31,14 @@ class QuestionController {
 
     Question
             .find()
-            .then((question) => {
-              res.status(201).send(question)
+            .populate('author')
+            .populate('voters')
+            .exec((err, hasil) => {
+              res.status(200).send(hasil)
             })
             .catch((err) => {
               res.status(400).send(err)
             })
-
   }
 
   static delete(req, res) {
@@ -114,13 +121,32 @@ class QuestionController {
                       res.status(400).send(err)
                     }
                     else {
-                      res.status(200).send(hasilquestion)
+                      Question.findOne({_id: req.params.id}).populate('author').populate('voters').exec((err, hasilpopulate) => {
+                        res.status(200).send(hasilpopulate)
+                      }).catch((err) => {
+                        res.status(404).send(err)
+                      })
                     }
                   })
                 }
                 else {
-                  res.status(400).send({
-                    error: "User has vote this question"
+                  hasilquestion.voters.forEach((hasil, index) => {
+                    if(hasil == req.header.decoded._id) {
+                      hasilquestion.voters.splice(index, 1)
+                      return
+                    }
+                  })
+                  hasilquestion.save(function(err) {
+                    if(err) {
+                      res.status(400).send(err)
+                    }
+                    else {
+                      Question.findOne({_id: req.params.id}).populate('author').populate('voters').exec((err, hasilpopulate) => {
+                        res.status(200).send(hasilpopulate)
+                      }).catch((err) => {
+                        res.status(404).send(err)
+                      })
+                    }
                   })
                 }
               }
@@ -147,7 +173,7 @@ class QuestionController {
                   Question
                   .updateOne({_id: req.params.id}, {$pull: {voters: req.header.decoded._id}})
                   .then((response) => {
-                    res.status(200).send(hasilquestion)
+                    res.status(200).send(response)
                   })
                   .catch((err) => {
                     res.status(404).send(err)
@@ -168,11 +194,12 @@ class QuestionController {
 
   static readOne(req, res) {
 
-    Question.findOne({_id: req.params.id}).populate('author').exec((err, user) => {
-      delete user.password
+    Question
+    .findOne({_id: req.params.id})
+    .populate('author')
+    .exec((err, user) => {
       res.send(user)
     })
-
   }
 
 }
