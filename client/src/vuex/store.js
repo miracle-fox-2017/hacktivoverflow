@@ -7,7 +7,9 @@ Vue.use(Vuex)
 const state = {
   questions: [],
   question: '',
-  answers: []
+  answers: [],
+  statusLogin: false,
+  userLogin: ''
 }
 
 const mutations = {
@@ -55,6 +57,12 @@ const mutations = {
     })
     state.answers[pos].upVote = payload.upVote
     state.answers[pos].downVote = payload.downVote
+  },
+  changeStatusLogin: function (state, payload) {
+    state.statusLogin = payload
+  },
+  changeUserLogin: function (state, payload) {
+    state.userLogin = payload
   }
 }
 
@@ -180,6 +188,12 @@ const actions = {
     .catch(err => {
       console.log(err)
     })
+  },
+  changeLogin: function ({ commit }, status) {
+    commit('changeStatusLogin', status)
+  },
+  changeLoginState: function ({ commit }, userid) {
+    commit('changeUserLogin', userid)
   }
 }
 

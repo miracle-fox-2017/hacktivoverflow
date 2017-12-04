@@ -31,15 +31,24 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   data: function () {
     return {
-      statusLogin: false,
       alertPleaseLogin: false,
       dataUser: ''
     }
   },
+  computed: {
+    ...mapState([
+      'statusLogin'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'changeLogin',
+      'changeLoginState'
+    ]),
     getFbToken: function () {
       // eslint-disable-next-line
       FB.login((response) => {
@@ -73,7 +82,8 @@ export default {
           obj.token = data.token
           obj._id = data.userId
           localStorage.setItem('dataUser', JSON.stringify(obj))
-          this.statusLogin = true
+          this.changeLogin(true)
+          this.changeLoginState(obj._id)
           this.dataUser = obj
         } else {
           console.log('unsuccessfull connection to server')
@@ -88,7 +98,8 @@ export default {
       localStorage.removeItem('dataUser')
       localStorage.removeItem('fb_token')
       this.dataUser = ''
-      this.statusLogin = false
+      this.changeLogin(false)
+      this.changeLoginState('')
       this.$router.push('/')
     },
     cekLogin: function () {
