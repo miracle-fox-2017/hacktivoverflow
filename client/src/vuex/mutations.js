@@ -21,6 +21,8 @@ let mutations = {
   saveNewComment (state, payload) {
     state.comments.push(payload)
     console.log('sudah masuk state comments', state.comments)
+  },
+  saveNewVoteCount (state, payload) {
   }
 }
 

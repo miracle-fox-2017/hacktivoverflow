@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
 export default {
   name: 'Comment',
   props: ['postId'],
@@ -24,20 +25,32 @@ export default {
     }
   },
   methods: {
+    ...mapActions(
+      [
+        'getCommentById'
+      ]
+    ),
     vote (comment) {
       let arr = []
-      console.log(comment.voteCount)
       if (this.userId !== undefined) {
         if (comment.voteAnswer.length !== 0) {
           console.log('masuk if')
           comment.voteAnswer.forEach((dataPrevious) => {
             arr.push(dataPrevious._id)
-            console.log(dataPrevious._id)
           })
+          console.log('indexof', arr.indexOf(this.userId))
           if (arr.indexOf(this.userId) === -1) {
             console.log('masuk if arr')
             arr.push(this.userId)
             comment.voteCount += 1
+            this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
+              voteAnswer: arr,
+              voteCount: comment.voteCount
+            }).then(({data}) => {
+              this.getCommentById({_id: this._props.postId})
+            }).catch((err) => {
+              console.log(err)
+            })
           } else {
             console.log('sudah ada yang sama')
           }
@@ -45,16 +58,17 @@ export default {
           console.log('masuk else')
           arr.push(this.userId)
           comment.voteCount += 1
+          console.log(comment.voteCount)
+          this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
+            voteAnswer: arr,
+            voteCount: comment.voteCount
+          }).then(({data}) => {
+            console.log(data)
+            this.getCommentById({_id: this._props.postId})
+          }).catch((err) => {
+            console.log(err)
+          })
         }
-        console.log(comment.voteCount)
-        this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
-          voteAnswer: arr,
-          voteCount: comment.voteCount
-        }).then(({data}) => {
-          console.log(data)
-        }).catch((err) => {
-          console.log(err)
-        })
       } else {
         this.$router.push('/')
       }

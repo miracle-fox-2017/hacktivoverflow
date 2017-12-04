@@ -38,6 +38,7 @@ let actions = {
     })
   },
   getCommentById ({commit}, payload) {
+    console.log('masuk get comment')
     axios.get(`http://localhost:3000/answer/${payload._id}`)
     .then(({data}) => {
       commit('setCommentById', data)
@@ -50,6 +51,9 @@ let actions = {
     }).catch((err) => {
       console.log(err)
     })
+  },
+  postVoteCount ({commit}, payload) {
+    commit('saveNewVoteCount', payload)
   }
 }
 

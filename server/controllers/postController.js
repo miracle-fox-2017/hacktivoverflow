@@ -41,6 +41,7 @@ let postNewQuestion = function (req, res) {
       userPost: req.body.userPost,
       answer: req.body.idAnswer,
       votePost: req.body.votePost,
+      voteCount: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     }
@@ -103,7 +104,8 @@ let updateVotePost = function (req, res) {
       _id: req.params.idPost
     },
     {
-      votePost: req.body.votePost
+      votePost: req.body.votePost,
+      voteCount: req.body.voteCount
     }
   )
   .populate('answer')
