@@ -20,10 +20,13 @@
             <time>{{ question.createdAt }}</time>
           </div>
         </div>
-        <footer class="card-footer">  
+        <footer class="card-footer" v-if="isOwner">  
            <a class="card-footer-item"><span @click="edit">Edit</span></a>
           <a class="card-footer-item">Delete</a>
-        </footer>  
+        </footer>
+        <footer class="card-footer" v-else>  
+          <a class="card-footer-item">Comment</a>
+        </footer>    
       </div>     
     </div>
     <div v-else>
@@ -71,7 +74,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'question'
+      'question',
+      'isOwner'
     ])
   },
   methods: {

@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import firebase from 'firebase'
 import { log } from 'util';
 
 
@@ -12,7 +13,8 @@ const http = axios.create({
 Vue.use(Vuex)
 const state = {
   questions: [],
-  question: null
+  question: null,
+  isOwner: false
 }
 
 const mutations = {
@@ -25,10 +27,13 @@ const mutations = {
     state.questions = payload
   },
   setNewQuestion (state, payload) {
-    console.log(payload, 'di set new')
     state.questions.push(payload)
   },
   setOneQuestion (state, payload) {
+    console.log(payload.userId._id, localStorage.getItem('id') + 'sdjfisadfjoisjfiosjfi')
+    if (payload.userId.username === localStorage.getItem('username')) {
+      state.isOwner = true
+    }
     state.question = payload
   },
   removeOne (state, payload) {
@@ -37,12 +42,16 @@ const mutations = {
         state.questions.splice(index, 1)
       }
     })
+  },
+  removeLS () {
+    localStorage.removeItem('id')
+    localStorage.removeItem('username')
+    localStorage.removeItem('email')
   }
 }
 
 const actions = {
   signup ({ commit }, dataUser) {
-    console.log(dataUser)
     http.post('/api/users', {
       username: dataUser.username,
       email: dataUser.email
@@ -65,8 +74,7 @@ const actions = {
         obj.id = x._id
         obj.email = x.email
       })
-      console.log(obj, 'finduser')
-      commit('saveUser',  obj)
+      commit('saveUser', obj)
     })
     .catch(err => console.log(err))
   },
@@ -124,7 +132,14 @@ const actions = {
       commit('removeOne', data)
     })
     .catch(err => console.log(err))
+  },
+  logout ({ commit }) {
+    firebase.auth().signOut().then(() => {
+      commit('removeLS')
+      this.$router.push('/')
+    })
   }
+
 }
 
 const store = new Vuex.Store({

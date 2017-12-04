@@ -14,13 +14,13 @@
         <router-view/>
       </div>
     </div>
-    <button @click="logout">Logout</button>     
+    <button @click="logOut">Logout</button>     
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
 import Questions from './Questions'
+import { mapActions } from 'vuex'
 export default {
   name: 'HelloWorld',
   components: { Questions },
@@ -30,10 +30,12 @@ export default {
     }
   },
   methods: {
-    logout: function () {
-      firebase.auth().signOut().then(() => {
-        this.$router.replace('login')
-      })
+    ...mapActions([
+      'logout'
+    ]),
+    logOut: function () {
+      this.logout()
+      this.$router.push({'name': 'login'})
     }
   }
 }

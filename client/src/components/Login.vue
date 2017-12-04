@@ -29,8 +29,7 @@ export default {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
       .then(() => {
         this.findByEmail(this.email)
-        alert('hello there')
-        this.$router.push('hacktivoverflow')
+        this.$router.replace('hacktivoverflow')
       })
       .catch(err => {
         console.log(err)

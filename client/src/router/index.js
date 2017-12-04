@@ -34,7 +34,6 @@ let router = new Router({
       path: '/hacktivoverflow',
       name: 'HelloWorld',
       component: HelloWorld,
-      props: true,
       meta: {
         requiresAuth: true
       },
@@ -50,7 +49,10 @@ let router = new Router({
         {
           path: 'questions/:id',
           name: 'questions',
-          component: DetailQuestion
+          component: DetailQuestion,
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     }
@@ -62,7 +64,7 @@ router.beforeEach((to, from, next) => {
   let requiresAuth = to.matched.some(record => record.meta.requiresAuth)
 
   if (requiresAuth && !currentUser) next('login')
-  else if (!requiresAuth && currentUser) next('hello')
+  else if (!requiresAuth && currentUser) next('hacktivoverflow')
   else next()
 })
 
