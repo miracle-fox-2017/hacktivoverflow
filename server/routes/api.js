@@ -29,9 +29,9 @@ router.delete('/questions/:id', questController.findByIdAndRemove)
 // ================= answer
 router.post('/answers', answerController.createAnswer)
 
-router.get('/answers', answerController.getAllAnswers)
+router.get('/questions/:id/answers', answerController.getAllAnswers)
 
-router.get('/answers/:id', answerController.findById)
+router.get('/answers', answerController.findById)
 
 router.put('/answers/:id', answerController.findByIdAndUpdate)
 

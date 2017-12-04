@@ -53,7 +53,7 @@ const mutations = {
     state.answers = payload
   },
   setNewAnswer (payload) {
-    console.log('payload di setnewanswer', payload)
+    console.log('payload di setnewanswer', {payload})
     console.log('state', state.answers)
     state.answers.push(payload)
   },
@@ -172,16 +172,13 @@ const actions = {
     .catch(errr => console.log(err))
   },
   postComment ({ commit }, payload) {
-    let id = localStorage.getItem('id')
-    payload.userId
-    http.post('/api/answers', {
-      userId: payload.userId,
+     http.post('/api/answers', {
+      userId: localStorage.getItem('id'),
       answer: payload.answer,
       questionId: payload.questionId
     })
     .then(({ data }) => {
-      commit('setNewAnswer', payload)
-      console.log(payload)
+      commit('setNewAnswer', data)
     })
     .catch(err => console.log(err))
   },
@@ -192,7 +189,18 @@ const actions = {
       commit('removeAns', payload)
     })
     .catch(err => console.log(err))
-    
+  },
+  findByIdAndUpdate ({ commit }, payload) {
+    console.log(payload)
+    http.put(`/api/answers/${payload.id}`, {
+      votes: payload.userId
+    })
+    .then(({ data }) => {
+      console.log(data)
+      commit('setNewAnswer', data)
+    })
+    .catch(err => console.log(err))
+
   }
 }
 

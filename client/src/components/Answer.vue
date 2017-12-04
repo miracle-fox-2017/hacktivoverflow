@@ -1,9 +1,7 @@
 <template>
   <div>
   <header class="clearfix">
-			<a href="#" class="chat-close">x</a>
-			<h4>John Doe</h4>
-			<span class="chat-message-counter">3</span>
+			
   </header>
 
 		<div class="chat">		
@@ -14,15 +12,20 @@
 						<h5 v-if="item.userId">{{ item.userId.username }}</h5>
             <br>
 						<p>{{ item.answer }}</p>
-						<button @click="remove(item._id)">Delete</button>
-            <br>
+						<div id="button">
+							<span>
+							<a @click="likes(item.userId, item._id)"><i class="fa fa-thumbs-up" aria-hidden="true" style="padding-rigth: 210px;"></i></a>
+							<a class="button is-danger is-hovered" @click="remove(item._id)">Delete</a>
+							</span>
+						</div>
+						<br>
             <hr>
 					</div> <!-- end chat-message-content -->
 				</div> <!-- end chat-message -->
 			 </div> <!-- end chat-history -->
        <hr>
 			<form @submit.prevent="post()">
-					<input type="text" v-model="comment" placeholder="Type your answer">
+					<textarea class="textarea" v-model="comment" placeholder="Type your answer"/>
 					<input type="submit" value="submit">
 			</form>
       </div> <!-- end chat -->
@@ -52,7 +55,8 @@ export default {
     ...mapActions([
       'getAnswerByQuestionId',
 			'postComment',
-			'removeOne'
+			'removeOne',
+			'findByIdAndUpdate'
     ]),
     post () {
       console.log(this.question)
@@ -61,10 +65,19 @@ export default {
         questionId: this.question._id
 			}
 			console.log(obj)
-      this.postComment(obj)
+			this.postComment(obj)
+			this.comment = ''
 		},
 		remove (id) {
 			this.removeOne(id)
+		},
+		likes (userId, id) {
+			// let obj = {
+			// 	userId: userId,
+			// 	id: id
+			// }
+			console.log(userId, id)
+			//this.findByIdAndUpdate(obj)
 		}
 	}
 }
@@ -208,6 +221,11 @@ p { margin: 0; }
 	width: 16px;
 }
 
+#button {
+	margin-top: 20%;
+}
+
+
 .chat {
 	background: #fff;
 }
@@ -240,5 +258,10 @@ p { margin: 0; }
 .chat-feedback {
 	font-style: italic;	
 	margin: 0 0 0 80px;
+}
+
+.fa-thumbs-up:before {
+	padding-right: 178px;
+	font-size: 2.2rem;
 }
 </style>

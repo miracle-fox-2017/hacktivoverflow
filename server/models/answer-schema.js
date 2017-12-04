@@ -11,6 +11,10 @@ const AnswerSchema = new Schema({
     ref: 'Question'
   },
   answer: String,
+  votes: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   createdAt: {
     type: Date,
     default: Date.now
