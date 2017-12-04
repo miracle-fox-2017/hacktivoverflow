@@ -37,9 +37,6 @@ export default {
       return this.formComment.question
     }
   },
-  created () {
-    console.log(this.idChange)
-  },
   methods: {
     ...mapActions(
       [

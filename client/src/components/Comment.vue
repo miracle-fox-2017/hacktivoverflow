@@ -34,13 +34,12 @@ export default {
       let arr = []
       if (this.userId !== undefined) {
         if (comment.voteAnswer.length !== 0) {
-          console.log('masuk if')
           comment.voteAnswer.forEach((dataPrevious) => {
             arr.push(dataPrevious._id)
           })
           console.log('indexof', arr.indexOf(this.userId))
           if (arr.indexOf(this.userId) === -1) {
-            console.log('masuk if arr')
+            document.querySelector('#btnVote').disabled = true
             arr.push(this.userId)
             comment.voteCount += 1
             this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
@@ -55,15 +54,13 @@ export default {
             console.log('sudah ada yang sama')
           }
         } else {
-          console.log('masuk else')
+          document.querySelector('#btnVote').disabled = true
           arr.push(this.userId)
           comment.voteCount += 1
-          console.log(comment.voteCount)
           this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
             voteAnswer: arr,
             voteCount: comment.voteCount
           }).then(({data}) => {
-            console.log(data)
             this.getCommentById({_id: this._props.postId})
           }).catch((err) => {
             console.log(err)

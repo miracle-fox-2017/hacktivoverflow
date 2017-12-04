@@ -4,7 +4,7 @@
       <router-link :to="`/main-page/details/${post._id}`">
         <h4 class="card-header">{{post.title}}</h4>
       </router-link>
-      <button class="btn btn-danger" type="button" name="button" @click="deletePost(post._id)">Delete this post</button>
+      <button class="btn btn-danger" type="button" name="button" @click="deletePost(post._id)" :id="`del-btn${post._id}`">Delete this post</button>
     </div>
   </div>
 </template>
@@ -23,6 +23,18 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    }
+  },
+  computed: {
+    loginCredentials () {
+      return this.$store.state.loginCredentials
+    }
+  },
+  mounted () {
+    if (this.loginCredentials.role === 'admin' || this.post.userPost._id === this.loginCredentials.id) {
+      document.querySelector(`#del-btn${this.post._id}`).hidden = false
+    } else {
+      document.querySelector(`#del-btn${this.post._id}`).hidden = true
     }
   }
 }

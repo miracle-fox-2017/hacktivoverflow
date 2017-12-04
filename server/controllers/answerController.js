@@ -41,7 +41,7 @@ let postNewAnswer = function (req, res) {
       question: req.body.question,
       userAnswer: req.body.userAnswer,
       voteAnswer: req.body.voteAnswer,
-      voteCount: req.body.voteCount,
+      voteCount: 0,
       createdAt: new Date(),
       updatedAt: new Date()
     }
