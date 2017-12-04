@@ -7,7 +7,7 @@
           <span class="glyphicon glyphicon-edit"></span>
       </button>
      </router-link>       
-    <h3 > {{ question.userId.name }} </h3> <small> {{ question.title }}</small>
+    <h3 > {{ question.userId.name }} <small> post this message at {{ question.createdAt }} </small></h3> <small> {{ question.title }}</small>
     <div class="panel panel-default">
       <div class="panel-body"> {{ question.desc }}</div>
       </div>
@@ -77,5 +77,19 @@ li {
 }
 a {
   color: #42b983;
+}
+small {
+  color: #9E9E9E;
+}
+
+h3 {
+  color: #FF5722;
+}
+.panel-body {
+  color: #C2185B;
+}
+
+.container {
+  margin-top: 20px;
 }
 </style>

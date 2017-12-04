@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div class="header">
+     <h1> HACKTIV OVER FLOW </h1>
+    </div>      
     <router-view />
   </div>
 </template>
@@ -16,7 +19,20 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #212121;
+  height: 100%;
+}
+
+html,body {
+  height: 100%;
+}
+.header {
+  background-color: #FF5722;
+  color: #FFFFFF;
+}
+
+h1 {
+  margin: 0;
+  size: 50px;
 }
 </style>

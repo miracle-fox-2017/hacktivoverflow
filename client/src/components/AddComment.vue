@@ -96,4 +96,9 @@ a {
   margin: 0px 1.32812px 0px 0px; 
   width: 468px;
 }
+
+.container {
+    box-sizing: border-box;
+     width: 100%  
+}   
 </style>

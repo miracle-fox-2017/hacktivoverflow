@@ -3,15 +3,15 @@
 
 
 <!-- Button trigger modal -->
-<button v-if="checkIn == false"class="btn btn-primary btn-xs" data-toggle="modal" data-target="#login">
+<button v-if="checkIn == false"class="btn btn-primary btn-xs pull-right sidebutton" data-toggle="modal" data-target="#login">
     Login
 </button>
 
-<button @click.prevent="logout" v-else="checkIn"class="btn btn-primary btn-xs">
-    Logut
+<button @click.prevent="logout" v-else="checkIn"class="btn btn-primary btn-xs pull-right sidebutton">
+    Logout
 </button>
 
-<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#register">
+<button class="btn btn-primary btn-xs pull-right" v-if="!checkIn" data-toggle="modal" data-target="#register sidebutton">
     Register
 </button>
 <!-- Login -->
@@ -206,5 +206,14 @@ a {
 #area {
   margin: 0px 1.32812px 0px 0px; 
   width: 468px;
+}
+
+.container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.sidebutton {
+  margin-left: 10px;
 }
 </style>

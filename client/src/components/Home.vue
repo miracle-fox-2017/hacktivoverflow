@@ -1,9 +1,7 @@
 <template>
   <div class="hello">
-    <div>
-      <h1> HACKTIV OVER FLOW </h1>
-      <login :checkIn="checkIn"></login>
-    </div>  
+      <h1 class="welcomeUser" v-if="checkIn">Hay {{ name }}</h1>
+      <login :checkIn="checkIn"></login> 
     <router-view :questions="questions"/>
   </div>
 </template>
@@ -21,7 +19,10 @@ export default {
     },
     checkIn () {
       return this.$store.state.checkIn
-    }
+    },
+    name () {
+      return this.$store.state.name
+    }    
   },
   methods: {
     ...mapActions([
@@ -53,4 +54,11 @@ a {
   color: #42b983;
 }
 
+.welcomeUser {
+  color: #FFCCBC;
+}
+.hello {
+  margin-left: 50px;
+  margin-right: 50px;
+}
 </style>

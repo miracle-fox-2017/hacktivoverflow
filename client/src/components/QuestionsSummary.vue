@@ -59,4 +59,20 @@ li {
 a {
   color: #42b983;
 }
+
+small {
+  color: #9E9E9E;
+}
+
+h3 {
+  color: #FF5722;
+}
+.panel-body {
+  color: #C2185B;
+}
+
+.container {
+  margin-top: 20px;
+  background-color: #F5F5F5;
+}
 </style>
