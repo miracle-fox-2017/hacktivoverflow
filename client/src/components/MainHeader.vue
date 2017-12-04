@@ -2,7 +2,7 @@
 	<header class="main-header">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 col-sm-12">
 					<h1 class="site-title">
 						<router-link :to="`/`">Hacktiv<b>0verflow</b></router-link>
 					</h1>
@@ -10,7 +10,11 @@
 				</div>
 				<!-- /.col-md-2 -->
 
-				<div class="col-md-8">
+				<div class="col-md-5 col-sm-12">
+					<input type="text" class="form-control" placeholder="Cari pertanyaan" ref="search" @keyup="searchQuestion"/>
+				</div><!-- /.col-md-4 col-sm-12 -->
+
+				<div class="col-md-3 col-sm-12">
 					<ul class="flat-list list-inline menu-list text-right">
 						<li>
 							<a href="#" data-toggle="modal" data-target="#registerModal" class="btn btn-warning">Register</a>
@@ -32,7 +36,7 @@
 </template>
 
 <script>
-	import { mapActions, mapState } from 'vuex'
+	import { mapActions, mapState, mapMutations } from 'vuex'
 
 	export default {
 		name: 'MainHeader',
@@ -45,13 +49,24 @@
 		methods: {
 		 ...mapActions([
 		 	'doLogout'
-		 ])
+		 ]),
+
+		 ...mapMutations([
+		 	'filterQuestions'
+		 ]),
+
+		 searchQuestion() {
+		 	let searchValue = this.$refs.search.value;
+
+		 	this.filterQuestions(searchValue)
+		 }
 		},
 
 		computed: {
 			...mapState([
-				'loggedinUser'
-			])
+				'loggedinUser',
+				'questions'
+			]),
 		},
 	}
 </script>

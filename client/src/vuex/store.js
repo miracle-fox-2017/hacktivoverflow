@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
-const rootUrl = "http://35.186.144.106:3002";
+// const rootUrl = "http://35.186.144.106:3002";
+const rootUrl = "http://ec2-34-216-77-179.us-west-2.compute.amazonaws.com";
 
 const http = axios.create({
   baseURL: rootUrl
@@ -24,6 +25,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
 	state: {
 		questions: [],
+		initQuestions: [],
 		loggedinUser: {
 			accountId: localStorage.getItem('accountId'),
 			email: localStorage.getItem('email'),
@@ -42,8 +44,22 @@ export default new Vuex.Store({
 	},
 
 	mutations: {
+		filterQuestions(state, payload) {
+			if (payload.length <= 1) {
+				state.questions = state.initQuestions;
+			} else {
+				var filtered = state.questions.filter((task) => {
+					var regex = new RegExp(payload, 'i');
+					return task.title.match(regex) ;
+				} );
+
+				state.questions = filtered;
+			}
+		},
+
 		setQuestions(state, payload) {
 			state.questions = payload
+			state.initQuestions = payload
 		},
 
 		setNewQuestion(state, payload) {

@@ -2,7 +2,7 @@
 
 	<div class="content-wrapper">
 		<div class="content-item">
-			<h2 class="content-tile">
+			<h2 class="content-tile single-title">
 				<router-link :to="`/${question._id}`">{{ question.title }}</router-link>
 			</h2><!-- /.content-tile -->
 
@@ -240,5 +240,9 @@
 	.answer-title {
 		font-weight: 500;
 		margin: 1rem 0 2rem 0;
+	}
+
+	.single-title {
+		font-size: 2.8rem;
 	}
 </style>

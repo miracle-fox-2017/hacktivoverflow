@@ -10,17 +10,17 @@
 					<form action="#" method="post">
 						<input type="hidden" class="form-control" id="title" name="question_id" ref="question_id" :value="editedQuestion.questionId" />
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Judul</label>
 							<input type="text" class="form-control" id="title" name="question_title" ref="question_title" :value="editedQuestion.title" />
 						</div>
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Content</label>
 							<textarea class="form-control" name="content" id="content" ref="question_content" rows="10">{{ editedQuestion.content }}</textarea>
 						</div>
 
-						<div class="input-group u-full-width">
+						<div class="form-group u-full-width">
 							<label>Tag</label>
 							<input type="text" class="form-control" id="question_taglist" name="question_taglist" ref="question_taglist" :value="editedQuestion.tagList"/>
 						</div>
