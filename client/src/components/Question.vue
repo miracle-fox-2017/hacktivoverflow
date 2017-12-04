@@ -4,24 +4,24 @@
       <div class="panel-heading">
         <h4>
           <router-link :to="{ path: '/question/' + question._id }">{{ question.title }}</router-link>
-          <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
-          <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+          <span @click="voteQuestionUp(question)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+          <span @click="voteQuestionDown(question)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
           <span v-if="_id == question.userId" @click="removeQuestion" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
           <span v-if="_id == question.userId" @click="editQuestion(question)" class="right-fix pull-right "><button class="btn btn-info btn-sm"type="button" name="button"><i class="fa fa-pencil" aria-hidden="true"></i></button></span>
         </h4>
         <p>By: {{ question.userId }}</p>
-        <span>Vote: XX</span>
+        <span>Vote: {{ totalQuestionVote }}</span>
       </div>
       <div class="panel-body panel-question">
         <p class="question">{{ question.question }}</p>
       </div>
-      <div v-for="answer in answers" class="panel-body">
-        <span class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
-        <span class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
-        <span v-if="_id == answer.userId" @click="removeAnswer(answer._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
-        <p class="answer">{{ answer.answer }}</p>
-        <p>By: {{ answer.userId }}</p>
-        <span>Vote: XX</span>
+      <div v-for="a in answers" class="panel-body">
+        <span @click="voteAnswerUp(a)" class="right-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
+        <span @click="voteAnswerDown(a)" class="right-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
+        <span v-if="_id == a.userId" @click="removeAnswer(a._id)" class="right-fix pull-right "><button class="btn btn-danger btn-sm"type="button" name="button"><i class="fa fa-trash" aria-hidden="true"></i></button></span>
+        <p class="answer">{{ a.answer }}</p>
+        <p>By: {{ a.userId }}</p>
+        <span>Vote: {{ a.totalVote }}</span>
       </div>
     </div>
     <button type="button" class="btn btn-success" name="button" data-toggle="modal" data-target="#answer">Answer</button>
@@ -125,7 +125,8 @@ export default {
         title: '',
         image: '',
         question: ''
-      }
+      },
+      index: 0
     }
   },
   watch: {
@@ -139,7 +140,31 @@ export default {
     ...mapState([
       'question',
       'answers'
-    ])
+    ]),
+    totalQuestionVote: function () {
+      let q = this.question
+      if (q) {
+        let vote = 0
+        q.vote.forEach(t => {
+          vote += t.value
+        })
+        return vote
+      }
+      return 0
+    },
+    totalAnswerVote: function () {
+      let answers = this.answers[this.index]
+      if (answers) {
+        let vote = 0
+        answers.vote.forEach((a, i) => {
+          vote += a.value
+        })
+        this.index += 1
+        return vote
+      }
+      this.index += 1
+      return 0
+    }
   },
   methods: {
     ...mapActions([
@@ -148,7 +173,8 @@ export default {
       'postAnswer',
       'updatedQuestion',
       'deleteQuestion',
-      'deleteAnswer'
+      'voteQuestion',
+      'voteAnswer'
     ]),
     sendAnswer: function () {
       let newAnswer = {
@@ -181,12 +207,46 @@ export default {
     },
     removeAnswer: function (answerId) {
       this.deleteAnswer(answerId)
+    },
+    voteQuestionUp: function (question) {
+      if (this.checkStatusLogin()) {
+        question.value = 1
+        this.voteQuestion(question)
+      }
+    },
+    voteQuestionDown: function (question) {
+      if (this.checkStatusLogin()) {
+        question.value = -1
+        this.voteQuestion(question)
+      }
+    },
+    voteAnswerUp: function (answer) {
+      if (this.checkStatusLogin()) {
+        answer.value = 1
+        this.voteAnswer(answer)
+      }
+    },
+    voteAnswerDown: function (answer) {
+      if (this.checkStatusLogin()) {
+        answer.value = -1
+        this.voteAnswer(answer)
+      }
+    },
+    checkStatusLogin: function () {
+      if (localStorage.getItem('dataUser')) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   created: function () {
     this.getQuestion(this.$route.params.id)
     this.getAnswer(this.$route.params.id)
     this._id = JSON.parse(localStorage.getItem('dataUser'))._id
+  },
+  updated: function () {
+    this.getAnswer(this.$route.params.id)
   }
 }
 </script>

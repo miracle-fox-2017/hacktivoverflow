@@ -10,7 +10,7 @@
       <div class="panel-body">
         <div class="row">
           <div class="col-md-3 col-sm-3">
-            <p>Vote: XX</p>
+            <p>Vote: {{ question.totalVote }}</p>
           </div>
           <div class="col-md-9 col-sm-9">
             <p>By: {{ question.userId }}</p>
@@ -33,7 +33,17 @@ export default {
   methods: {
     ...mapActions([
       'getQuestions'
-    ])
+    ]),
+    calculateVote: function () {
+      for (let i = 0; i < this.questions.length; i++) {
+        let totalVote = 0
+        for (let j = 0; j < this.questions[i].vote.length; j++) {
+          totalVote += this.questions[i].vote[j].value
+        }
+        this.questions[i].totalVote = totalVote
+      }
+      this.allQuestion = this.questions
+    }
   },
   created: function () {
     this.getQuestions()
