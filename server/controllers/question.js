@@ -28,10 +28,12 @@ function findOne(req,res) {
 }
 
 function create(req,res) {
+	console.log(req.body)
 	let question = new Question({
 		userId : req.params.userId,
 		title : req.body.title,
-		desc : req.body.desc
+		desc : req.body.desc,
+		userName : req.body.userName
 	})
 	question.save()
 	.then(result => {

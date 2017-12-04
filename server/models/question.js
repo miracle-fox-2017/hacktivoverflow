@@ -20,7 +20,8 @@ const questionSchema = new Schema({
     createdAt: {
     	type: Date,
     	default: Date.now()
-    }	
+    },
+    userName: String	
 })
 
 const questionModel = mongoose.model('question',questionSchema);

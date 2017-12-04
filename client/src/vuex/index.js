@@ -168,11 +168,13 @@ export default new Vuex.Store({
 		addQuestion (context, payload) {
 			ax.post(`questions/${context.rootState.userId}`, {
 				title: payload.title,
-				desc: payload.desc
+				desc: payload.desc,
+				userName: context.rootState.name
+
 			}, {
 				headers : {
 					token : context.rootState.token,
-					userId: context.rootState.userId
+					userId: context.rootState.userId,
 				}
 			})
 			.then(result => {
