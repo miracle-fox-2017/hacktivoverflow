@@ -5,14 +5,13 @@
     <tr>
       <th>Votes</th>
       <th>Answer</th>
-      <th>Views</th>
       <th>Questions</th>
       <th>Post By</th>
+      <th><router-link :to="`/askquestion`"><i class="fa fa-plus" fa-lg aria-hidden="true"></i></router-link></th>
     </tr>
   </thead>
   <tfoot>
     <tr v-for="question in questions" key="question._id">
-      <th></th>
       <th></th>
       <th></th>
       <th><router-link :to="`/hacktivoverflow/questions/${question._id}`"><span @click="sendingId(question._id)">{{ question.question }}</span></router-link></th>  
@@ -40,10 +39,13 @@ export default {
   methods: {
     ...mapActions([
       'getAllQuestions',
-      'getQuestionById'
+      'getQuestionById',
+      'getAnswerByQuestionId'
     ]),
     sendingId: function (id) {
       this.getQuestionById(id)
+      this.getAnswerByQuestionId(id)
+      console.log('hello seding ID')
     }
   },
   created () {
@@ -53,6 +55,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.fa.fa-plus {
+  font-size: 44px;
+  color: #00d1b2;
+}
 
 </style>

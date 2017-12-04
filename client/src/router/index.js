@@ -39,7 +39,7 @@ let router = new Router({
       },
       children: [
         {
-          path: 'askquestion',
+          path: '/askquestion',
           name: 'AskQuestion',
           component: AskQuestion,
           meta: {
@@ -50,6 +50,7 @@ let router = new Router({
           path: 'questions/:id',
           name: 'questions',
           component: DetailQuestion,
+          props: true,
           meta: {
             requiresAuth: true
           }

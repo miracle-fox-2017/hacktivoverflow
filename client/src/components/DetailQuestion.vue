@@ -3,7 +3,7 @@
     <div v-if="editOn">
     <div class="card">
       <header class="card-header">
-        <p class="card-header-title">
+        <p class="card-header-title" v-if="question">
           {{ question.userId.username }}
         </p>
         <a href="#" class="card-header-icon" aria-label="more options">
@@ -55,13 +55,18 @@
         </footer>  
       </div>     
     </div>
+    <div>
+      <Answer :id="formEdit.id"/>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import Answer from './Answer'
 export default {
   name: 'DetailQuestion',
+  components: {Answer},
   data () {
     return {
       editOn: true,

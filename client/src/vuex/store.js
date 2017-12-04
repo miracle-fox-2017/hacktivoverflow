@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import firebase from 'firebase'
-import { log } from 'util';
+
 
 
 const http = axios.create({
@@ -14,8 +14,10 @@ Vue.use(Vuex)
 const state = {
   questions: [],
   question: null,
-  isOwner: false
+  isOwner: false,
+  answers: []
 }
+
 
 const mutations = {
   saveUser (state, payload ) {
@@ -30,7 +32,6 @@ const mutations = {
     state.questions.push(payload)
   },
   setOneQuestion (state, payload) {
-    console.log(payload.userId._id, localStorage.getItem('id') + 'sdjfisadfjoisjfiosjfi')
     if (payload.userId.username === localStorage.getItem('username')) {
       state.isOwner = true
     }
@@ -47,8 +48,29 @@ const mutations = {
     localStorage.removeItem('id')
     localStorage.removeItem('username')
     localStorage.removeItem('email')
+  },
+  setAnswers (state, payload) {
+    state.answers = payload
+  },
+  setNewAnswer (payload) {
+    console.log('payload di setnewanswer', payload)
+    console.log('state', state.answers)
+    state.answers.push(payload)
+  },
+  removeAns (payload) {
+    state.answers.forEach((item, index) => {
+      if (item._id === payload._id) {
+        state.answers.splice(index, 1)
+      }
+    })
   }
 }
+
+//===================== actions ======///
+//===================== actions ======///
+//===================== actions ======///
+//===================== actions ======///
+//===================== actions ======///
 
 const actions = {
   signup ({ commit }, dataUser) {
@@ -138,8 +160,40 @@ const actions = {
       commit('removeLS')
       this.$router.push('/')
     })
+  },
+  //-------------- answer --------- //
+  getAnswerByQuestionId ({ commit }, payload) {
+    console.log(payload, 'getAnswerByQuestionId')
+    http.get(`/api/questions/${payload}/answers`)
+    .then(({ data }) => {
+      console.log(data)
+      commit('setAnswers', data)
+    })
+    .catch(errr => console.log(err))
+  },
+  postComment ({ commit }, payload) {
+    let id = localStorage.getItem('id')
+    payload.userId
+    http.post('/api/answers', {
+      userId: payload.userId,
+      answer: payload.answer,
+      questionId: payload.questionId
+    })
+    .then(({ data }) => {
+      commit('setNewAnswer', payload)
+      console.log(payload)
+    })
+    .catch(err => console.log(err))
+  },
+  removeOne ({ commit }, payload) {
+    console.log(payload)
+    http.delete(`/api/answers/${payload}`)
+    .then(({ data }) => {
+      commit('removeAns', payload)
+    })
+    .catch(err => console.log(err))
+    
   }
-
 }
 
 const store = new Vuex.Store({
