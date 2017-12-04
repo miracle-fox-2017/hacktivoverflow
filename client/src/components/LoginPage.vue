@@ -99,6 +99,7 @@ export default {
         password: this.password
       })
       .then(({data}) => {
+        localStorage.setItem('userId', data.userId)
         localStorage.setItem('accesstoken', data.accesstoken)
         this.$router.push('/')
       })

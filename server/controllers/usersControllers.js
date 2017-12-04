@@ -69,6 +69,7 @@ login = (req, res) => {
       bcrypt.compare(req.body.password, user.password, function(err, response) {
         if(!err) {
           tokenGenerate(user, function(token) {
+            token.userId = user._id
             res.send(token)
           })
         } else {

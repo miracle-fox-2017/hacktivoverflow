@@ -6,7 +6,8 @@
     </div>
     <div class="content">
       <div class="summary" style="font-size: 12px;">
-        <a>{{question.userId.first_name}} {{question.userId.last_name}}</a> posted new question
+        <a v-if="question.userId.first_name">{{question.userId.first_name}} {{question.userId.last_name}}</a>
+        <a v-else>You</a> posted a question
         <div class="date">
           
         </div>
@@ -15,11 +16,8 @@
         <router-link :to="`/questions/${question._id}`"><h3>{{question.title}}</h3></router-link>
         <p>{{question.question.substring(0, 200)}}</p>
       </div>
-      <!-- <div class="meta">
-        <a class="like">
-          <i class="like icon"></i> 5 Likes
-        </a>
-      </div> -->
+      <VoteQuestion/>
+      <CommentsQuestion/>
     </div>
   </div>
   <div class="ui divider"></div>
@@ -27,7 +25,13 @@
 </template>
 
 <script>
+import CommentsQuestion from '@/components/CommentsQuestion'
+import VoteQuestion from '@/components/VoteQuestion'
 export default {
+  components: {
+    VoteQuestion,
+    CommentsQuestion
+  },
   props: ['question']
 }
 </script>

@@ -7,11 +7,7 @@
           <div class="extra text">
             <p>{{answer.answer}}</p>
           </div>
-          <div class="meta">
-            <a class="like" @click="voteAnswer">
-              <i class="thumbs outline up icon"></i> 0 Likes
-            </a>
-          </div>
+          <VoteAnswer :answerId="answer._id"/>
         </div>
       </div>
     </div>
@@ -19,16 +15,12 @@
 </template>
 
 <script>
+import VoteAnswer from '@/components/VoteAnswer'
 export default {
-  props: ['answer'],
-  methods: {
-    voteAnswer () {
-
-    }
+  components: {
+    VoteAnswer
   },
-  created () {
-
-  }
+  props: ['answer']
 }
 </script>
 

@@ -8,6 +8,7 @@
       <a href="#" class="item">Questions</a>
       <a href="#" class="item">Users</a>
       <div href="#" class="ui right item" tabindex="0" v-if="isLogin">
+        <router-link style="margin-left: 20px;" class="ui primary button" to="/myaccount">My Account</router-link>
         <button style="margin-left: 20px;" class="ui primary button" @click="modalQuestion">Ask Question</button>
         <button style="margin-left: 20px;" class="ui negative button" @click="logout">Logout</button>
       </div>

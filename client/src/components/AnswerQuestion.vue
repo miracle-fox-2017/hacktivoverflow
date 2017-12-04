@@ -42,16 +42,21 @@ export default {
       })
       .catch(err => console.log(err))
     },
-    getAnswer () {
-      this.$http.get(`/answers/${this.questionId}`)
+    getAnswer (questionId) {
+      this.$http.get(`/answers/${questionId}`)
       .then(({data}) => {
         this.answers = data
       })
       .catch(err => console.log(err))
     }
   },
-  created () {
-    this.getAnswer()
+  mounted () {
+    this.getAnswer(this.questionId)
+  },
+  watch: {
+    questionId (newId) {
+      this.getAnswer(newId)
+    }
   }
 }
 </script>
