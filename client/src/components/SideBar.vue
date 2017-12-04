@@ -76,7 +76,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'questions'
+      'questions',
+      
     ])
   },
   methods: {
