@@ -9,7 +9,7 @@
                 <router-view/>
               </div>
               <div class="column">
-                <SideBar/>
+                <SideBar></SideBar>
               </div>
             </div>
           </div>

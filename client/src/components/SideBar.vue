@@ -71,22 +71,41 @@ export default {
   name: 'SideBar',
   data () {
     return {
+      user_id : '',
       isShow3 : false,
       showModal: false,
       writeQuestion: false,
       ask: {
         body: '',
-        title: ''
+        title: '',
+        user_id: ''
       }
     }
   },
   methods: {
     toggle3 () {
-      this.writeQuestion = true
+      let token = localStorage.getItem('token')
+      if (token) {
+        this.writeQuestion = true
+      } else {
+        alert('You Must Login for Ask')
+      }
     },
     ...mapActions([
       'createQuestion'
     ])
+  },
+  created () {
+    this.ask.user_id = localStorage.getItem('user_id')
+  },
+  watch: {
+    login () {
+      let parsing = JSON.parse(localStorage.getItem('token'))
+      localStorage.setItem('username', parsing.name)
+      localStorage.setItem('user_id', parsing.user_id)
+      this.user_id = localStorage.getItem('user_id')
+    }
   }
+
 }
 </script>

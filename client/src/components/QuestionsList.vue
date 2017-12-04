@@ -19,7 +19,11 @@
     <tbody v-for="question in questions" :key="question._id">
       <tr>
         <th><span class="icon is-small"><i class="fa fa-heart"></i>{{question.like}}</span></th>
-        <td>{{question.title}}</td>
+        <td>{{question.title}} <br/>
+          <span v-if="question.user_id">
+            <small>by : {{ question.user_id.name }}</small>
+          </span>
+        </td>
         <td class="tengah"><i>38</i><br>answer</td>
         <td>
           <div class="stars">

@@ -21,9 +21,9 @@
             <router-link to="/users">Users</router-link>
           </a>
         </div>
-        <div v-if="login == ''" class="navbar-end">
+        <div v-if="!status" class="navbar-end">
           <div class="navbar-item">
-            <form @submit.prevent="checklogin">
+            <form @submit.prevent="checkLogin(singin)">
               <div class="control is-grouped">
                 <p class="control is-expanded">
                   <input class="input" v-model="singin.username" type="text" placeholder="Username">
@@ -47,14 +47,14 @@
               <span class="icon">
                   <i class="fa fa-user-o"></i>
                 </span>
-              <span>Username</span>
+              <span>{{ name }}</span>
             </a>
             <div slot="content">
               <menus>
                 <menu-item icon="user">Profile</menu-item>
                 <menu-item icon="lock">Settings</menu-item>
                 <div class="divider"></div>
-                <menu-item icon="">Sign out</menu-item>
+                <menu-item icon=""><a @click.prevent="loGout">Sign out</a></menu-item>
               </menus>
             </div>
           </dropdown>
@@ -62,7 +62,7 @@
         </div>
       </div>
     </nav>
-    <section v-if="login == ''" class="hero contai is-warning">
+    <section v-if="!status" class="hero contai is-warning">
       <div class="hero-body ">
       <br/><br/>
       <div class="columns">
@@ -137,12 +137,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   name: 'Menu',
   data () {
     return {
-      login: '',
+      user_id: '',
+      name: '',
+      status : false,
       register: {        
         name: '',
         email: '',
@@ -156,9 +158,16 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState([
+      'login'
+    ])
+  },
   methods: {
     ...mapActions([
-      'registerUser'
+      'registerUser',
+      'checkLogin',
+      'clearSession'
     ]),
     clear () {
       this.register.name = '',
@@ -166,6 +175,36 @@ export default {
       this.register.username = '',
       this.register.password = '',
       this.register.gender = ''
+    },
+    loGout () {
+      console.log('KELUAR')
+      localStorage.clear()
+      this.clearSession()
+      this.status = false
+      this.$router.push('/')
+    }
+  },
+  created () {
+    let parsing = JSON.parse(localStorage.getItem('token'))
+    console.log('APA INI', parsing)
+    if(parsing.token) {
+      this.status = true
+      this.name = localStorage.getItem('username')
+      this.user_id = localStorage.getItem('user_id')
+      this.$router.push('/')
+    }
+  },
+  watch: {
+    login () {
+      let parsing = JSON.parse(localStorage.getItem('token'))
+      localStorage.setItem('username', parsing.name)
+      localStorage.setItem('user_id', parsing.user_id)
+      this.name = localStorage.getItem('username')
+      this.user_id = localStorage.getItem('user_id')
+      this.status = true
+    },
+    logGout () {
+      this.$router.push('/')
     }
   }
 }

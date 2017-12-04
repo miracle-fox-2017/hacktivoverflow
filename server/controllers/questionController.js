@@ -5,17 +5,18 @@ const ObjectId = require('mongodb').ObjectId
 
 const allQuestions = (req, res) => {
   Question.find()
+  .populate('user_id')
   .then(users => res.send(users))
   .catch(err => res.status(500).send(err))
 }
 
 const createQuestion = (req, res) => {
   let input = req.body
-  // console.log(input)
+  // console.log('INI APA', req.decoded.id)
   let obj = {
     title : input.title,
     body : input.body,
-    user_id: input.user_id
+    user_id: req.decoded.id
   }
   Question.create(obj)
   .then( question => {
