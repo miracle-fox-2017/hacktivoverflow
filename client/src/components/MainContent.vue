@@ -16,7 +16,7 @@
               <i class="fa fa-heart" aria-hidden="true"></i> 150 
             </span> 
             <span style="margin-left:3px;">
-              <i class="fa fa-comment" aria-hidden="true"></i> {{ lengtComment(question._id) }} 
+              <i class="fa fa-comment" aria-hidden="true"></i> 5 
             </span>
             <span style="margin-left:3px;">
               <i class="fa fa-user" aria-hidden="true"></i> {{ question.author.fullname }} 
@@ -29,7 +29,6 @@
   </div>
 </template>
 <script>
-import {mapActions, mapState} from 'vuex'
 export default {
   name: 'MainContent',
   props: ['questions'],
@@ -38,23 +37,7 @@ export default {
       contentQuestion: ''
     }
   },
-  computed: {
-    ...mapState([
-      'answers'
-    ])
-  },
   methods: {
-    ...mapActions([
-      'findAnswerByQuestion'
-    ]),
-    lengtComment (questID) {
-      // this.findAnswerByQuestion(questID)
-      // console.log(this.answers)
-      // this.questions.forEach(question => {
-      //   // console.log(question._id)
-      //   this.findAnswerByQuestion(question._id)
-      // })
-    },
     timeAgo (date) {
       return date
     },
@@ -80,13 +63,6 @@ export default {
         return sort
       }
     }
-  },
-  mounted () {
-    // this.questions.forEach(question => {
-      // console.log(question._id)
-    //   this.findAnswerByQuestion(question._id)
-    // })
-    // console.log(this.answers.length)
   }
 }
 </script>

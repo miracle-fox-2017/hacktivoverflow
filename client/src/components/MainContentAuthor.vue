@@ -26,7 +26,7 @@
           <button style="margin-right:1%;" type="button" class="btn btn-outline-dark btn-sm">View</button>
         </router-link>
         <button data-toggle="modal" data-target="#updateModal" style="margin-right:1%;" type="button" class="btn btn-outline-dark btn-sm">Update</button>
-        <button type="button" class="btn btn-outline-dark btn-sm">Delete</button>
+        <button @click="deleteQuestion(question._id)" type="button" class="btn btn-outline-dark btn-sm">Delete</button>
       </div>
     </div>
     <!-- </router-link> -->
@@ -76,7 +76,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getQuestionByAuthor'
+      'getQuestionByAuthor',
+      'deleteQuestion'
     ]),
     timeAgo (date) {
       return date

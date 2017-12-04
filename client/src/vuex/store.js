@@ -17,7 +17,6 @@ const state = {
 
 const mutations = {
   setUsers (state, payload) {
-    console.log('data di mutations >>', payload)
     state.users = payload
   },
   signupUser (state, payload) {
@@ -38,7 +37,12 @@ const mutations = {
   createQuestion (state, payload) {
     state.questions.push(payload)
   },
+  deleteQuestion (state, payload) {
+    const index = state.questions.findIndex((question) => question.id === payload)
+    state.questions.splice(index, 1)
+  },
   getAnswerByQuestion (state, payload) {
+    console.log('data di mutations >>', payload)
     state.answers = payload
   },
   createAnswer (state, payload) {
@@ -57,13 +61,13 @@ const actions = {
     })
   },
   findAnswerByQuestion ({ commit }, questionId) {
-    // console.log('id quest >>>', questionId)
-    // http.get('api/answers/questions/' + questionId).then(({data}) => {
-    //   console.log('answerquest', data)
-    //   commit('getAnswerByQuestion', data)
-    // }).catch(err => {
-    //   console.error(err)
-    // })
+    console.log('id quest >>>', questionId)
+    http.get('api/answers/questions/' + questionId).then(({data}) => {
+      console.log('answerquest', data)
+      commit('getAnswerByQuestion', data)
+    }).catch(err => {
+      console.error(err)
+    })
   },
   // END ANSWER //
 
@@ -96,13 +100,15 @@ const actions = {
       commit('createQuestion', data)
     }).catch(err => {
       console.error(err)
-      if (err) {
-        swal(
-          'Oops...',
-          'Title & Question must be filled!',
-          'error'
-        )
-      }
+    })
+  },
+  deleteQuestion ({ commit }, questionId) {
+    console.log(questionId)
+    let enjoyKey = localStorage.getItem('token')
+    http.delete('api/questions/' + questionId, { headers: {token: enjoyKey} }).then(({data}) => {
+      commit('deleteQuestion', questionId)
+    }).catch(err => {
+      console.error(err)
     })
   },
   // END QUESTIONS //

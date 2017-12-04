@@ -11,10 +11,10 @@
               <i class="fa fa-heart" aria-hidden="true"></i> 150 
             </span> 
             <span style="font-weight:bold; margin-left:3px;">
-              <i class="fa fa-comment" aria-hidden="true"></i> 58 
+              <i class="fa fa-comment" aria-hidden="true"></i> {{ answers.length }} 
             </span>
             <span style="font-weight:bold; margin-left:3px;">
-              <i class="fa fa-user" aria-hidden="true"></i> 
+              <i class="fa fa-user" aria-hidden="true"></i> {{ questions }}
             </span>
           </small>
           </p>

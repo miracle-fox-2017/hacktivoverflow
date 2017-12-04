@@ -22,7 +22,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button @click="saveQuestion(formNewQuestion)" type="button" data-dismiss="modal" class="btn btn-dark">Send Question</button>
+          <button @click="toCreateQuestion()" type="button" data-dismiss="modal" class="btn btn-dark">Send Question</button>
         </div>
       </div>
     </div>
@@ -31,21 +31,42 @@
 
 <script>
 import {mapActions} from 'vuex'
+import swal from 'sweetalert2'
 export default {
   name: 'ModalCreateQuestion',
   data: function () {
     return {
       formNewQuestion: {
         title: '',
-        question_content: '',
-        token: localStorage.getItem('token')
+        question_content: ''
       }
     }
   },
   methods: {
     ...mapActions([
       'saveQuestion'
-    ])
+    ]),
+    toCreateQuestion () {
+      let storage = localStorage.getItem('token')
+      if (storage) {
+        let inputTitleQuestion = this.formNewQuestion.title.trim()
+        let inputContentQuestion = this.formNewQuestion.question_content.trim()
+        if (inputTitleQuestion && inputContentQuestion) {
+          let newQuestion = {
+            title: inputTitleQuestion,
+            question_content: inputContentQuestion,
+            token: localStorage.getItem('token')
+          }
+          this.saveQuestion(newQuestion)
+        } else {
+          swal(
+            'Oops...',
+            'Title & Question must be filled!',
+            'error'
+          )
+        }
+      }
+    }
   }
 }
 </script>

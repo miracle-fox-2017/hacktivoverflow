@@ -7,6 +7,7 @@ const createQuestion = function(req,res){
     question_content: req.body.question_content,
     author: req.header.decoded.id
   })
+  // console.log(newQuestion)
   newQuestion.save().then(function(){
     res.status(201).send('1 Question Created')
   }).catch(function(err){
@@ -76,6 +77,7 @@ const destroyQuestions = function(req,res){
   let id = {
     _id : ObjectId(req.params.id)
   }
+  // console.log('delete controllers question', id)
   Questions.findByIdAndRemove(id).then(function(){
     res.status(200).send(`[-] deleted 1 Questions`)
   }).catch(function(err){
