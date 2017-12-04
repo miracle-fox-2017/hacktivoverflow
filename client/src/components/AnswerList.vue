@@ -1,7 +1,7 @@
 <template>
   <div class="ui segment">
     <div class="ui feed">
-      <button class="ui button icon" href="#" style="color: red; float: right; font-size: 18px; padding: .3em .3em .3em !important;" v-if="answer.userId._id == userId" @click="deleteAnswer"><i class="remove circle outline icon"></i></button>
+      <button class="ui button icon" href="#" style="color: red; float: right; font-size: 18px; padding: .3em .3em .3em !important;" v-if="answer.userId._id == userId" @click="deleteAnswer(answer._id)"><i class="remove circle outline icon"></i></button>
       <i style="color: #ababab; font-size: 10px;">{{answer.userId.first_name}} {{answer.userId.last_name}}</i>
       <div class="event">
         <div class="content">
@@ -17,6 +17,7 @@
 
 <script>
 import VoteAnswer from '@/components/VoteAnswer'
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -28,18 +29,9 @@ export default {
   },
   props: ['answer'],
   methods: {
-    deleteAnswer () {
-      console.log(this.answer._id)
-      this.$http.delete(`/answers/${this.answer._id}`, {
-        headers: {
-          accesstoken: localStorage.getItem('accesstoken')
-        }
-      })
-      .then(({data}) => {
-        this.$emit('answerDeleted', data.data)
-      })
-      .catch(err => console.log(err))
-    }
+    ...mapActions([
+      'deleteAnswer'
+    ])
   }
 }
 </script>

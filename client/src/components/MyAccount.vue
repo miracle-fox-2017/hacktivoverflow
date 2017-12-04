@@ -12,7 +12,7 @@
           <th>Options</th>
         </tr></thead>
         <tbody>
-          <tr v-for="question in questions" key="question._id">
+          <tr v-for="question in myQuestions" key="question._id">
             <td class="single line">
               {{question.title}}
             </td>
@@ -39,6 +39,7 @@
 
 <script>
 import EditQuestion from '@/components/EditQuestion'
+import { mapActions, mapState } from 'vuex'
 export default {
   components: {
     EditQuestion
@@ -49,41 +50,26 @@ export default {
       idQuestionTemp: ''
     }
   },
+  computed: {
+    ...mapState([
+      'myQuestions'
+    ])
+  },
   methods: {
-    deleteQuestions (id) {
-      this.$http.delete(`/questions/${id}`, {
-        headers: {
-          accesstoken: localStorage.getItem('accesstoken')
-        }
-      })
-      .then(({data}) => {
-        let index = this.questions.map(q => { return q._id }).indexOf(id)
-        this.questions.splice(index, 1)
-      })
-      .catch(err => console.log(err))
-    },
+    ...mapActions([
+      'getMyQuestions',
+      'deleteQuestions'
+    ]),
     modalEdit (id) {
       /* eslint-disable */
       this.idQuestionTemp = id
       $('.small.modal.edit')
         .modal('show')
       ;
-    },
-    questionEdited (value) {
-      let index = this.questions.map(q => { return q._id }).indexOf(value._id)
-      this.questions.splice(index, 1, value)
     }
   },
   created () {
-    this.$http.get('/questions/myquestions', {
-      headers: {
-        accesstoken: localStorage.getItem('accesstoken')
-      }
-    })
-    .then(({data}) => {
-      this.questions = data
-    })
-    .catch(err => console.log(err))
+    this.getMyQuestions()
   }
 
 }

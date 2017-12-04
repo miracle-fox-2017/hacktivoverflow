@@ -11,7 +11,7 @@
       </div>
       <div class="field">
         <div class="actions">
-          <button class="ui ok primary button" @click="editQuestion">Submit</button>
+          <button class="ui ok primary button" @click="editExec">Submit</button>
           <button class="ui deny button">Cancel</button>
         </div>
       </div>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   props: ['questionId'],
   data () {
@@ -31,20 +32,28 @@ export default {
     }
   },
   methods: {
-    editQuestion () {
-      this.$http.put(`/questions/${this.questionId}`, this.formQuestion, {
-        headers: {
-          accesstoken: localStorage.getItem('accesstoken')
-        }
-      })
-      .then(({data}) => {
-        this.$emit('questionEdited', data)
-        /* eslint-disable */
-        $('.small.modal.edit')
-          .modal('hide')
-        ;
-      })
-      .catch(err => console.log(err))
+    ...mapActions([
+      'editQuestions'
+    ]),
+    editExec () {
+      let questionData = {
+        questionId: this.questionId,
+        formQuestion: this.formQuestion
+      }
+      this.editQuestions(questionData)
+      // this.$http.put(`/questions/${this.questionId}`, this.formQuestion, {
+      //   headers: {
+      //     accesstoken: localStorage.getItem('accesstoken')
+      //   }
+      // })
+      // .then(({data}) => {
+      //   this.$emit('questionEdited', data)
+      //   /* eslint-disable */
+      //   $('.small.modal.edit')
+      //     .modal('hide')
+      //   ;
+      // })
+      // .catch(err => console.log(err))
     },
     getQuestion (questionId) {
       this.$http.get(`/questions/${questionId}`)

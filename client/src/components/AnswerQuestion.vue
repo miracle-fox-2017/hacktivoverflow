@@ -15,51 +15,44 @@
 
 <script>
 import AnswerList from '@/components/AnswerList'
+import { mapActions, mapState } from 'vuex'
 export default {
   components: {
     AnswerList
   },
   data () {
     return {
-      answerForm: '',
-      answers: []
+      answerForm: ''
     }
   },
   props: ['questionId'],
+  computed: {
+    ...mapState([
+      'answers'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'getAnswers',
+      'postNewAnswer'
+    ]),
     addAnswer () {
-      this.$http.post('/answers', {
+      this.postNewAnswer({
         answer: this.answerForm,
         questionId: this.questionId
-      }, {
-        headers: {
-          accesstoken: localStorage.getItem('accesstoken')
-        }
       })
-      .then(({data}) => {
-        this.answerForm = ''
-        this.answers.push(data)
-      })
-      .catch(err => console.log(err))
-    },
-    getAnswer (questionId) {
-      this.$http.get(`/answers/${questionId}`)
-      .then(({data}) => {
-        this.answers = data
-      })
-      .catch(err => console.log(err))
     },
     answerDeleted (value) {
       let index = this.answers.map(a => { return a._id }).indexOf(value._id)
       this.answers.splice(index, 1)
     }
   },
-  mounted () {
-    this.getAnswer(this.questionId)
+  created () {
+    this.getAnswers(this.questionId)
   },
   watch: {
     questionId (newId) {
-      this.getAnswer(newId)
+      this.getAnswers(newId)
     }
   }
 }
