@@ -2,13 +2,14 @@ const ObjectId = require('mongodb').ObjectId
 const Answer = require('../models/answerModel')
 
 const createAnswer = function(req,res){
+  console.log(req.body)
   let newAnswer = Answer({
     question: req.body.question_id,
     answer_content: req.body.answer_content,
     by: req.header.decoded.id
   })
   newAnswer.save().then(function(){
-    res.status(201).send('1 Answer Created')
+    res.status(201).send('[+] create 1 Answer')
   }).catch(function(err){
     res.status(500).send(err.errors.title.message)
     console.log(err, '[-] create Answer')

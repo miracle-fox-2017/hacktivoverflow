@@ -40,19 +40,34 @@ const mutations = {
   },
   getAnswerByQuestion (state, payload) {
     state.answers = payload
+  },
+  createAnswer (state, payload) {
+    state.answers.push(payload)
   }
 }
 
 const actions = {
+  // START ANSWER //
+  createAnswerQuestion ({ commit }, newAnswer) {
+    // console.log('ini answer', newAnswer)
+    http.post('api/answers', newAnswer).then(({ data }) => {
+      commit('createAnswer', data)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
   findAnswerByQuestion ({ commit }, questionId) {
     // console.log('id quest >>>', questionId)
     http.get('api/answers/questions/' + questionId).then(({data}) => {
-      console.log('answerquest', data)
+      // console.log('answerquest', data)
       commit('getAnswerByQuestion', data)
     }).catch(err => {
       console.error(err)
     })
   },
+  // END ANSWER //
+
+  // START QUESTION //
   getAllQuestion ({ commit }) {
     http.get('api/questions').then(({data}) => {
       commit('getQuestion', data)
@@ -90,6 +105,9 @@ const actions = {
       }
     })
   },
+  // END QUESTIONS //
+
+   // START USERS //
   getAllUsers ({ commit }) {
     http.get('api/users').then(({data}) => {
       commit('setUsers', data)
@@ -106,7 +124,7 @@ const actions = {
           text: 'username & password match!',
           type: 'success'
         }).then(function () {
-          window.location.href = 'http://localhost:8080/questions'
+          window.location.href = 'http://localhost:8080'
           localStorage.setItem('token', data.token)
           localStorage.setItem('name', data.username)
           localStorage.setItem('user_Id', data.user_Id)
@@ -147,6 +165,7 @@ const actions = {
       console.error(err)
     })
   }
+  // END USERS
 }
 
 const store = new Vuex.Store({

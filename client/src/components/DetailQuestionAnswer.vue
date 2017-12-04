@@ -9,7 +9,7 @@
           <div class="text">
             <p>{{ answer.answer_content }}</p>
           </div>
-          <p class="attribution">by <span style="font-weight:bold;">{{ answer.by.fullname }}</span> at {{ answer.create_at }}</p>
+          <p class="attribution">by <span style="font-weight:bold;">{{ answerBy }}</span> at {{ answer.create_at }}</p>
         </div>
       </article>
     </section>
@@ -19,7 +19,20 @@
 <script>
 export default {
   name: 'DetailQuestionAnswer',
-  props: ['answers']
+  props: ['answers'],
+  data: function () {
+    return {
+      answerBy: '',
+      load: this.answers
+    }
+  },
+  mounted () {
+    this.answers.forEach(answer => {
+      this.answerBy = answer
+    })
+    return this.load
+    // console.log('ini >>>', this.answers)
+  }
 }
 </script>
 
