@@ -6,8 +6,8 @@
     </div>
     <div class="content">
       <div class="summary" style="font-size: 12px;">
-        <a v-if="question.userId.first_name">{{question.userId.first_name}} {{question.userId.last_name}}</a>
-        <a v-else>You</a> posted a question
+        <a v-if="question.userId._id == myId">You</a>
+        <a v-else>{{question.userId.first_name}} {{question.userId.last_name}}</a> posted a question
         <div class="date">
           
         </div>
@@ -28,6 +28,11 @@
 import CommentsQuestion from '@/components/CommentsQuestion'
 import VoteQuestion from '@/components/VoteQuestion'
 export default {
+  data () {
+    return {
+      myId: localStorage.getItem('userId')
+    }
+  },
   components: {
     VoteQuestion,
     CommentsQuestion

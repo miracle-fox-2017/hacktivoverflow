@@ -6,6 +6,7 @@ import ContentPage from '@/components/ContentPage'
 import QuestionsList from '@/components/QuestionsList'
 import QuestionDetail from '@/components/QuestionDetail'
 import MyAccount from '@/components/MyAccount'
+import UsersList from '@/components/UsersList'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ export default new Router({
               name: 'QuestionDetail',
               component: QuestionDetail,
               props: true
+            },
+            {
+              path: '/users',
+              name: 'UsersList',
+              component: UsersList
             }
           ]
         },

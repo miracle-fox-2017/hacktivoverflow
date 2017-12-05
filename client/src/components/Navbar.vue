@@ -5,8 +5,7 @@
         <img class="ui image logo" src="../assets/img/logo.png">
       </div>
       <router-link class="item" to="/">Home</router-link>
-      <a class="item">Questions</a>
-      <a class="item">Users</a>
+      <router-link to="/users" class="item">Users</router-link>
       <div class="ui right item" tabindex="0" v-if="isLogin">
         <router-link style="margin-left: 20px;" class="ui primary button" to="/myaccount">My Account</router-link>
         <button style="margin-left: 20px;" class="ui primary button" @click="modalQuestion">Ask Question</button>

@@ -12,6 +12,7 @@
       <div class="field">
         <div class="actions">
           <button class="ui ok primary button" @click="postNewQuestion(formQuestion)">Submit</button>
+          <!-- <button class="ui button" @click="clearForm">Clear Form</button> -->
           <button class="ui deny button">Cancel</button>
         </div>
       </div>
@@ -20,15 +21,12 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 export default {
-  data () {
-    return {
-      formQuestion: {
-        title: '',
-        question: ''
-      }
-    }
+  computed: {
+    ...mapState([
+      'formQuestion'
+    ])
   },
   methods: {
     ...mapActions([

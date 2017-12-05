@@ -12,7 +12,6 @@
                 <h3>Hacktiv Overflow</h3>
               </div>
               <div class="ui list">
-                <a class="item">Questions</a>
                 <a class="item">Users</a>
               </div>
             </div>

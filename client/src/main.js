@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import GSignInButton from 'vue-google-signin-button'
-import store from './vuex/store'
+import store from './store'
 
 Vue.use(GSignInButton)
 Vue.prototype.$http = axios.create({baseURL: 'http://localhost:3000'})
