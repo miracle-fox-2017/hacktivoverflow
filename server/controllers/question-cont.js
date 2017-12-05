@@ -50,6 +50,30 @@ const findByIdAndUpdate = (req, res) => {
     })
 }
 
+const like = (req, res) => {
+  Question.findByIdAndUpdate({_id: req.params.id}, {
+    $push: {like: req.body.like}
+  })
+  .then(question => {
+    res.status(200).send(question)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+const dislike = (req, res) => {
+  Question.findByIdAndUpdate({_id: req.params.id},
+  { $pull: { like: req.body.like }
+  })
+  .then(req => {
+    console.log(res)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
 const findByIdAndRemove = (req, res) => {
   Question.findByIdAndRemove({ _id: req.params.id })
   .then(question => {
@@ -66,6 +90,8 @@ module.exports = {
   getAllQuest,
   findById,
   findByIdAndUpdate,
-  findByIdAndRemove
+  findByIdAndRemove,
+  like,
+  dislike
 }
 

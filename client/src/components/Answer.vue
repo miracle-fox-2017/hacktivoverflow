@@ -12,12 +12,20 @@
 						<h5 v-if="item.userId">{{ item.userId.username }}</h5>
             <br>
 						<p>{{ item.answer }}</p>
-						<div id="button">
-							<span>
-							<a @click="likes(item.userId, item._id)"><i class="fa fa-thumbs-up" aria-hidden="true" style="padding-rigth: 210px;"></i></a>
-							<a class="button is-danger is-hovered" @click="remove(item._id)">Delete</a>
-							</span>
-						</div>
+						
+							<div id="button">
+								<span>
+								<div v-if="liked">
+									<a @click="likes(item.userId, item._id)"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+								</div>
+								<div v-else>
+									<a @click="disLikes(item.userId, item._id)">
+									<i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+								</div>
+								{{item.votes.length}}
+								<a class="button is-danger is-hovered" @click="remove(item._id)">Delete</a>							
+								</span>
+							</div>
 						<br>
             <hr>
 					</div> <!-- end chat-message-content -->
@@ -36,28 +44,33 @@
 
 <script>
 /* eslint-disable */
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
-	props: ['id'],
   name: 'Answer',
   data () {
     return {
-      comment: ''
+			comment: '',
+			liked: true
     }
   },
   computed: {
-    ...mapState([
-      'question',
-      'answers'
-    ])
+		...mapState([
+		'question',
+		'answers',
+		'arrVotes'
+		])
   },
   methods: {
-    ...mapActions([
-      'getAnswerByQuestionId',
+		...mapActions([
+			'getAnswerByQuestionId',
 			'postComment',
 			'removeOne',
-			'findByIdAndUpdate'
-    ]),
+			'findByIdAndUpdate',
+			'removeElVotesById'
+		]),
+		arrVotesLen () {
+			this.len = this.arrVotes.length
+		},
     post () {
       console.log(this.question)
       let obj = {
@@ -71,13 +84,33 @@ export default {
 		remove (id) {
 			this.removeOne(id)
 		},
+		cek () {
+			this.answers.forEach(element => {
+				element.votes.forEach(el => {
+					console.log(el)
+				})
+			})
+		},
 		likes (userId, id) {
-			// let obj = {
-			// 	userId: userId,
-			// 	id: id
-			// }
-			console.log(userId, id)
-			//this.findByIdAndUpdate(obj)
+			this.cek()
+			console.log(userId)
+			console.log('this', this.answers)
+			let obj = {
+				userId: localStorage.getItem('id'),
+				id: id
+			}
+			this.liked = false
+			console.log(this.liked,'0-0-0-0-')
+			this.findByIdAndUpdate(obj)
+		},
+		disLikes (userId, id) {
+			let obj = {
+				userId: localStorage.getItem('id'),
+				id: id
+			}
+			this.liked = true
+			console.log(this.liked,'0-0-00-9-09-09-0-0-')
+			this.removeElVotesById(obj)
 		}
 	}
 }
@@ -260,8 +293,8 @@ p { margin: 0; }
 	margin: 0 0 0 80px;
 }
 
-.fa-thumbs-up:before {
-	padding-right: 178px;
+.fa-thumbs-up:before , .fa-thumbs-down:before  {
+	padding-right: 118px;
 	font-size: 2.2rem;
 }
 </style>

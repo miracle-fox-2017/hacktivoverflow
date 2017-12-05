@@ -4,8 +4,7 @@ const createAnswer = (req, res) => {
   Answer.create({
     userId: req.body.userId,
     questionId: req.body.questionId,
-    answer: req.body.answer,
-    votes: req.body.userId
+    answer: req.body.answer
   })
   .then(answer => {
     res.status(200).send(answer)
@@ -29,6 +28,20 @@ const getAllAnswers = (req, res) => {
 }
 
 
+const getAll = (req, res) => {
+  Answer.find()
+  .populate('userId')
+  .populate('votes')
+  .then(answers => {
+    res.status(200).send(answers)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+
+
 const findById = (req, res) => {
   Answer.find()
   .populate('questionId')
@@ -42,12 +55,24 @@ const findById = (req, res) => {
 
 const findByIdAndUpdate = (req, res) => {
   Answer.findByIdAndUpdate({ _id: req.params.id },{$push: {votes: req.body.votes }})
-    .then(answer => {
-      res.status(200).send(answer)
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  .then(answer => {
+    res.status(200).send(answer)
+  })
+  .catch(err => {
+    console.log(err)
+  })
+}
+
+const removeElVotesById = (req, res) => {
+  Answer.findByIdAndUpdate({_id: req.params.id}, 
+    { $pull: { votes: req.body.votes} }
+  )
+  .then(res => {
+    console.log(res)
+  })
+  .catch(err => {
+    console.log(err)
+  })
 }
 
 const findByIdAndRemove = (req, res) => {
@@ -66,5 +91,7 @@ module.exports = {
   getAllAnswers,
   findById,
   findByIdAndRemove,
-  findByIdAndUpdate
+  findByIdAndUpdate,
+  removeElVotesById,
+  getAll
 }

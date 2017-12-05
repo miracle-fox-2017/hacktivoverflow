@@ -8,6 +8,10 @@ const QuestionSchema = new Schema({
   },
   tag: String,
   question: String,
+  like: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   createdAt: {
     type: Date,
     default: Date.now

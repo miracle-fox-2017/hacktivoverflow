@@ -24,16 +24,23 @@ router.get('/questions/:id', questController.findById)
 
 router.put('/questions/:id', questController.findByIdAndUpdate)
 
+router.put('/questions/:id/like', questController.like)
+
+router.put('/questions/:id/dislike', questController.dislike)
+
 router.delete('/questions/:id', questController.findByIdAndRemove)
 
 // ================= answer
+
 router.post('/answers', answerController.createAnswer)
 
 router.get('/questions/:id/answers', answerController.getAllAnswers)
 
 router.get('/answers', answerController.findById)
 
-router.put('/answers/:id', answerController.findByIdAndUpdate)
+router.put('/answers/editVotes/:id', answerController.findByIdAndUpdate)
+
+router.put('/answers/removeVotes/:id', answerController.removeElVotesById)
 
 router.delete('/answers/:id', answerController.findByIdAndRemove)
 

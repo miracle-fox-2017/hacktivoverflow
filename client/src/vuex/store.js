@@ -3,6 +3,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import firebase from 'firebase'
+import { log } from 'util';
 
 
 
@@ -15,9 +16,16 @@ const state = {
   questions: [],
   question: null,
   isOwner: false,
-  answers: []
+  answers: [],
+  isLikes: false,
+  lenVotes: 0,
 }
 
+const getters = {
+  liked (state) {
+    
+  }
+}
 
 const mutations = {
   saveUser (state, payload ) {
@@ -32,12 +40,16 @@ const mutations = {
     state.questions.push(payload)
   },
   setOneQuestion (state, payload) {
+    console.log(payload.userId.username, 'setquestion, dfoisoifoi')
     if (payload.userId.username === localStorage.getItem('username')) {
       state.isOwner = true
+    } else {
+      state.isOwner = false
     }
     state.question = payload
   },
   removeOne (state, payload) {
+    console.log(payload, 'sdjfoisdjfsoifjosi')
     state.questions.forEach((item, index) => {
       if (item._id === payload._id) {
         state.questions.splice(index, 1)
@@ -52,16 +64,21 @@ const mutations = {
   setAnswers (state, payload) {
     state.answers = payload
   },
-  setNewAnswer (payload) {
-    console.log('payload di setnewanswer', {payload})
+  setNewAnswer  (state, payload) {
+    console.log('payload di setnewanswer', payload)
     console.log('state', state.answers)
     state.answers.push(payload)
   },
-  removeAns (payload) {
+  removeAns (state, payload) {
     state.answers.forEach((item, index) => {
       if (item._id === payload._id) {
         state.answers.splice(index, 1)
       }
+    })
+  },
+  lenVotes (state, payload) {
+    state.answers.map(x => {
+      x.votes.length 
     })
   }
 }
@@ -178,33 +195,45 @@ const actions = {
       questionId: payload.questionId
     })
     .then(({ data }) => {
+      console.log(data, 'data post')
       commit('setNewAnswer', data)
     })
     .catch(err => console.log(err))
   },
   removeOne ({ commit }, payload) {
-    console.log(payload)
+    console.log(payload, 'fooo')
     http.delete(`/api/answers/${payload}`)
     .then(({ data }) => {
-      commit('removeAns', payload)
+      commit('removeAns', data)
     })
     .catch(err => console.log(err))
   },
-  findByIdAndUpdate ({ commit }, payload) {
-    console.log(payload)
-    http.put(`/api/answers/${payload.id}`, {
+
+  removeElVotesById({ commit }, payload) {
+    console.log(payload, 'rem')
+    http.put(`/api/answers/removeVotes/${payload.id}`, {
       votes: payload.userId
     })
     .then(({ data }) => {
-      console.log(data)
-      commit('setNewAnswer', data)
+      console.log(data.votes.length)
     })
     .catch(err => console.log(err))
+  },
 
+  findByIdAndUpdate ({ commit }, payload) {
+    console.log(payload)
+    http.put(`/api/answers/editVotes/${payload.id}`, {
+      votes: payload.userId
+    })
+    .then(({ data }) => {
+      console.log(data.votes.length)
+    })
+    .catch(err => console.log(err))
   }
 }
 
 const store = new Vuex.Store({
+  getters,
   state,
   actions,
   mutations
