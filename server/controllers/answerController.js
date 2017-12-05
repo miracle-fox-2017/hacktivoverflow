@@ -95,10 +95,125 @@ const getAnswer = (req, res) => {
     console.log(err)})
 }
 
+const likeAnswer = (req, res) => {
+  let id = ObjectId(req.params.id)
+  // console.log('MASUK')
+  Answer.findOne({
+    _id: id
+  })
+  .then(dataAnswer => {
+    console.log(dataAnswer.dislike)
+    if(dataAnswer.like.length == 0){
+      dataAnswer.like.push(req.decoded.id)
+      dataAnswer.dislike.map((unlikeId, idx) => {
+        if(unlikeId.toString() == req.decoded.id) {
+          dataAnswer.dislike.splice(idx, 1)
+        }
+      })
+      console.log(dataAnswer)
+      dataAnswer.save((err, data) => {
+        if (err) throw err;
+        res.send(
+        {
+          data : data,
+          msg: 'Answer successfully liked!'
+        });
+      })
+    } else {
+      console.log('MASUK ELSE')
+      dataAnswer.like.forEach(likeId => {
+        console.log('MAP LIKE',likeId.toString() !== req.decoded.id)
+          if(likeId.toString() !== req.decoded.id) {
+            console.log('masuk')
+            dataAnswer.like.push(req.decoded.id)
+            dataAnswer.dislike.map((unlikeId, idx) => {
+              if(unlikeId.toString() == req.decoded.id) {
+                dataAnswer.dislike.splice(idx, 1)
+              }
+            })
+            dataAnswer.save((err, data) => {
+              if (err) throw err;
+              res.send(
+              {
+                data : data,
+                msg: 'Answer successfully liked!'
+              });
+            })
+          } else {
+            console.log('SUDAH LIKE BOS TETAP TENANG')
+          }
+      })
+    }
+    // console.log('APA DAPAT', dataAnswer)
+    // res.send(dataAnswer)
+  })
+  .catch(err => {
+    res.status(500).send(err) 
+    console.log(err)
+  })
+}
+
+const unlikeAnswer = (req, res) => {
+  let id = ObjectId(req.params.id)
+  // console.log('MASUK')
+  Answer.findOne({
+    _id: id
+  })
+  .then(dataAnswer => {
+    console.log(dataAnswer.dislike)
+    if(dataAnswer.dislike.length == 0){
+      dataAnswer.dislike.push(req.decoded.id)
+      dataAnswer.like.map((likeId, idx) => {
+        if(likeId.toString() == req.decoded.id) {
+          dataAnswer.like.splice(idx, 1)
+        }
+      })
+      console.log(dataAnswer)
+      dataAnswer.save((err, data) => {
+        if (err) throw err;
+        res.send(
+        {
+          data : data,
+          msg: 'Answer successfully unliked!'
+        });
+      })
+    } else {
+      console.log('MASUK ELSE')
+      dataAnswer.dislike.map(unlikeId => {
+          if(unlikeId.toString() !== req.decoded.id) {
+            dataAnswer.dislike.push(req.decoded.id)
+            dataAnswer.like.map((likeId, idx) => {
+              if(likeId.toString() == req.decoded.id) {
+                dataAnswer.like.splice(idx, 1)
+              }
+            })
+            dataAnswer.save((err, data) => {
+              if (err) throw err;
+              res.send(
+              {
+                data : data,
+                msg: 'Answer successfully unliked!'
+              });
+            })
+          } else {
+            console.log('SUDAH LIKE BOS TETAP TENANG')
+          }
+      })
+    }
+    // console.log('APA DAPAT', dataAnswer)
+    // res.send(dataAnswer)
+  })
+  .catch(err => {
+    res.status(500).send(err) 
+    console.log(err)
+  })
+}
 module.exports = {
   allAnswers,
   createAnswer,
   editAnswer,
   deleteAnswer,
-  getAnswer
+  getAnswer,
+  likeAnswer,
+  unlikeAnswer
 };

@@ -10,7 +10,7 @@ let isLogin = (req, res, next) =>{
   // console.log('INI TOKEN',token.token)
   jwt.verify(token.token, ' process.env.SECRET_KEY', function(err, decoded) {
     if(!err){
-      // console.log('DI VERIVY', decoded)
+      console.log('DI VERIVY', decoded)
       req.decoded = decoded
       next()
     } else {

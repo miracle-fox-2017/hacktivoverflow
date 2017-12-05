@@ -60,6 +60,15 @@ const mutations = {
   },
   setunlike (state, updateLike) {
     state.question = updateLike
+  },
+  setUpdateQuestion (state, updateQuestion) {
+    state.question = updateQuestion
+  },
+  setDeleteQuestion (state, idQuestion) {
+    // let filterQuestion = state.questions.filter((question) => question._id !== idQuestion)
+    // state.questions = filterQuestio
+    let idx = state.questions.findIndex(question => question._id == idQuestion)
+    state.questions.splice(idx, 1)
   }
 }
 
@@ -175,6 +184,67 @@ const actions = {
     .then(({data}) => {
       console.log('UNLIKE', data)
       commit('setunlike', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  setLikeAnswer ({ commit }, id) {
+    let koken = localStorage.getItem('token')
+    console.log('ID', koken)
+    http.put(`/answers/like/${id}`, {}, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('LIKE', data)
+      commit('setlikeAnswer', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  setUnlikeAnswer ({ commit }, id) {
+    http.put(`/answers/unlike/${id}`,{}, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('UNLIKE', data)
+      commit('setunlikeAnswer', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  updateQuestion ({ commit }, newUpdate) {
+    console.log('NEW UPDATE', newUpdate)
+    http.put(`/questions/${newUpdate.id}`,newUpdate , {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('NEW UPDATE HASIL', data)
+      commit('setUpdateQuestion', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  deleteQuestion({commit}, id) {
+    // console.log('INI ID', id)
+    http.delete(`/questions/${id}`, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('NEW DELETE HASIL', data)
+      alert(data.msg)
+      commit('setDeleteQuestion', id)
     })
     .catch(err => {
       console.log(err)

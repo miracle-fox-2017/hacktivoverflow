@@ -37,6 +37,8 @@ const createQuestion = (req, res) => {
 
 const deleteQuestion = (req, res) => {
   let id = {_id: ObjectId(req.params.id)}
+  console.log('MASUK SINIS GA')
+  console.log(id)
   Question.deleteOne(id)
   .then(question => res.send(
   {
@@ -50,12 +52,14 @@ const deleteQuestion = (req, res) => {
 const editQuestion = (req , res) =>{
   let id = ObjectId(req.params.id)
   let input = req.body
+  // console.log('EDIT DI SERVER ', input, 'dan', id)
   const saltRounds = 10;
   Question.findOne({
     _id: id,
-    user_id: input.user_id
+    user_id: req.decoded.id
   })
   .then(dataQuestion => {
+    // console.log('PENCARIAN FILE EDIT', dataQuestion)
     dataQuestion.title = input.title,
     dataQuestion.body = input.body,
     dataQuestion.save(function(err, data) {
