@@ -4,8 +4,8 @@
       <article v-for="(answer, index) in answers" :key="index" class="comment">
         <a class="comment-img">
           <img src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png" alt="" width="50" height="50" />
-          <button v-if="owner" style="position:absolute; margin-top:6%; font-size:10px;" type="button" class="btn btn-outline-warning btn-sm">Update</button>
-          <button v-if="owner" @click="deleteAnswer(answer._id)" style="margin-top:13%; font-size:11px;" type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+          <button v-if="user" @click="updateQuestionModal(answer)" data-toggle="modal" data-target="#updateAnswerModal" style="position:absolute; margin-top:7%; font-size:10px;" type="button" class="btn btn-outline-dark btn-sm">Update</button>
+          <button v-if="user" @click="deleteAnswer(answer._id)" style="margin-top:13%; font-size:11px;" type="button" class="btn btn-outline-dark btn-sm">Delete</button>
         </a>
         <div class="comment-body">
           <div class="text">
@@ -15,6 +15,32 @@
         </div>
       </article>
     </section>
+    <!-- START MODAL UPDATE -->
+    <div class="modal fade" id="updateAnswerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Answer</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-ModalCreateQuestion modal-body">
+            <form>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Answer:</label>
+                <textarea style="height:270px;" class="form-control" id="message-text" v-model="answerUpdate.answer_content" required=""/></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button @click="updateAnswer(answerUpdate)" type="button" data-dismiss="modal" class="btn btn-dark">Update Answer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END MODAL UPDATE -->
   </div>
 </template>
 
@@ -22,32 +48,49 @@
 import {mapActions, mapState} from 'vuex'
 export default {
   name: 'DetailQuestionAnswer',
-  props: ['answers'],
+  props: ['answersprops'],
   data: function () {
     return {
       answerBy: '',
       load: this.answers,
       user: localStorage.getItem('user_Id'),
-      owner: ''
+      owner: '',
+      answerUpdate: {
+        id: '',
+        answer_content: ''
+      }
     }
   },
   computed: {
     ...mapState([
-      'questions'
+      'questions',
+      'answers'
     ])
   },
   methods: {
     ...mapActions([
       'deleteAnswer',
-      'getAllQuestionByAuthor'
-    ])
+      'getAllQuestionByAuthor',
+      'updateNewAnswer'
+    ]),
+    updateQuestionModal (answer) {
+      this.answerUpdate._id = answer._id
+      this.answerUpdate.answer_content = answer.answer_content
+    },
+    updateAnswer (answerUpdate) {
+      // console.log('??????', answerUpdate)
+      let storage = localStorage.getItem('token')
+      if (storage) {
+        this.updateNewAnswer(answerUpdate)
+      }
+    }
   },
   created () {
     // cek owner
-    this.getAllQuestionByAuthor(this.user)
-    if (this.questions[0].author === this.user) {
-      this.owner = true
-    }
+    // this.getAllQuestionByAuthor(this.user)
+    // if (this.questions[0].author === this.user) {
+    //   this.owner = true
+    // }
 
     this.answers.forEach(answer => {
       this.answerBy = answer

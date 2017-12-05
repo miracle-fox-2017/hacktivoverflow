@@ -9,5 +9,6 @@ router.get('/', Answer.findAllAnswer)
 router.get('/:id', Answer.answerByid)
 router.delete('/:id', LoginDelete.isLoginDelete, Answer.destroyAnswer)
 router.get('/questions/:id', Answer.answersByQuestion)
+router.put('/:id', LoginDelete.isLoginDelete, Answer.updateAnswer)
 
 module.exports = router

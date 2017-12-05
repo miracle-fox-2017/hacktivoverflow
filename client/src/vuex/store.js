@@ -64,6 +64,16 @@ const mutations = {
   deleteAnswer (state, payload) {
     const index = state.answers.findIndex((answer) => answer.id === payload)
     state.answers.splice(index, 1)
+  },
+  updatedAnswer (state, payload) {
+    // console.log('data di update answer mutations >>', payload)
+    state.answers.forEach((answer, index) => {
+      if (answer._id === payload._id) {
+        console.log('INDEX >>', state.answers)
+        console.log('quest iterasi >>>', answer)
+        state.answers[index].answer_content = payload.answer_content
+      }
+    })
   }
 }
 
@@ -91,6 +101,17 @@ const actions = {
     let enjoyKey = localStorage.getItem('token')
     http.delete('/api/answers/' + answerId, { headers: {token: enjoyKey} }).then(({data}) => {
       commit('deleteAnswer', answerId)
+    }).catch(err => {
+      console.error(err)
+    })
+  },
+  updateNewAnswer ({ commit }, newAnswer) {
+    // console.log('updateNewAnswer >>', newAnswer._id)
+    let enjoyKey = localStorage.getItem('token')
+    http.put('api/answers/' + newAnswer._id, newAnswer, { headers: {token: enjoyKey} })
+    .then(({data}) => {
+      console.log('ini data update answer actions', data)
+      commit('updatedAnswer', data)
     }).catch(err => {
       console.error(err)
     })

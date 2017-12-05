@@ -37,21 +37,18 @@ const answerByid = function(req,res){
 }
 
 const updateAnswer = function(req,res){
-  // console.log('masuk')
+  console.log('masuk')
+  console.log('/////////', req.body)
   let id = {
     _id : ObjectId(req.params.id)
   }
   Answer.findById(id).then(function(data_Answer){
-    // console.log(data_Article)
-    data_Answer.question = req.body.question_id,
-    data_Answer.answer_content = req.body.answer_content,
-    data_Answer.by = req.header.decoded.id
+    // console.log(data_Answer)
+    data_Answer.answer_content = req.body.answer_content
     // save
     data_Answer.save().then(function(data_Answer){
-      res.status(201).send({
-        message : `[+] 1 Answer created`,
-        data_Answer : data_Answer
-      })
+      console.log('[+] 1 Answer updated')
+      res.status(201).send(data_Answer)
     }).catch(function(err){
       res.status(500).send(`[-] err update Answer`)
     })
