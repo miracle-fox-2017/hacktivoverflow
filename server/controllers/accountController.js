@@ -30,8 +30,7 @@ const create = (req, res) => {
 		email: req.body.email
 	}).then(account => {
 		if (account) {
-			// Update
-			upsertAccount(account, req, res);
+			res.status(500).send({ message: "Email already exists." })
 
 		} else {
 			// Create new account
