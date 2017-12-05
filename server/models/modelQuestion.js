@@ -10,10 +10,6 @@ let questionSchema = new Schema({
     type: String,
     required: true
   },
-  answer: [{
-    type: String,
-    ref: 'answers'
-  }],
   author: {
     type: Schema.Types.ObjectId,
     ref: 'users'

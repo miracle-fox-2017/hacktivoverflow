@@ -1,17 +1,21 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-   
+    <navbar />
+    <add-question/>
+    <list-question />
   </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar'
+import ListQuestion from '@/components/ListQuestion'
+import AddQuestion from '@/components/AddQuestion'
 export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
+  name: 'LandingPage',
+  components: {
+    Navbar,
+    ListQuestion,
+    AddQuestion
   }
 }
 </script>

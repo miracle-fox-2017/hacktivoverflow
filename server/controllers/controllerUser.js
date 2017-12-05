@@ -28,7 +28,7 @@ let signIn = (req, res) => {
           } else {
             const payload = {
               id: dataUser._id,
-              username: dataUser.username,
+              username: dataUser. username,
               isLogin: true
             }
             jwt.sign(payload, process.env.SECRET, function (err, token) {

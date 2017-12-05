@@ -8,7 +8,7 @@ const createQuestion = (req, res) => {
     author: req.body.author
   })
     .then((dataQuestion) => {
-      res.send("Successfully added 1 question")
+      res.send(dataQuestion)
     })
     .catch((reason) => {
       res.send(reason)
