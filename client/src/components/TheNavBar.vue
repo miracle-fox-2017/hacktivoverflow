@@ -125,7 +125,7 @@ export default {
 }
 </script>
 
-<style lang="css" scoped>
+<style lang="css">
 .fix-margin {
   margin: 8px;
   padding: 4px;
