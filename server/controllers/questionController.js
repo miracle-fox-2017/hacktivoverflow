@@ -18,7 +18,8 @@ const createQuestion = function(req,res){
 }
 
 const findAllQuestion = function(req,res){
-  Questions.find().populate('author').then(function(data_Questions){
+  Questions.find().populate('author')
+  .then(function(data_Questions){
     res.status(200).send(data_Questions)
   }).catch(function(err){
     console.log(err, '[-] findAll data Questions')
@@ -30,7 +31,8 @@ const questionsByid = function(req,res){
   let id = {
     _id : ObjectId(req.params.id)
   }
-  Questions.findById(id).populate('author').then(function(data_Questions){
+  Questions.findById(id).populate('author')
+  .then(function(data_Questions){
     res.status(200).send(data_Questions)
   }).catch(function(err){
     res.status(500).send(`[-] err find by id Questions`)

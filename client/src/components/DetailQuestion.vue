@@ -13,8 +13,8 @@
             <span style="font-weight:bold; margin-left:3px;">
               <i class="fa fa-comment" aria-hidden="true"></i> {{ answers.length }} 
             </span>
-            <span style="font-weight:bold; margin-left:3px;">
-              <i class="fa fa-user" aria-hidden="true"></i> {{ questions }}
+            <span style="font-weight:bold; margin-left:3px;" v-if="questions.author">
+              <i class="fa fa-user" aria-hidden="true"></i> {{ questions.author.fullname }} 
             </span>
           </small>
           </p>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- Start Answer -->
-    <Answer :questions="questions" :answers="answers"/>
+    <Answer :questions="questions" :answersprops="answers"/>
     <!-- End Answer -->
   </div>
 </template>

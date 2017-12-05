@@ -4,14 +4,18 @@
       <article v-for="(answer, index) in answers" :key="index" class="comment">
         <a class="comment-img">
           <img src="http://static.bleacherreport.net/images/redesign/avatars/default-user-icon-profile.png" alt="" width="50" height="50" />
-          <button v-if="user" @click="updateQuestionModal(answer)" data-toggle="modal" data-target="#updateAnswerModal" style="position:absolute; margin-top:7%; font-size:10px;" type="button" class="btn btn-outline-dark btn-sm">Update</button>
-          <button v-if="user" @click="deleteAnswer(answer._id)" style="margin-top:13%; font-size:11px;" type="button" class="btn btn-outline-dark btn-sm">Delete</button>
+          <button v-if="owner" @click="updateQuestionModal(answer)" data-toggle="modal" data-target="#updateAnswerModal" style="position:absolute; margin-top:7%; font-size:10px;" type="button" class="btn btn-outline-dark btn-sm">Update</button>
+          <button v-if="owner" @click="deleteAnswer(answer._id)" style="margin-top:13%; font-size:11px;" type="button" class="btn btn-outline-dark btn-sm">Delete</button>
         </a>
         <div class="comment-body">
           <div class="text">
             <p>{{ answer.answer_content }}</p>
           </div>
-          <p class="attribution">by <span style="font-weight:bold;">{{ answerBy }}</span> at {{ answer.create_at }}</p>
+          <p class="attribution"> by 
+            <span style="font-weight:bold;">
+              {{ answer.by.fullname }}
+            </span> at {{ answer.create_at }}
+          </p>
         </div>
       </article>
     </section>
@@ -87,10 +91,10 @@ export default {
   },
   created () {
     // cek owner
-    // this.getAllQuestionByAuthor(this.user)
-    // if (this.questions[0].author === this.user) {
-    //   this.owner = true
-    // }
+    this.getAllQuestionByAuthor(this.user)
+    if (this.questions[0].author === this.user) {
+      this.owner = true
+    }
 
     this.answers.forEach(answer => {
       this.answerBy = answer
