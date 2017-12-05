@@ -6,8 +6,9 @@ require('dotenv').config()
 
 //find one Question
 function findAll(req,res) {
-	Question.find().populate('userId').populate('comment').exec()
+	Question.find().sort({createdAt : 'desc'}).populate('userId').populate('comment').exec()
 	 .then(result => {
+	 	console.log(result)
 	 	res.send(result)
 	 })
 	  .catch(err => {

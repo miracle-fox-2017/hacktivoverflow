@@ -31,7 +31,7 @@ export default new Vuex.Store({
 		},
 
 		addQuestion (state, payload) {
-			state.questions.push(payload.newQuestion.data)
+			state.questions.unshift(payload.newQuestion.data)
 		},
 		deleteQuestion (state, payload) {
 			state.questions.forEach((question,index) => {
