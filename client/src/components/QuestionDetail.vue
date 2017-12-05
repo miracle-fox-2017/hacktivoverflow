@@ -6,7 +6,7 @@
     <div class="panel-heading"> <h4>{{question.title}}</h4></div>
     <div class="panel-body">
     <p>{{question.question}}</p>
-    <div class="pull-right">
+    <div class="pull-right" v-if="token !== null">
         <a href="#" @click="deleteQuestion(question)">
             <span class="glyphicon glyphicon-trash"></span>
         </a>
@@ -51,7 +51,7 @@
       <div class="col-sm-6 text-left">
        <h3>Answer</h3>
         <div class="well" v-for="(answer, index) in answers" :key="index">
-         <a @click="deleteAnswer(answer)">
+         <a @click="deleteAnswer(answer)" v-if="token !== null">
            <span class="glyphicon glyphicon-trash"></span>
          </a>
          <p>{{answer.answer}}</p>

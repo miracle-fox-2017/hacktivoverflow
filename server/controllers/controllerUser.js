@@ -11,7 +11,7 @@ let signUp = (req, res) => {
     }).then((dataUser) => {
       res.send(dataUser)
     }).catch((reason) => {
-      res.send(reason)
+      res.send('')
     })
   })
 }

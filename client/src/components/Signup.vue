@@ -38,7 +38,11 @@
           password: this.password
         })
         .then(function (response) {
-          alert('Successfully registered!')
+          if (response.data === '') {
+            alert('Username is already in use!')
+          } else {
+            alert('Successfully registered. Please login first to start posting!')
+          }
         })
         .catch((reason) => {
           console.log(reason)
