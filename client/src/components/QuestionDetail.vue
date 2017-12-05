@@ -14,18 +14,24 @@
             </div>
             <h3 class="subtitle">{{ question.title }}</h3>
               {{ question.body }}<br><br/>
-              APA{{question.like.length}}
-              <span v-if="question.like.length <= 0">
-                <h5>
-                  <a @click.prevent="likeQuestion">Like</a>
-                · <a @click.prevent="setFocus">Reply</a> · 3 hrs
-                </h5>
-              </span>
-              <span v-else v-for="like in question.like" :key="like._id">
+              APA{{question.like}}
+              IDMU : {{ is_user }}
+              <!-- <span v-else v-for="like in question.like" :key="like._id">
+                {{ liked }}
                 <br/>id: yang LIKE {{like}} 
                 <br/>id: USER{{is_user}}
+                <div>
+                </div>       
                 <h5>
                   <a v-if="like !== is_user" @click.prevent="likeQuestion">Like</a>
+                  <a v-else @click.prevent="unlikeQuestion">Unlike</a> 
+                · <a  @click.prevent="setFocus">Reply</a> · 3 hrs
+                </h5>
+              </span> -->
+              <span>
+                {{ liked }}       
+                <h5>
+                  <a v-if="!liked" @click.prevent="likeQuestion">Like</a>
                   <a v-else @click.prevent="unlikeQuestion">Unlike</a> 
                 · <a  @click.prevent="setFocus">Reply</a> · 3 hrs
                 </h5>
@@ -94,8 +100,19 @@ export default {
   },
   computed: {
     ...mapState([
-      'question'
-    ])
+      'question',
+      'login'
+    ]),
+    liked: function () {
+      // return this.question.like;
+      let idx = this.question.like.findIndex(liker => liker === this.login.user_id)
+      console.log('idx ', idx)
+      if(idx == -1) {
+        return false
+      } else {
+        return true
+      }
+    }
   },
   methods: {
     ...mapActions([
@@ -154,6 +171,11 @@ export default {
     let parsing = localStorage.getItem('user_id')
     if (parsing) {
       this.is_user = parsing
+    }
+  },
+  watch: {
+    id () {
+      this.detailQuestion(this.id)
     }
   }
 }

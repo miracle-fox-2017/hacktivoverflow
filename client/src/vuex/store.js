@@ -11,8 +11,12 @@ Vue.use(Vuex)
 const state = {
   users: [],
   questions: [],
-  login: '',
-  question: ''
+  login: false,
+  question: {
+    title: '',
+    body: '',
+    like: []
+  }
 }
 
 const mutations = {
@@ -23,6 +27,7 @@ const mutations = {
     state.users.push(newUser)
   },
   setLogin (state, payload) {
+    console.log('set login masuk nih ', payload)
     state.login = payload
   },
   setQuestions (state, payload) {
