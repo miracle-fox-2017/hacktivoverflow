@@ -65,7 +65,7 @@ const editQuestion = (req, res) => {
 
 const likeQuestion = (req, res) => {
   Question.findByIdAndUpdate(req.params.id,
-    { $push: { 'likes': req.body.author } },
+    { $push: { 'likes': req.body.userId }},
     { safe: true, upsert: true })
     .then((dataQuestion) => {
       res.send(dataQuestion)
@@ -77,7 +77,7 @@ const likeQuestion = (req, res) => {
 
 const unlikeQuestion = (req, res) => {
   Question.findByIdAndUpdate(req.params.id,
-    { $pull: { 'likes': req.body.author } },
+    { $pull: { 'likes': req.body.userId } },
     { safe: true, upsert: true })
     .then((dataQuestion) => {
       res.send(dataQuestion)

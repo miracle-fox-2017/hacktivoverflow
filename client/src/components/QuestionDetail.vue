@@ -56,8 +56,8 @@
          </a>
          <p>{{answer.answer}}</p>
          <h6>Replied by : {{answer.author.username}}</h6>
-         <a href="#">
-           <span class="glyphicon glyphicon-thumbs-up"></span>
+         <a @click="cekAnswer(answer._id)">
+           <span class="glyphicon glyphicon-thumbs-up">{{answer.likes.length}}</span>
          </a>
         </div>
       </div>
@@ -85,7 +85,8 @@ export default {
         id: ''
       },
       isEdit: false,
-      target: ''
+      target: '',
+      token: ''
     }
   },
   name: 'QuestionDetail',
@@ -105,7 +106,8 @@ export default {
       'getAnswerByIdQuestion',
       'deleteQuestionById',
       'updateDataQuestionById',
-      'deleteDataAnswer'
+      'deleteDataAnswer',
+      'likeAnswer'
     ]),
     deleteQuestion (question) {
       if (question.author._id !== jwt.decode(localStorage.getItem('token')).id) {
@@ -134,11 +136,19 @@ export default {
       } else {
         this.deleteDataAnswer(answer._id)
       }
+    },
+    cekAnswer (id) {
+      if (this.token === null) {
+        alert('Please login to like this post!')
+      } else {
+        this.likeAnswer(id)
+      }
     }
   },
   created () {
     this.findQuestionById(this.id)
     this.getAnswerByIdQuestion(this.id)
+    this.token = localStorage.getItem('token')
   }
 }
 </script>

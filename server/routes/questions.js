@@ -7,7 +7,7 @@ router.post('/', question.createQuestion)
 router.delete('/:id', question.deleteQuestion)
 router.put('/:id', question.editQuestion)
 router.put('/like/:id', question.likeQuestion)
-router.put('/unlike/:id', question.likeQuestion)
+router.put('/unlike/:id', question.unlikeQuestion)
 router.get('/:id', question.findQuestion)
 
 module.exports = router;

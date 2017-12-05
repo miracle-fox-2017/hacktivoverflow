@@ -45,6 +45,18 @@ const mutations = {
       answer._id === payload._id
     )
     state.answers.splice(indexAnswer, 1)
+  },
+  likeQuestion (state, payload) {
+    http.get('/questions')
+    .then((dataQuestions) => {
+      state.questions = dataQuestions.data
+    })
+  },
+  likeAnswer (state, payload) {
+    http.get('/answers')
+    .then((dataAnswers) => {
+      state.answers = dataAnswers.data
+    })
   }
 }
 
@@ -133,7 +145,50 @@ const actions = {
     })
   },
   likeQuestion ({commit}, id) {
-    console.log(id)
+    let dataUser = jwt.decode(localStorage.getItem('token')).id
+    let indexQuestion = this.state.questions.findIndex((question) => question._id === id)
+    let indexLiker = this.state.questions[indexQuestion].likes.findIndex((like) => like === dataUser)
+    if (indexLiker === -1) {
+      http.put(`/questions/like/${id}`, {
+        userId: dataUser
+      })
+      .then((dataQuestion) => {
+        commit('likeQuestion', dataQuestion.data)
+      })
+      .catch((reason) => {
+        console.log(reason)
+      })
+    } else {
+      http.put(`/questions/unlike/${id}`, {
+        userId: dataUser
+      })
+      .then((dataQuestion) => {
+        commit('likeQuestion', dataQuestion.data)
+      })
+    }
+  },
+  likeAnswer ({commit}, id) {
+    let dataUser = jwt.decode(localStorage.getItem('token')).id
+    let indexAnswer = this.state.answers.findIndex((answer) => answer._id === id)
+    let indexLiker = this.state.answers[indexAnswer].likes.findIndex((like) => like === dataUser)
+    if (indexLiker === -1) {
+      http.put(`/answers/like/${id}`, {
+        userId: dataUser
+      })
+      .then((dataAnswer) => {
+        commit('likeAnswer', dataAnswer.data)
+      })
+      .catch((reason) => {
+        console.log(reason)
+      })
+    } else {
+      http.put(`/answers/unlike/${id}`, {
+        userId: dataUser
+      })
+      .then((dataAnswer) => {
+        commit('likeAnswer', dataAnswer.data)
+      })
+    }
   }
 }
 

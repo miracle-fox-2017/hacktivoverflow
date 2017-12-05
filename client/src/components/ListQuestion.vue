@@ -9,7 +9,7 @@
   
               <h6>Posted by : {{question.author.username}}</h6>
               <div class="pull-right">
-              <a href="#">
+              <a @click="cekLikeQuestion(question._id)">
                 <span class="glyphicon glyphicon-thumbs-up"> {{question.likes.length}}</span>
               </a>
               </div>
@@ -39,8 +39,16 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getAllDataQuestions'
-    ])
+      'getAllDataQuestions',
+      'likeQuestion'
+    ]),
+    cekLikeQuestion (id) {
+      if (this.token === null) {
+        alert('Please login to like this question!')
+      } else {
+        this.likeQuestion(id)
+      }
+    }
   },
   created () {
     this.getAllDataQuestions()

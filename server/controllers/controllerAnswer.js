@@ -49,9 +49,35 @@ const removeAnswer = (req, res) => {
     })
 }
 
+const likeAnswer = (req, res) => {
+  Answer.findByIdAndUpdate(req.params.id,
+    { $push: { 'likes': req.body.userId }},
+    { safe: true, upsert: true })
+    .then((dataAnswer) => {
+      res.send(dataAnswer)
+    })
+    .catch((reason) => {
+      res.send(reason)
+    })
+}
+
+const unlikeAnswer = (req, res) => {
+  Answer.findByIdAndUpdate(req.params.id,
+    { $pull: { 'likes': req.body.userId } },
+    { safe: true, upsert: true })
+    .then((dataAnswer) => {
+      res.send(dataAnswer)
+    })
+    .catch((reason) => {
+      res.send(reason)
+    })
+}
+
 module.exports = {
   createAnswer,
   findAnswer,
   findAnswerByIdQuestion,
-  removeAnswer
+  removeAnswer,
+  likeAnswer,
+  unlikeAnswer
 }
