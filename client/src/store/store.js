@@ -36,6 +36,15 @@ const mutations = {
       .then((dataAnswers) => {
         state.answers = dataAnswers.data
       })
+  },
+  updateDataQuestion (state, payload) {
+    state.question = payload
+  },
+  deleteDataAnswer (state, payload) {
+    const indexAnswer = state.answers.findIndex((answer) =>
+      answer._id === payload._id
+    )
+    state.answers.splice(indexAnswer, 1)
   }
 }
 
@@ -101,6 +110,27 @@ const actions = {
       .catch((reason) => {
         console.log(reason)
       })
+  },
+  updateDataQuestionById ({ commit }, question) {
+    http.put(`/questions/${question.id}`, {
+      title: question.title,
+      question: question.question
+    })
+    .then((dataQuestion) => {
+      commit('updateDataQuestion', dataQuestion.data)
+    })
+    .catch((reason) => {
+      console.log(reason)
+    })
+  },
+  deleteDataAnswer ({ commit }, id) {
+    http.delete(`/answers/${id}`)
+    .then((dataAnswer) => {
+      commit('deleteDataAnswer', dataAnswer.data)
+    })
+    .catch((reason) => {
+      console.log(reason)
+    })
   }
 }
 

@@ -40,9 +40,7 @@ const findAnswerByIdQuestion = (req, res) => {
 }
 
 const removeAnswer = (req, res) => {
-  Answer.remove({
-    _id: req.params.id
-  })
+  Answer.findByIdAndRemove(req.params.id)
     .then((dataAnswer) => {
       res.send(dataAnswer)
     })

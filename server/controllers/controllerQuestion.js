@@ -44,16 +44,23 @@ const deleteQuestion = (req, res) => {
 }
 
 const editQuestion = (req, res) => {
-  Question.update({
-    _id: req.params.id
-  }, {
-      title: req.body.title,
-      question: req.body.question
-    }).then((dataQuestion) => {
-      res.send(dataQuestion)
-    }).catch((reason) => {
-      res.send(reason)
-    })
+  Question.findById(req.params.id)
+  .then((dataQuestion) => {
+    dataQuestion.title = req.body.title
+    dataQuestion.question = req.body.question,
+    dataQuestion.author = req.body.author || dataQuestion.author,
+    dataQuestion.likes = req.body.likes || dataQuestion.likes
+      dataQuestion.save()
+      .then((newDataQuestion) => {
+        res.send(newDataQuestion)
+      })
+      .catch((reason) => {
+        res.send(reason)
+      })
+  })
+  .catch((reason) => {
+    res.send(reason)
+  })
 }
 
 const likeQuestion = (req, res) => {
