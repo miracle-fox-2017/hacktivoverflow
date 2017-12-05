@@ -31,7 +31,8 @@ export default {
     post () {
       this.postComment({
         token: localStorage.getItem('token'),
-        comment: this.comment
+        comment: this.comment,
+        questions: this.$route.params.id
       })
       this.comment = ''      
     },

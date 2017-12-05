@@ -10,19 +10,13 @@
           <br>
           <small class="text-muted">by {{ question.users.name }}</small>
           <br>
-          <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#addComment">comment</button>
+          <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#addComment">comment here</button>
         </div>
         <TheAddComment/>
       </div>
     </div>
     <div class="col-md-8">
-      <div class="panel panel-success">
-        <div class="panel-body">
-          tetstststst
-          <br>
-          <small class="text-muted">oke</small>
-        </div>
-      </div>
+      <TheCommentList/>
     </div>
   </div>
 </template>
@@ -30,10 +24,12 @@
 <script>
 import { mapActions, mapState } from 'vuex'
 import TheAddComment from '@/components/TheAddComment'
+import TheCommentList from '@/components/TheCommentList'
 
 export default {
   components: {
-    TheAddComment
+    TheAddComment,
+    TheCommentList
   },
   methods: {
     ...mapActions([

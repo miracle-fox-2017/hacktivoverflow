@@ -9,7 +9,8 @@
       <small class="text-muted">by {{ question.users.name }}</small>
     </p>
     <div>
-      <a href="#">like</a> <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}">comment</router-link>
+      <a href="#"><span class="glyphicon glyphicon-heart-empty">like</span></a> 
+      <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}"><span class="glyphicon glyphicon-comment">comment</span></router-link>
     </div>
   </div>
 </template>

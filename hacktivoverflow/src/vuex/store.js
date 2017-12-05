@@ -11,7 +11,8 @@ Vue.use(Vuex)
 const state = {
   questions: [],
   question: {},
-  comments: []
+  comments: [],
+  comment: {}
 }
 
 const mutations = {
@@ -26,10 +27,11 @@ const mutations = {
     state.questions.push(payload[0])
   },
   setComments (state, payload) {
+    console.log(payload)
     state.comments = payload
   },
   getComment (state, payload) {
-    state.comments.push(payload[0])
+    state.comment = payload
   }
 }
 
@@ -46,7 +48,6 @@ const actions = {
   getByIdQuestion ({ commit }, payload) {
     http.get(`http://localhost:3000/api/questions/getBy/${payload}`)
     .then(({data}) => {
-      // console.log(dta)
       commit('setQuestion', data)
     })
     .catch(err => {
@@ -54,7 +55,6 @@ const actions = {
     })
   },
   postQuestion ({ commit }, payload) {
-    console.log(payload)
     http.post(`http://localhost:3000/api/questions/create`, payload)
     .then(({data}) => {
       commit('getQuestion', data)
@@ -63,8 +63,8 @@ const actions = {
       console.log(err)
     })
   },
-  getAllComments ({ commit }) {
-    http.get('http://localhost:3000/api/comments/list')
+  getCommentById ({ commit }, payload) {
+    http.get(`http://localhost:3000/api/comments/list/${payload}`)
     .then(({data}) => {
       commit('setComments', data)
     })
@@ -73,14 +73,22 @@ const actions = {
     })
   },
   postComment ({ commit }, payload) {
-    console.log(payload)
-    // http.post('http://localhost:3000/api/comments/add', payload)
-    // .then(({data}) => {
-    //   commit('getComment', data)
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
+    http.post('http://localhost:3000/api/comments/add', payload)
+    .then(({data}) => {
+      commit('getComment', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  deleteComment ({ commit }, payload) {
+    http.delete(`http://localhost:3000/api/comments/destroy/${payload}`)
+    .then(({data}) => {
+      commit('getComment', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
 
 }
