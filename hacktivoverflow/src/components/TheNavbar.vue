@@ -7,16 +7,28 @@
       <ul class="nav navbar-nav">
         <li><a href="#"<router-link :to="{name: 'TheQuestion'}">Question</router-link></a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li v-if="isLogin"> <a href="#" v-on:click="logout">Logout</a></li>
-        <li v-else> <router-link to="/login">Sign in</router-link></li>
+      <ul class="nav navbar-nav navbar-right" v-if="isLogin">
+         <li><button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-warning">Ask Question</button></li>
+        <li><a href="#" v-on:click="logout">Logout</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" v-else>
+        <li> <router-link to="/login">Sign in</router-link></li>
       </ul>
     </div>
+    <div>
+    <TheAskQuestion/>
+  </div>
   </nav>
+  
 </template>
 
 <script>
+import TheAskQuestion from '@/components/TheAskQuestion'
+
 export default {
+  components: {
+    TheAskQuestion
+  },
   data () {
     return {
       isLogin: localStorage.getItem('token')

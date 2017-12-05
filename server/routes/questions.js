@@ -5,5 +5,6 @@ const controller = require('../controllers/questions')
 router.post('/create', controller.create)
 router.get('/list', controller.list)
 router.get('/getBy/:id', controller.getById)
+router.delete('/destroy/:id', controller.destroy)
 
 module.exports = router;

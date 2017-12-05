@@ -20,16 +20,20 @@ const signup = (req, res) => {
 
 const login = (req, res) => {
 	Users.find({ email: req.body.email })
-	.then( response => { 
+	.then( response => {
     if(response.length != 0){
       bcrypt.decrypt(req.body.password ,response[0].password)
       .then(result => {
+        console.log(response)
         if(result){
           let token =
             jwt.sign({
-            name: response.name,
-            email: response.email
+            id: response[0]._id,
+            name: response[0].name,
+            email: response[0].email
           }, process.env.TOKEN_JWT)
+
+          console.log(response.name)
           res.status(200).json(token)
         }
         else {

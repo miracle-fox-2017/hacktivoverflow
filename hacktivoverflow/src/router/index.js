@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import TheHomePage from '@/components/TheHomePage'
 import TheLogin from '@/components/TheLogin'
 import TheSignup from '@/components/TheSignup'
-import TheQuestion from '@/components/TheQuestion'
 import TheQuestionSummary from '@/components/TheQuestionSummary'
 
 Vue.use(Router)
@@ -14,12 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'TheHomePage',
-      component: TheHomePage,
-      children: [{
-        path: '',
-        name: 'TheQuestion',
-        component: TheQuestion
-      }]
+      component: TheHomePage
     },
     {
       path: '/login',

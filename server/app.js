@@ -10,6 +10,7 @@ const cors = require('cors')
 const index = require('./routes/index');
 const questions = require('./routes/questions');
 const users = require('./routes/users');
+const comments = require('./routes/comments');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use(cors())
 app.use('/', index);
 app.use('/api/questions', questions);
 app.use('/api/users', users);
+app.use('/api/comments', comments);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

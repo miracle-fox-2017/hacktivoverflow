@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 const encrypt = (password) => {
@@ -28,7 +29,20 @@ const decrypt = (password, hash) => {
   })
 }
 
+const verify = (token) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.TOKEN_JWT, function(err, decoded) {
+      if(err){
+        reject(err)
+      }else {
+        resolve(decoded)
+      }
+    });
+  })
+}
+
 module.exports = {
   encrypt,
-  decrypt
+  decrypt,
+  verify
 }

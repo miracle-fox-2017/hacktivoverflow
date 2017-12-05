@@ -1,27 +1,24 @@
 <template>
-<div class="row">
-  <div class="col-md-12">
-    <div class="thumbnail">
-      <div class="caption">
-        <!-- <h3><a v-on:click="getById">{{ question.title }}</a></h3> -->
-        <h3><a v-on:click="getById"><router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}" :question="question">{{ question.title }}</router-link></a></h3>
-        <p>{{ question.content }}</p>
+  <div class="list-group">
+    <p class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h3 class="mb-1">{{ question.title }}</h3>
+        <small class="text-muted">3 days ago</small>
       </div>
+      <p class="mb-1">{{ question.content }}</p>
+      <small class="text-muted">by {{ question.users.name }}</small>
+    </p>
+    <div>
+      <a href="#">like</a> <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}">comment</router-link>
     </div>
   </div>
-</div>
-
 </template>
 
 <script>
-import TheQuestionSummary from '@/components/TheQuestionSummary'
 import { mapActions} from 'vuex'
 
 export default {
   props: ['question'],
-  components: {
-    TheQuestionSummary
-  },
   methods: {
     getById () {
       this.getByIdQuestion(this.question._id)
