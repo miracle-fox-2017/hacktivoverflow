@@ -14,19 +14,22 @@
                         <div class="pull-left image">
                             <img src="http://bootdey.com/img/Content/user_1.jpg" class="img-circle avatar" alt="user profile image">
                         </div>
-                        <div class="pull-left meta">
+                        <div class="meta">
                             <div class="title h5">
                                 <a href="#"><b>{{ comment.userId.name }}</b></a>
                                 comment
                             </div>
                             <h6 class="text-muted time"> {{ comment.commentDate }} </h6>
                         </div>
+                        <div>
+                          <p> {{ comment.desc }}</p>
+                        </div>  
                     </div> 
                     <div class="post-description"> 
-                        <p> {{ comment.desc }}</p>
+                        
                         <div class="stats">
-                                <a  href="#" v-if="liked(userId)" @click.prevent="voteComment(comment._id)" class="fa fa-thumbs-up icon white"> {{ comment.commentLike.length }} </a>                        
-                                <a  href="#" v-else="liked(userId)" @click.prevent="voteComment(comment._id)" class="fa fa-thumbs-up icon blue"> {{ comment.commentLike.length }} </a>
+                                <a  href="#" v-if="liked(userId)" @click.prevent="voteComment(comment._id)" class="fa fa-thumbs-up icon white pull-right"> {{ comment.commentLike.length }} </a>                        
+                                <a  href="#" v-else="liked(userId)" @click.prevent="voteComment(comment._id)" class="fa fa-thumbs-up icon blue pull-right"> {{ comment.commentLike.length }} </a>
                         </div>
                     </div>
                 </div>

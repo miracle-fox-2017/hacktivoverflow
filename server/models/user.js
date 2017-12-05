@@ -1,5 +1,6 @@
 // const mongoose = require('mongoose').connect('mongodb://localhost:27017/library');
-const mongoose = require('mongoose').connect('mongodb://localhost:27017/hacktiv8OF');
+// const mongoose = require('mongoose').connect('mongodb://localhost:27017/hacktiv8OF');
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const bcrypt = require('bcrypt');
 const saltFactor = 10;

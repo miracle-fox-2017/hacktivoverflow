@@ -8,7 +8,6 @@ require('dotenv').config()
 function findAll(req,res) {
 	Question.find().sort({createdAt : 'desc'}).populate('userId').populate('comment').exec()
 	 .then(result => {
-	 	console.log(result)
 	 	res.send(result)
 	 })
 	  .catch(err => {

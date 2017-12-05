@@ -6,15 +6,17 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors')
 
+
 const index = require('./routes/index');
 const users = require('./routes/users');
 const questions = require('./routes/questions');
 
 const app = express();
-
+require('dotenv').config()
 //mongoose setup
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/hacktiv8OF', { useMongoClient: true });
+// mongoose.connect('mongodb://localhost:27017/hacktiv8OF', { useMongoClient: true });
+mongoose.connect(process.env.DB)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
