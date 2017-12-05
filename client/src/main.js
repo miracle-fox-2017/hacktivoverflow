@@ -5,6 +5,13 @@ import App from './App'
 import router from './router'
 import store from './vuex/store'
 import axios from 'axios'
+import moment from 'moment'
+
+Vue.filter('formatDate', function (value) {
+  if (value) {
+    return moment(String(value)).format('MM/DD/YYYY HH:mm')
+  }
+})
 
 Vue.prototype.$http = axios.create({
   baseUrl: ''

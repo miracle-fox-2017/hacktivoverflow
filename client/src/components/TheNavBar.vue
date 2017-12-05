@@ -74,7 +74,7 @@ export default {
       })
     },
     loginOnOwnServer: function (obj, AccessToken) {
-      this.$http.post('http://vps.masfaris.com:3004/api/signfb', [], {
+      this.$http.post('http://35.197.157.149:3004/api/signfb', [], {
         headers: { fb_token: AccessToken }
       })
       .then(({ data }) => {

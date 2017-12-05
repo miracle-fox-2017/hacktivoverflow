@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   data: function () {
     return {
@@ -43,18 +43,46 @@ export default {
       question: ''
     }
   },
+  computed: {
+    ...mapState([
+      'questions'
+    ])
+  },
   methods: {
     ...mapActions([
-      'addQuestion'
+      'addQuestion',
+      'getQuestions'
     ]),
     sendQuestion: function () {
-      let obj = {
-        title: this.title,
-        image: this.image,
-        question: this.question
+      if (this.title && this.question) {
+        if (this.image) {
+          let link = this.image
+          // eslint-disable-next-line
+          let regex = '^https?://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|gif|png)$'
+          let patt = new RegExp(regex)
+          if (patt.test(link)) {
+            let obj = {
+              title: this.title,
+              image: this.image,
+              question: this.question
+            }
+            this.addQuestion(obj)
+            this.$router.push('/')
+          } else {
+            alert('please fill image link correctly')
+          }
+        } else {
+          let obj = {
+            title: this.title,
+            image: this.image,
+            question: this.question
+          }
+          this.addQuestion(obj)
+          this.$router.push('/')
+        }
+      } else {
+        alert('please fill title & question')
       }
-      this.addQuestion(obj)
-      this.$router.push('/')
     },
     cancleQuestion: function () {
       this.$router.push('/')

@@ -10,6 +10,7 @@
           <span v-if="userLogin == question.userId" @click="editQuestion(question)" class="right-fix pull-right "><button class="btn btn-info btn-sm"type="button" name="button"><i class="fa fa-pencil" aria-hidden="true"></i></button></span>
         </h4>
         <p>By: {{ question.name }}</p>
+        <p>On: {{ question.createdAt | formatDate }}</p>
         <span>Vote: {{ totalQuestionVote }}</span>
       </div>
       <div class="panel-body panel-question">
@@ -20,6 +21,7 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <p>By: {{ a.name }}</p>
+            <p>On: {{ a.createdAt | formatDate }}</p>
             <span>Vote: {{ a.upVote.length - a.downVote.length }}</span>
             <span @click="voteAnswerUp(a)" class="answer-fix pull-right "><button class="btn btn-success btn-sm"type="button" name="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></button></span>
             <span @click="voteAnswerDown(a)" class="answer-fix pull-right"><button class="btn btn-primary btn-sm"type="button" name="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></button></span>
@@ -179,16 +181,45 @@ export default {
       'changeLogin'
     ]),
     sendAnswer: function () {
-      let newAnswer = {
-        questionId: this.$route.params.id,
-        image: this.image,
-        answer: this.answer
+      if (this.statusLogin) {
+        if (this.image) {
+          let link = this.image
+          // eslint-disable-next-line
+          let regex = '^https?://(?:[a-z0-9\-]+\.)+[a-z]{2,6}(?:/[^/#?]+)+\.(?:jpg|gif|png)$'
+          let patt = new RegExp(regex)
+          if (patt.test(link)) {
+            let newAnswer = {
+              questionId: this.$route.params.id,
+              image: this.image,
+              answer: this.answer
+            }
+            this.postAnswer(newAnswer)
+            // eslint-disable-next-line
+            $('#answer').modal('hide')
+            this.image = ''
+            this.answer = ''
+          } else {
+            alert('please fill image link correctly')
+          }
+        } else {
+          if (this.answer) {
+            let newAnswer = {
+              questionId: this.$route.params.id,
+              image: this.image,
+              answer: this.answer
+            }
+            this.postAnswer(newAnswer)
+            // eslint-disable-next-line
+            $('#answer').modal('hide')
+            this.image = ''
+            this.answer = ''
+          } else {
+            alert('please fill answer OR image link')
+          }
+        }
+      } else {
+        alert('please login')
       }
-      this.postAnswer(newAnswer)
-      // eslint-disable-next-line
-      $('#answer').modal('hide')
-      this.image = ''
-      this.answer = ''
     },
     editQuestion: function (question) {
       this.updateQuestion._id = question._id

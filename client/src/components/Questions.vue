@@ -14,7 +14,7 @@
           </div>
           <div class="col-md-9 col-sm-9">
             <p>By: {{ question.name }}</p>
-            <p>On: {{ question.createdAt }}</p>
+            <p>On: {{ question.createdAt | formatDate }}</p>
           </div>
         </div>
       </div>
@@ -27,16 +27,24 @@ import { mapActions, mapState } from 'vuex'
 export default {
   computed: {
     ...mapState([
-      'questions'
+      'questions',
+      'initLoad'
     ])
   },
   methods: {
     ...mapActions([
-      'getQuestions'
+      'getQuestions',
+      'changeInitLoad'
     ])
   },
   created: function () {
-    this.getQuestions()
+    if (this.initLoad) {
+      this.getQuestions()
+      this.changeInitLoad(false)
+    }
+  },
+  mounted: function () {
+    // this.getQuestions()
   }
 }
 </script>

@@ -59,7 +59,8 @@ let postQuestion = (req, res) => {
       image: req.body.image || '',
       question: req.body.question,
       upVote: [],
-      downVote: []
+      downVote: [],
+      createdAt: new Date()
     })
     question.save()
     .then(result=>{
@@ -79,7 +80,6 @@ let postQuestion = (req, res) => {
 
 let getQuestion = (req, res) => {
   Question.findOne({ _id: req.params.id })
-  //ada exec user
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -93,7 +93,7 @@ let getQuestion = (req, res) => {
 
 let getQuestions = (req, res) => {
   Question.find()
-  //ada exec user
+  .sort({createdAt: -1})
   .then(result=>{
     res.status(200).send({
       msg: "success",
@@ -158,7 +158,7 @@ let delQuestion = (req, res) => {
 //=================answer
 
 let postAnswer = (req, res) => {
-  if(req.body.answer) {
+  if(req.body.answer || req.body.image) {
     let answer = new Answer({
       name: req.decoded.name,
       questionId: req.params.id,
@@ -166,7 +166,8 @@ let postAnswer = (req, res) => {
       image: req.body.image || '',
       answer: req.body.answer,
       upVote: [],
-      downVote: []
+      downVote: [],
+      createdAt: new Date()
     })
     answer.save()
     .then(result=>{
