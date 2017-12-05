@@ -32,7 +32,7 @@ let addNewUser = function (req, res) {
         last_name: req.body.last_name,
         username: req.body.username,
         password: dataPassword,
-        role: req.body.role
+        role: 'user'
       }
     )
     newUser.save().then(function (dataUser) {

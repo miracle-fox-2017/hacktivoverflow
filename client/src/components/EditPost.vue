@@ -39,7 +39,7 @@ export default {
       })
     },
     postEdit () {
-      this.$axios.put(`http://localhost:3000/post/${this.postId}`, {
+      this.$axios.put(`http://18.217.192.109/post/${this.postId}`, {
         title: this.title,
         content: this.content
       }).then(({data}) => {

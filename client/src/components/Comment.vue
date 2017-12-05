@@ -42,7 +42,7 @@ export default {
             document.querySelector('#btnVote').disabled = true
             arr.push(this.userId)
             comment.voteCount += 1
-            this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
+            this.$axios.put(`http://18.217.192.109/answer/addVoteAnswer/${comment._id}`, {
               voteAnswer: arr,
               voteCount: comment.voteCount
             }).then(({data}) => {
@@ -57,7 +57,7 @@ export default {
           document.querySelector('#btnVote').disabled = true
           arr.push(this.userId)
           comment.voteCount += 1
-          this.$axios.put(`http://localhost:3000/answer/addVoteAnswer/${comment._id}`, {
+          this.$axios.put(`http://18.217.192.109/answer/addVoteAnswer/${comment._id}`, {
             voteAnswer: arr,
             voteCount: comment.voteCount
           }).then(({data}) => {

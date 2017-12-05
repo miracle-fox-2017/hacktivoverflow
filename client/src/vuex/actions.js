@@ -3,7 +3,7 @@ import router from '../router'
 
 let actions = {
   getAllPosts ({commit}) {
-    axios.get('http://localhost:3000/post')
+    axios.get('http://18.217.192.109/post')
     .then(({data}) => {
       commit('setPosts', data)
     }).catch((err) => {
@@ -11,7 +11,7 @@ let actions = {
     })
   },
   postNewQuestion ({commit}, payload) {
-    axios.post('http://localhost:3000/post', payload)
+    axios.post('http://18.217.192.109/post', payload)
     .then(({data}) => {
       commit('saveNewPost', data)
     }).catch((err) => {
@@ -19,7 +19,7 @@ let actions = {
     })
   },
   postLoginCredentials ({commit}, payload) {
-    axios.post('http://localhost:3000/login', payload)
+    axios.post('http://18.217.192.109/login', payload)
     .then(({data}) => {
       commit('saveLoginCredentials', data)
       router.push('main-page')
@@ -28,7 +28,7 @@ let actions = {
     })
   },
   getAllComments ({commit}) {
-    axios.get('http://localhost:3000/answer')
+    axios.get('http://18.217.192.109/answer')
     .then(({data}) => {
       commit('setComments', data)
     }).catch((err) => {
@@ -36,15 +36,23 @@ let actions = {
     })
   },
   getCommentById ({commit}, payload) {
-    axios.get(`http://localhost:3000/answer/${payload._id}`)
+    axios.get(`http://18.217.192.109/answer/${payload._id}`)
     .then(({data}) => {
       commit('setCommentById', data)
     })
   },
   postNewComment ({commit}, payload) {
-    axios.post('http://localhost:3000/answer', payload)
+    axios.post('http://18.217.192.109/answer', payload)
     .then(({data}) => {
       commit('saveNewComment', data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },
+  registerAccount ({commit}, payload) {
+    axios.post(`http://18.217.192.109/user`, payload)
+    .then(({data}) => {
+      commit('saveNewUser', data)
     }).catch((err) => {
       console.log(err)
     })

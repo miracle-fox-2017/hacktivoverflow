@@ -15,7 +15,7 @@ export default {
   props: ['post'],
   methods: {
     deletePost (postId) {
-      this.$axios.delete(`http://localhost:3000/post/${postId}`)
+      this.$axios.delete(`http://18.217.192.109/post/${postId}`)
       .then(({data}) => {
         this.$emit('sendDataDelete', {
           list: data

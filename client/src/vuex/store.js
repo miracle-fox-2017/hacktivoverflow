@@ -9,6 +9,7 @@ let initialState = {
   posts: [],
   comments: [],
   commentById: [],
+  users: [],
   loginCredentials: {}
 }
 

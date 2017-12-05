@@ -17,6 +17,9 @@ let mutations = {
   saveNewComment (state, payload) {
     state.comments.push(payload)
     state.commentById.push(payload)
+  },
+  saveNewUser (state, payload) {
+    state.users.push(payload)
   }
 }
 

@@ -45,7 +45,7 @@ export default {
           if (arr.indexOf(this.userId) === -1) {
             arr.push(this.userId)
             postDetails.voteCount += 1
-            this.$axios.put(`http://localhost:3000/post/addVotePost/${postDetails._id}`, {
+            this.$axios.put(`http://18.217.192.109/post/addVotePost/${postDetails._id}`, {
               votePost: arr,
               voteCount: postDetails.voteCount
             }).then(({data}) => {
@@ -59,7 +59,7 @@ export default {
         } else {
           arr.push(this.userId)
           postDetails.voteCount += 1
-          this.$axios.put(`http://localhost:3000/post/addVotePost/${postDetails._id}`, {
+          this.$axios.put(`http://18.217.192.109/post/addVotePost/${postDetails._id}`, {
             votePost: arr,
             voteCount: postDetails.voteCount
           }).then(({data}) => {
@@ -73,7 +73,7 @@ export default {
       }
     },
     getPostDetails () {
-      this.$axios.get(`http://localhost:3000/post/${this.postId}`)
+      this.$axios.get(`http://18.217.192.109/post/${this.postId}`)
       .then(({data}) => {
         this.postDetails = data
         this.getCommentById(this.postDetails)
