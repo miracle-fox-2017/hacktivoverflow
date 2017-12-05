@@ -4,26 +4,29 @@ mongoose.connect('mongodb://localhost/hacktivoverflow')
 const Schema = mongoose.Schema
 
 const answerSchema = new Schema({
-  answerer: {
+  question: {
+    type: Schema.Types.ObjectId,
+    ref: 'Question'
+  },
+  answerer: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  },
+  }],
   content: {
-      type: String
+    type: String
   },
-  // vote: [{
-  //     voter: [{
-  //       type: Schema.Types.ObjectId,
-  //       ref: 'User'
-  //     }]
-  // }],
+  answerVoter: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
+  }],
   answerAt: {
     type: Date,
     default: Date.now
   },
   updatedAt: {
-      type: Date,
-      default: null
+    type: Date,
+    default: null
   }
 })
 

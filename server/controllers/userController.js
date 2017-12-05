@@ -15,7 +15,7 @@ class User {
         })
         .catch(err => res.status(500).send(err))
       } else {
-        let user = new UserModel({
+        let newUser = new UserModel({
           facebookId: req.body.id,
           name: req.body.name,
           gender: req.body.gender,
@@ -24,7 +24,7 @@ class User {
           isAdmin: req.body.isAdmin
         })
 
-        user.save()
+        newUser.save()
         .then(user => {
           jwt.sign(user)
           .then(token => {

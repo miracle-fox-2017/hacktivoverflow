@@ -3,14 +3,14 @@ const QuestionModel = require('../models/questionModel')
 
 class Question {
   static create (req, res) {
-    let question = new QuestionModel({
+    let newQuestion = new QuestionModel({
       questioner: req.verifyUser.id,
       title: req.body.title,
       content: req.body.content,
       tags: req.body.tags
     })
 
-    question.save()
+    newQuestion.save()
     .then(question => res.send(question))
     .catch(err => res.status(500).send(err))
   }

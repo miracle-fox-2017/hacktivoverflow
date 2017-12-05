@@ -37,7 +37,7 @@
     },
     methods: {
       login () {
-        window.FB.login (response => {
+        window.FB.login(response => {
           console.log('fblogin response ', response)
           if (response.status === 'connected') {
             window.FB.api('/me', {fields: ['id', 'name', 'gender', 'picture', 'email']}, dataUser => {
