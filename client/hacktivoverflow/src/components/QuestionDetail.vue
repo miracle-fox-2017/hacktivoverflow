@@ -13,7 +13,7 @@
       <a class="list-group-item list-group-item-action flex-column align-items-start" v-for="answer in answerwithoption">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{answer.by.name}}</h5>
-          <small class="text-muted">{{answer.createdAt}}</small>
+          <small class="text-muted">{{answer.createdAt | formatdate}}</small>
         </div>
         <p class="mb-1">{{answer.content}}</p>
         <small class="text-muted"><i class="fa fa-thumbs-up" aria-hidden="true" v-on:click="voteAnswer(answer._id)"> {{answer.voters.length}}</i></small>
@@ -136,6 +136,11 @@ export default {
    text-decoration: none;
    background-color: transparent;
    cursor: not-allowed;
+ }
+
+ i {
+   font-size: 16px;
+   cursor: pointer;
  }
 
 </style>

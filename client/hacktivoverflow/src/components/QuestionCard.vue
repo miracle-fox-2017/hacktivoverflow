@@ -1,13 +1,14 @@
 <template lang="html">
   <div class="">
     <div class="col-md-1">
-      <button class="btn btn-secondary my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal" v-if="access_token">Add Question</button>
+      <button class="btn btn-primary my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#addModal" v-if="access_token">Add Question</button>
     </div>
+    <br>
     <div class="list-group" v-for="question in questionwithoption">
       <a class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1"><router-link :to="`/question/${question._id}`">{{question.title}}</router-link></h5>
-          <small class="text-muted">{{question.createdAt}}</small>
+          <small class="text-muted">{{question.createdAt | formatdate}}</small>
         </div>
         <p class="mb-1">{{question.content.substring(0, 100)}} ...</p>
         <small class="text-muted">by: {{question.author.name}}</small>
@@ -42,7 +43,7 @@
               </fieldset>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-info" data-dismiss="modal" v-on:click="tambahquestion">Create</button>
+            <button type="submit" class="btn btn-primary" data-dismiss="modal" v-on:click="tambahquestion">Create</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -145,6 +146,11 @@ export default {
 </script>
 
 <style scoped>
+i {
+  font-size: 16px;
+  cursor: pointer;
+}
+
 .list-group > a.disabled {
   color: #999999;
 }

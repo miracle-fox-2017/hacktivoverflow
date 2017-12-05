@@ -4,21 +4,22 @@
       <div class="container">
         <div class="row">
           <div class="col-md-10">
-            <a class="navbar-brand" href="#">Djawab</a>
+            <router-link :to="`/`" class="navbar-brand">Djawab</router-link>
+
           </div>
           <div class="col-md-2">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#" data-toggle="modal" data-target="#registermodal">Register <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#registermodal" v-if="!access_token">Register <span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item">
                 <ul class="nav nav-pills">
                   <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User</a>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 47px, 0px); top: 0px; left: 0px; will-change: transform;">
-                      <a href="" class="dropdown-item" data-toggle="modal" data-target="#loginmodal">Login</a>
+                      <a href="" class="dropdown-item" data-toggle="modal" data-target="#loginmodal" v-if="!access_token">Login</a>
                       <a class="dropdown-item" href="#">My Question</a>
-                      <a class="dropdown-item" href="#" v-on:click="logout">Logout</a>
+                      <a v-if="access_token" class="dropdown-item" href="#" v-on:click="logout">Logout</a>
                     </div>
                   </li>
                 </ul>
@@ -33,7 +34,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Register</h5>
+              <h5 class="modal-title">Login</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -66,7 +67,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Login</h5>
+              <h5 class="modal-title">Register</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -110,7 +111,8 @@ export default {
     return {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      access_token: ''
     }
   },
 
@@ -122,8 +124,7 @@ export default {
       })
       .then(function (response) {
         localStorage.setItem('access_token', response.data.access_token)
-        this.email = ''
-        this.password = ''
+        location.reload()
       })
       .catch(function (error) {
         console.log(error)
@@ -146,7 +147,15 @@ export default {
         this.email = ''
         this.password = ''
       })
+    },
+
+    getToken () {
+      this.access_token = localStorage.getItem('access_token')
     }
+  },
+
+  created () {
+    this.getToken()
   }
 }
 </script>
