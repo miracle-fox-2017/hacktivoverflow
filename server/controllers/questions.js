@@ -12,7 +12,15 @@ const list = (req, res) => {
     .catch( err => { res.status(500).json(err) })
 }
 
+const getById = (req, res) => {
+    console.log({_id: req.params.id})
+    Questions.find({_id: req.params.id})
+     .then( response => res.status(200).json(response) )
+     .catch( err => { res.status(500).json(err) })
+}
+
 module.exports = {
     create,
-    list
+    list,
+    getById
 }

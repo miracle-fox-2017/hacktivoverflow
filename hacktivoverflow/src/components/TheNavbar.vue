@@ -5,7 +5,7 @@
         <a class="navbar-brand"><router-link to="/">Hacktiv Overflow</router-link></a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="#">Questions</a></li>
+        <li><a href="#"<router-link :to="{name: 'TheQuestion'}">Question</router-link></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li v-if="isLogin"> <a href="#" v-on:click="logout">Logout</a></li>

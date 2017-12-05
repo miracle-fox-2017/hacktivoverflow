@@ -1,7 +1,9 @@
 const mongoose = require('mongoose').connect('mongodb://localhost/hacktiv');
 
 let questionSchema = mongoose.Schema({
-    title: String
+    title: String,
+    content: String,
+    answer: String
 });
 
 var Questions = mongoose.model('Questions', questionSchema);
