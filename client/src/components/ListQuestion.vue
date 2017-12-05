@@ -8,6 +8,11 @@
               <p>{{question.question}}</p>
   
               <h6>Posted by : {{question.author.username}}</h6>
+              <div class="pull-right">
+              <a href="#">
+                <span class="glyphicon glyphicon-thumbs-up"> {{question.likes.length}}</span>
+              </a>
+              </div>
         </div>
       </div>
 

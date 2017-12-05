@@ -131,6 +131,9 @@ const actions = {
     .catch((reason) => {
       console.log(reason)
     })
+  },
+  likeQuestion ({commit}, id) {
+    console.log(id)
   }
 }
 

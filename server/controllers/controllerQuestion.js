@@ -45,40 +45,44 @@ const deleteQuestion = (req, res) => {
 
 const editQuestion = (req, res) => {
   Question.findById(req.params.id)
-  .then((dataQuestion) => {
-    dataQuestion.title = req.body.title
-    dataQuestion.question = req.body.question,
-    dataQuestion.author = req.body.author || dataQuestion.author,
-    dataQuestion.likes = req.body.likes || dataQuestion.likes
+    .then((dataQuestion) => {
+      dataQuestion.title = req.body.title
+      dataQuestion.question = req.body.question,
+        dataQuestion.author = req.body.author || dataQuestion.author,
+        dataQuestion.likes = req.body.likes || dataQuestion.likes
       dataQuestion.save()
-      .then((newDataQuestion) => {
-        res.send(newDataQuestion)
-      })
-      .catch((reason) => {
-        res.send(reason)
-      })
-  })
-  .catch((reason) => {
-    res.send(reason)
-  })
+        .then((newDataQuestion) => {
+          res.send(newDataQuestion)
+        })
+        .catch((reason) => {
+          res.send(reason)
+        })
+    })
+    .catch((reason) => {
+      res.send(reason)
+    })
 }
 
 const likeQuestion = (req, res) => {
-  Question.findById(req.params.id)
+  Question.findByIdAndUpdate(req.params.id,
+    { $push: { 'likes': req.body.author } },
+    { safe: true, upsert: true })
     .then((dataQuestion) => {
-      if (dataQuestion.likes.indexOf(req.body.author) == -1) {
-        dataQuestion.likes.push(req.body.author)
-        dataQuestion.save(function (err) {
-          if (err) {
-            res.send(err)
-          } else {
-            res.send(dataQuestion)
-          }
-        })
-      } else {
-        res.send("You already like this question")
-      }
-    }).catch((reason) => {
+      res.send(dataQuestion)
+    })
+    .catch((reason) => {
+      res.send(reason)
+    })
+}
+
+const unlikeQuestion = (req, res) => {
+  Question.findByIdAndUpdate(req.params.id,
+    { $pull: { 'likes': req.body.author } },
+    { safe: true, upsert: true })
+    .then((dataQuestion) => {
+      res.send(dataQuestion)
+    })
+    .catch((reason) => {
       res.send(reason)
     })
 }
@@ -102,5 +106,6 @@ module.exports = {
   deleteQuestion,
   editQuestion,
   likeQuestion,
+  unlikeQuestion,
   findQuestion
 }

@@ -56,14 +56,15 @@
          </a>
          <p>{{answer.answer}}</p>
          <h6>Replied by : {{answer.author.username}}</h6>
-         
+         <a href="#">
+           <span class="glyphicon glyphicon-thumbs-up"></span>
+         </a>
         </div>
       </div>
 
     </div>
   </div>
 </div>
-
 </div>
 </template>
 
@@ -107,14 +108,14 @@ export default {
       'deleteDataAnswer'
     ]),
     deleteQuestion (question) {
-      if (question.author.username !== jwt.decode(localStorage.getItem('token')).username) {
+      if (question.author._id !== jwt.decode(localStorage.getItem('token')).id) {
         alert('You are not authorized to delete this question!')
       } else {
         this.deleteQuestionById(question._id)
       }
     },
     editQuestion (question) {
-      if (question.author.username !== jwt.decode(localStorage.getItem('token')).username) {
+      if (question.author._id !== jwt.decode(localStorage.getItem('token')).id) {
         alert('You are not authorized to edit this question!')
         this.isEdit = false
       } else {
