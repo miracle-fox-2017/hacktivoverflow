@@ -3,9 +3,10 @@ const AnswerModel = require('../models/answerModel')
 
 class Answer {
   static create (req, res) {
-    // console.log(req.verifyUser);
+    // console.log('--> masuk controller req.body', req.body);
+    // console.log('--> masuk controller req.verifyUser', req.verifyUser);
     let newAnswer = new AnswerModel({
-      question: req.body.question,
+      question: req.body.id,
       answerer: req.verifyUser.id,
       content: req.body.content
       // ,answerVoter: req.body.answerVoter
@@ -23,10 +24,8 @@ class Answer {
   }
 
   static getByQuestionId (req, res) {
-    // console.log(req.body);
-    AnswerModel.find({question: req.body.question})
+    AnswerModel.find({question: req.body.question}).populate('answerer')
     .then(answer => {
-      // console.log('--> masuk', answer);
       res.send(answer)
     })
     .catch(err => res.status(500).send(err))

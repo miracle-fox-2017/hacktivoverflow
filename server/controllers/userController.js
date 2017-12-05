@@ -10,8 +10,11 @@ class User {
       if(user) {
         jwt.sign(user)
         .then(token => {
-          console.log('ini token -->', {token: token})
-          res.send({token: token})
+          // console.log('ini token -->', {token: token})
+          res.send({
+            token: token,
+            id: user.id
+          })
         })
         .catch(err => res.status(500).send(err))
       } else {
@@ -28,7 +31,10 @@ class User {
         .then(user => {
           jwt.sign(user)
           .then(token => {
-            res.send({token: token})
+            res.send({
+              token: token,
+              id: user.id
+            })
           })
           .catch(err => {
             console.log(err)

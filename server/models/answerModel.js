@@ -8,10 +8,10 @@ const answerSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Question'
   },
-  answerer: [{
+  answerer: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }],
+  },
   content: {
     type: String
   },

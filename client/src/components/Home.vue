@@ -38,10 +38,10 @@
     created: function () {
       this.getAllQuestions()
     }
-    // watch: {
-      // questions () {
-        // this.getAllQuestions()
-      // }
+    // ,watch: {
+    //   questions () {
+    //     this.getAllQuestions()
+    //   }
     // },
   }
 </script>

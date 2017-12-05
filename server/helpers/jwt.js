@@ -11,6 +11,7 @@ class Jwt {
         isLogin: true,
         isAdmin: req.isAdmin
       }
+
       jwt.sign(payload, process.env.JWT_SECRET_KEY, {expiresIn: '1h'}, function(err, token) {
         if(err) {
           reject(err)

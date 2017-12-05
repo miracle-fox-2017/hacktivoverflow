@@ -36,15 +36,39 @@ const actions = {
   deleteQuestion: ({ commit }, payload) => {
     http.delete(`/questions/${payload}`, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
-      commit('setNewUserQuestionsAfterDelete', data)
+      commit('setQuestionsAfterDelete', data)
     })
     .catch(err => console.log(err))
   },
-  editQuestion: ({commit}, payload) => {
+  editQuestion: ({ commit }, payload) => {
     http.put(`/questions/${payload}`, payload, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
-      console.log(data)
       commit('setNewUserQuestionsAfterEdit', data)
+    })
+    .catch(err => console.log(err))
+  },
+
+  /* ------------------------------------------------------------------------ */
+
+  getAnswerByQuestionId: ({ commit }, payload) => {
+    http.post('/answers/detail', {question: payload})
+    .then(({ data }) => {
+      commit('setAnswers', data)
+    })
+    .catch(err => console.log(err))
+  },
+  addAnswer: ({ commit }, payload) => {
+    http.post('/answers', payload, { headers: { token: localStorage.getItem('token') } })
+    .then(({ data }) => {
+      commit('setNewAnswers', data)
+    })
+    .catch(err => console.log(err))
+  },
+  deleteAnswer: ({ commit }, payload) => {
+    // console.log('--> masuk actions', payload);
+    http.delete(`/answers/${payload}`, { headers: { token: localStorage.getItem('token') } })
+    .then(({ data }) => {
+      commit('setAnswersAfterDelete', data)
     })
     .catch(err => console.log(err))
   }
