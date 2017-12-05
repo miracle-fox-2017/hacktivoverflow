@@ -27,7 +27,8 @@ export default {
       formComment: {
         title: '',
         content: '',
-        question: ''
+        question: '',
+        voteCount: 0
       }
     }
   },
