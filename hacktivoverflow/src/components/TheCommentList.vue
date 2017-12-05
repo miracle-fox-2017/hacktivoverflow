@@ -6,7 +6,7 @@
       <br>
       <small class="text-muted">by {{comment.users.name}}</small>
       <div>
-        <a href="#"><span class="glyphicon glyphicon-trash">delete</span></a>
+        <a href="#" v-on:click="destroy(comment._id)"><span class="glyphicon glyphicon-trash">delete</span></a>
       </div>
     </div>
   </div>
@@ -19,8 +19,15 @@ import { mapActions, mapState } from 'vuex'
 export default {
   methods: {
     ...mapActions([
-      'getCommentById'
-    ])
+      'getCommentById',
+      'deleteComment'
+    ]),
+    destroy (id) {
+      this.deleteComment({
+        id: id,
+        token: localStorage.getItem('token')
+      })
+    }
   },
   created () {
     this.getCommentById(this.$route.params.id)

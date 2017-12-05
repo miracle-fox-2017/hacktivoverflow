@@ -16,7 +16,6 @@ const encrypt = (password) => {
 }
 
 const decrypt = (password, hash) => {
-  console.log(password, hash)
   return new Promise((resolve, reject) => {
     bcrypt.compare(password, hash, function(err, res) {
      if(err){

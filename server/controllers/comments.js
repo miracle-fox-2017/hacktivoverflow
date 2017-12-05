@@ -23,7 +23,6 @@ const add = (req, res) => {
 }
 
 const list = (req, res) => {
-  console.log(req.params.id)
   Comments.find({questions: req.params.id})
   .populate('users')
   .populate('questions')
@@ -32,9 +31,29 @@ const list = (req, res) => {
 }
 
 const destroy = (req, res) => {
-  Comments.destroy({_id: req.params.id})
-  .then(response => res.status(200).json(response))
-  .catch( err => { res.status(500).json(err) })
+  bcrypt.verify(req.headers.token)
+  .then(verify => {
+    console.log(verify)
+    Comments.find({_id: req.params.id})
+    .then(response => {
+      console.log(response)
+      if(response[0].users == verify.id){
+        console.log('masuk sini')
+        Comments.remove({_id: req.params.id})
+        .then(res_delete => { res.status(200).send(res_delete)})
+        .catch( err => { res.status(500).json(err) })
+      }
+      else {
+        res.json('tidak bisa menghapus komentar orang lain')
+      }
+    })
+    .catch( err => { res.status(500).json(err) })
+  })
+  // Comments.find({_id: req.params.id})
+  // .then(result => console.log(result))
+  // Comments.destroy({_id: req.params.id})
+  // .then(response => res.status(200).json(response))
+  // .catch( err => { res.status(500).json(err) })
 }
 
 module.exports = {

@@ -31,7 +31,15 @@ const mutations = {
     state.comments = payload
   },
   getComment (state, payload) {
-    state.comment = payload
+    console.log(payload[0])
+    state.comments.push(payload[0])
+  },
+  deleteComment (state, payload) {
+    state.comments.forEach((item, index) => {
+      if (item._id == payload) {
+        state.comments.splice(index, 1)
+      }
+    })
   }
 }
 
@@ -82,9 +90,11 @@ const actions = {
     })
   },
   deleteComment ({ commit }, payload) {
-    http.delete(`http://localhost:3000/api/comments/destroy/${payload}`)
+    console.log(payload.token)
+    http.delete(`http://localhost:3000/api/comments/destroy/${payload.id}`, 
+  {headers: { token: payload.token }})
     .then(({data}) => {
-      commit('getComment', data)
+      commit('deleteComment', payload.id)
     })
     .catch(err => {
       console.log(err)
