@@ -3,14 +3,13 @@ const QuestionModel = require('../models/questionModel')
 
 class Question {
   static create (req, res) {
-    // console.log(req.body);
     let question = new QuestionModel({
       questioner: req.verifyUser.id,
       title: req.body.title,
       content: req.body.content,
       tags: req.body.tags
     })
-    // console.log(question);
+
     question.save()
     .then(question => res.send(question))
     .catch(err => res.status(500).send(err))
@@ -22,8 +21,17 @@ class Question {
     .catch(err => res.status(500).send(err))
   }
 
+  static getById (req, res) {
+    let id = {_id: ObjectId(req.params.id)}
+
+    QuestionModel.findById(id).populate('questioner')
+    .then(question => {
+      res.send(question)
+    })
+    .catch(err => res.status(500).send(err))
+  }
+
   static getByUserId (req, res) {
-    // console.log(req.verifyUser);
     QuestionModel.find({questioner: req.verifyUser.id}).populate('questioner')
     .then(questions => {
       res.send(questions)
@@ -40,7 +48,7 @@ class Question {
       question.content = req.body.content || question.content,
       question.tags = req.body.tags || question.tags,
       question.updatedAt = new Date()
-      // console.log(question);
+
       question.save()
       .then(question => res.send(question))
       .catch(err => res.status(500).send(err))

@@ -15,7 +15,11 @@ const mutations = {
     state.userQuestions.splice(checkIndex, 1)
   },
   setNewUserQuestionsAfterEdit: (state, payload) => {
-    console.log(state.payload);
+    console.log(payload)
+  },
+  setQuestionDetail: (state, payload) => {
+    console.log(payload);
+    state.questionDetail = payload
   }
 }
 

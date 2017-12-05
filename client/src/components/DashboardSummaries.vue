@@ -16,6 +16,7 @@
 </template>
 
 <script>
+  /* global $ */
   import { mapActions } from 'vuex'
   import EditQuestionModal from '@/components/EditQuestionModal'
   export default {
@@ -30,7 +31,7 @@
         this.deleteQuestion(userQuestion._id)
       },
       editQuestionModal (userQuestion) {
-        console.log(userQuestion);
+        console.log(userQuestion)
         $('#editQuestion').modal('show')
       }
     }

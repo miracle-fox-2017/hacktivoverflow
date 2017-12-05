@@ -4,28 +4,34 @@ import Home from '@/components/Home'
 import HomeSummaries from '@/components/HomeSummaries'
 import Dashboard from '@/components/Dashboard'
 import DashboardSummaries from '@/components/DashboardSummaries'
+import QuestionDetail from '@/components/QuestionDetail'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
-  routes: [
+  routes: [{
+    path: '/',
+    component: Home,
+    children: [{
+      path: '',
+      name: 'home',
+      component: HomeSummaries
+    },
     {
-      path: '/',
-      component: Home,
-      children: [{
-        path: '',
-        name: 'Home',
-        component: HomeSummaries
-      }]
-    }, {
-      path: '/dashboard',
-      component: Dashboard,
-      children: [{
-        path: '',
-        name: 'Dashboard',
-        component: DashboardSummaries
-      }]
-    }
-  ]
+      path: '/questions/:id',
+      name: 'questions',
+      component: QuestionDetail,
+      props: true
+    }]
+  },
+  {
+    path: '/dashboard',
+    component: Dashboard,
+    children: [{
+      path: '',
+      name: 'dashboard',
+      component: DashboardSummaries
+    }]
+  }]
 })

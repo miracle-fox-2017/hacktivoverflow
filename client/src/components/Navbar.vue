@@ -1,18 +1,22 @@
 <template>
   <header class="ui attached stackable menu">
     <nav class="ui container">
-      <router-link class="item" to="/"><i class="home icon"></i>Home</a></router-link>
-      <router-link class="item" to="/dashboard" v-if="token"><i class="dashboard icon"></i>Dashboard</a></router-link>
+      <router-link class="item" :to="{ name: 'home' }">
+        <i class="home icon"></i>
+        Home
+      </router-link>
+      <router-link class="item" :to="{ name: 'dashboard' }" v-if="token">
+        <i class="dashboard icon"></i>
+        Dashboard
+      </router-link>
       <div id="remove" class="right item">
         <div v-if="token">
-          <!-- <button class="ui basic button none-shadow" @click="logout">Logout</button> -->
           <button class="ui facebook button" @click="logout">
             <i class="sign out icon"></i>
             Sign out
           </button>
         </div>
         <div v-else>
-          <!-- <button class="ui basic button none-shadow" @click="login">Login</button> -->
           <button class="ui facebook button" @click="login">
             <i class="facebook icon"></i>
             Sign in with Facebook

@@ -1,6 +1,7 @@
 const state = {
   questions: [],
-  userQuestions: []
+  userQuestions: [],
+  questionDetail: []
 }
 
 export default state

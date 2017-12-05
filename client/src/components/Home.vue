@@ -12,7 +12,7 @@
           <AddQuestionModal/>
         </div>
       </div>
-      <router-view v-for="(question, index) in questions" :key="index" :question="question"/>
+      <router-view :questions="questions"/>
     </section>
   </main>
 </template>

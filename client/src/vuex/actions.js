@@ -12,17 +12,24 @@ const actions = {
     })
     .catch(err => console.error(err))
   },
-  addQuestion: ({ commit }, payload) => {
-    http.post('/questions', payload, { headers: { token: localStorage.getItem('token') } })
+  getQuestionsById: ({ commit }, payload) => {
+    http.get(`/questions/${payload}`, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
-      commit('setNewQuestion', data)
+      commit('setQuestionDetail', data)
     })
-    .catch(err => console.log(err))
+    .catch(err => console.error(err))
   },
   getQuestionsByUserId: ({ commit }, payload) => {
     http.post('/questions/dashboard', payload, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
       commit('setUserQuestions', data)
+    })
+    .catch(err => console.log(err))
+  },
+  addQuestion: ({ commit }, payload) => {
+    http.post('/questions', payload, { headers: { token: localStorage.getItem('token') } })
+    .then(({ data }) => {
+      commit('setNewQuestion', data)
     })
     .catch(err => console.log(err))
   },
@@ -36,7 +43,7 @@ const actions = {
   editQuestion: ({commit}, payload) => {
     http.put(`/questions/${payload}`, payload, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
-      console.log(data);
+      console.log(data)
       commit('setNewUserQuestionsAfterEdit', data)
     })
     .catch(err => console.log(err))
