@@ -10,7 +10,9 @@ const http = axios.create({
 const state = {
   questions: [],
   answers: [],
-  question: ''
+  question: '',
+  isDeleteQuestion: false,
+  isEditQuestion: false
 }
 
 const mutations = {
@@ -19,9 +21,9 @@ const mutations = {
   },
   saveNewQuestion (state, payload) {
     http.get('/questions')
-    .then((dataQuestions) => {
-      state.questions = dataQuestions.data
-    })
+      .then((dataQuestions) => {
+        state.questions = dataQuestions.data
+      })
   },
   getDataQuestionById (state, payload) {
     state.question = payload
@@ -31,9 +33,9 @@ const mutations = {
   },
   saveNewAnswer (state, payload) {
     http.get(`/answers/question/${payload.question}`)
-    .then((dataAnswers) => {
-      state.answers = dataAnswers.data
-    })
+      .then((dataAnswers) => {
+        state.answers = dataAnswers.data
+      })
   }
 }
 
@@ -77,19 +79,28 @@ const actions = {
         console.log(reason)
       })
   },
-  createNewAnswer ({commit}, payload) {
+  createNewAnswer ({ commit }, payload) {
     let dataUser = jwt.decode(localStorage.getItem('token'))
     http.post(`/answers`, {
       answer: payload.answer,
       question: payload.id,
       author: dataUser.id
     })
-    .then((dataAnswer) => {
-      commit('saveNewAnswer', dataAnswer.data)
-    })
-    .catch((reason) => {
-      console.log(reason)
-    })
+      .then((dataAnswer) => {
+        commit('saveNewAnswer', dataAnswer.data)
+      })
+      .catch((reason) => {
+        console.log(reason)
+      })
+  },
+  deleteQuestionById ({ commit }, id) {
+    http.delete(`/questions/${id}`)
+      .then((response) => {
+        alert('Successfully deleted!')
+      })
+      .catch((reason) => {
+        console.log(reason)
+      })
   }
 }
 

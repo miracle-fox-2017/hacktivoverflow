@@ -27,6 +27,7 @@ export default {
         answer: this.answer
       }
       this.createNewAnswer(payload)
+      this.answer = ''
     }
   },
   created () {
