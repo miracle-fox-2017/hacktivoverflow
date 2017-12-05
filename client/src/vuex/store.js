@@ -41,6 +41,20 @@ const mutations = {
   saveAnswer (state, newAnswer) {
     // console.log(state.question, newAnswer)
     state.question.answers_id.unshift(newAnswer)
+  },
+  setlike (state, updateLike) {
+    console.log('KE MUTATIONS', updateLike)
+    state.question = updateLike
+    // state.question.answers_id.map(likeid => {
+    //   if(likeid == updateLike._id) {
+    //     likeid.like = updateLike
+    //   } else {
+    //     likeid.like.push(updateLike)
+    //   }
+    // })
+  },
+  setunlike (state, updateLike) {
+    state.question = updateLike
   }
 }
 
@@ -130,7 +144,38 @@ const actions = {
     .catch(err => {
       console.log(err)
     })
+  },
+  setLike ({ commit }, id) {
+    let koken = localStorage.getItem('token')
+    console.log('ID', koken)
+    http.put(`/questions/like/${id}`, {}, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('LIKE', data)
+      commit('setlike', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  setUnlike ({ commit }, id) {
+    http.put(`/questions/unlike/${id}`,{}, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('UNLIKE', data)
+      commit('setunlike', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
+  
 }
 
 const store = new Vuex.Store({

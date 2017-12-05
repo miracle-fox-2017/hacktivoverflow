@@ -62,7 +62,7 @@ const editQuestion = (req , res) =>{
       if (err) throw err;
       res.send(
       {
-        email : data,
+        data : data,
         msg: 'Question successfully updated!'
       });
     });
@@ -84,7 +84,122 @@ const getQuestion = (req, res) => {
   })
   .catch(err => {
     res.status(500).send(err) 
-    console.log(err)})
+    console.log(err)
+  })
+}
+
+const likeQuestion = (req, res) => {
+  let id = ObjectId(req.params.id)
+  // console.log('MASUK')
+  Question.findOne({
+    _id: id
+  })
+  .then(dataQuestion => {
+    console.log(dataQuestion.dislike)
+    if(dataQuestion.like.length == 0){
+      dataQuestion.like.push(req.decoded.id)
+      dataQuestion.dislike.map((unlikeId, idx) => {
+        if(unlikeId.toString() == req.decoded.id) {
+          dataQuestion.dislike.splice(idx, 1)
+        }
+      })
+      console.log(dataQuestion)
+      dataQuestion.save((err, data) => {
+        if (err) throw err;
+        res.send(
+        {
+          data : data,
+          msg: 'Question successfully liked!'
+        });
+      })
+    } else {
+      console.log('MASUK ELSE')
+      dataQuestion.like.forEach(likeId => {
+        console.log('MAP LIKE',likeId.toString() !== req.decoded.id)
+          if(likeId.toString() !== req.decoded.id) {
+            console.log('masuk')
+            dataQuestion.like.push(req.decoded.id)
+            dataQuestion.dislike.map((unlikeId, idx) => {
+              if(unlikeId.toString() == req.decoded.id) {
+                dataQuestion.dislike.splice(idx, 1)
+              }
+            })
+            dataQuestion.save((err, data) => {
+              if (err) throw err;
+              res.send(
+              {
+                data : data,
+                msg: 'Question successfully liked!'
+              });
+            })
+          } else {
+            console.log('SUDAH LIKE BOS TETAP TENANG')
+          }
+      })
+    }
+    // console.log('APA DAPAT', dataQuestion)
+    // res.send(dataQuestion)
+  })
+  .catch(err => {
+    res.status(500).send(err) 
+    console.log(err)
+  })
+}
+
+const unlikeQuestion = (req, res) => {
+  let id = ObjectId(req.params.id)
+  // console.log('MASUK')
+  Question.findOne({
+    _id: id
+  })
+  .then(dataQuestion => {
+    console.log(dataQuestion.dislike)
+    if(dataQuestion.dislike.length == 0){
+      dataQuestion.dislike.push(req.decoded.id)
+      dataQuestion.like.map((likeId, idx) => {
+        if(likeId.toString() == req.decoded.id) {
+          dataQuestion.like.splice(idx, 1)
+        }
+      })
+      console.log(dataQuestion)
+      dataQuestion.save((err, data) => {
+        if (err) throw err;
+        res.send(
+        {
+          data : data,
+          msg: 'Question successfully unliked!'
+        });
+      })
+    } else {
+      console.log('MASUK ELSE')
+      dataQuestion.dislike.map(unlikeId => {
+          if(unlikeId.toString() !== req.decoded.id) {
+            dataQuestion.dislike.push(req.decoded.id)
+            dataQuestion.like.map((likeId, idx) => {
+              if(likeId.toString() == req.decoded.id) {
+                dataQuestion.like.splice(idx, 1)
+              }
+            })
+            dataQuestion.save((err, data) => {
+              if (err) throw err;
+              res.send(
+              {
+                data : data,
+                msg: 'Question successfully unliked!'
+              });
+            })
+          } else {
+            console.log('SUDAH LIKE BOS TETAP TENANG')
+          }
+      })
+    }
+    // console.log('APA DAPAT', dataQuestion)
+    // res.send(dataQuestion)
+  })
+  .catch(err => {
+    res.status(500).send(err) 
+    console.log(err)
+  })
 }
 
 module.exports = {
@@ -92,5 +207,7 @@ module.exports = {
   createQuestion,
   editQuestion,
   deleteQuestion,
-  getQuestion
+  getQuestion,
+  likeQuestion,
+  unlikeQuestion
 };

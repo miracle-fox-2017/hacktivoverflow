@@ -14,13 +14,24 @@
             </div>
             <h3 class="subtitle">{{ question.title }}</h3>
               {{ question.body }}<br><br/>
-            <h5>
-              <a v-if="like">Like</a>
-              <a v-else>Unlike</a>
-             · <a  @click.prevent="setFocus">Reply</a> · 3 hrs</h5>
+              APA{{question.like.length}}
+              <span v-if="question.like.length <= 0">
+                <h5>
+                  <a @click.prevent="likeQuestion">Like</a>
+                · <a @click.prevent="setFocus">Reply</a> · 3 hrs
+                </h5>
+              </span>
+              <span v-else v-for="like in question.like" :key="like._id">
+                <br/>id: yang LIKE {{like}} 
+                <br/>id: USER{{is_user}}
+                <h5>
+                  <a v-if="like !== is_user" @click.prevent="likeQuestion">Like</a>
+                  <a v-else @click.prevent="unlikeQuestion">Unlike</a> 
+                · <a  @click.prevent="setFocus">Reply</a> · 3 hrs
+                </h5>
+              </span>
           </p>
         </div>
-
         <div v-for="answer in question.answers_id" :key="answer._id">
           <article class="media">
             <figure class="media-left">
@@ -35,7 +46,11 @@
                   <br>
                     {{ answer.body }}
                   <br>
-                  <small><a>Like</a> · <a>Reply</a> · 2 hrs</small>
+                  <small>
+                    <a v-if="like" @click="likeAnswer">Like</a>
+                    <a v-else @click="unlikeAnswer">Unlike</a>
+                    · 3 hrs
+                  </small>
                 </p>
               </div>
             </div>
@@ -72,8 +87,9 @@ export default {
   name: 'questionDetail',
   data () {
     return {
+      is_user: '',
       body: '',
-      like: false
+      like: true
     }
   },
   computed: {
@@ -84,8 +100,34 @@ export default {
   methods: {
     ...mapActions([
       'detailQuestion',
-      'createAnswer'
+      'createAnswer',
+      'setLike',
+      'setUnlike'
     ]),
+    likeQuestion () {
+      console.log('LIKE QUES', this.id)
+      let loginCheck = localStorage.getItem('token')
+      if(!loginCheck) {
+        alert('You must be Login to Like this Question')
+      } else {
+        this.setLike(this.id)
+      }
+    },
+    unlikeQuestion () {
+      console.log('UNLIKE QUES')
+      let loginCheck = localStorage.getItem('token')
+      if(!loginCheck) {
+        alert('You must be Login to Unlike this Question')
+      } else {
+        this.setUnlike(this.id)
+      }
+    },
+    likeAnswer () {
+      console.log('LIKE ANS')
+    },
+    unlikeAnswer () {
+      console.log('UNLIKE ANS')
+    },
     comment () {
       // console.log(this.question, this.id)
       let loginCheck = localStorage.getItem('token')
@@ -107,6 +149,12 @@ export default {
   mounted () {
     // console.log(this.id)
     this.detailQuestion(this.id)
+  },
+  created () {
+    let parsing = localStorage.getItem('user_id')
+    if (parsing) {
+      this.is_user = parsing
+    }
   }
 }
 </script>

@@ -4,14 +4,14 @@ const Schema = mongoose.Schema;
 const questionSchema = new Schema({
   title : { type: String },
   body : String,
-  like : {
+  like : [{
     type: Schema.ObjectId,
     ref: 'User'
-  },
-  dislike : {
+  }],
+  dislike : [{
     type: Schema.ObjectId,
     ref: 'User'
-  },
+  }],
   user_id: {
     type: Schema.ObjectId,
     ref: 'User'

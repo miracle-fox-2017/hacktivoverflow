@@ -3,8 +3,14 @@ const Schema = mongoose.Schema;
 
 const answerSchema = new Schema({
   body : String,
-  like : { type: Number, default: 0 },
-  dislike : { type: Number, default: 0 },
+  like : [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }],
+  dislike : [{
+    type: Schema.ObjectId,
+    ref: 'User'
+  }],
   user_id: {
     type: Schema.ObjectId,
     ref: 'User'

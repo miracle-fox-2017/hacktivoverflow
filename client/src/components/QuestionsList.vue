@@ -18,7 +18,7 @@
     </tfoot>
     <tbody v-for="question in questions" :key="question._id">
       <tr>
-        <th><span class="icon is-small"><i class="fa fa-heart"></i>{{question.like}}</span></th>
+        <th><span class="icon is-small"><i class="fa fa-heart"></i>{{question.like.length}}</span></th>
         <td><router-link :to="'/question/detail/'+question._id">{{question.title}} </router-link><br/>
           <span v-if="question.user_id">
             <small>by : {{ question.user_id.name }}</small>

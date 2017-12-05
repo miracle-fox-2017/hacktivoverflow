@@ -7,5 +7,7 @@ router.get('/:id', questionController.getQuestion)
 router.post('/', checkLogin.isLogin, questionController.createQuestion)
 router.put('/:id', questionController.editQuestion)
 router.delete('/:id', questionController.deleteQuestion)
+router.put('/like/:id', checkLogin.isLogin, questionController.likeQuestion)
+router.put('/unlike/:id', checkLogin.isLogin, questionController.unlikeQuestion)
 
 module.exports = router
