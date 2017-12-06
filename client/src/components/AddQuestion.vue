@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="modalAddQuestion text-left" v-show="token != undefined">
+    <div class="modalAddQuestion text-left" v-show="token != null">
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addQuestion" @click="cekQuestion">Add Question</button>        
     </div>
    

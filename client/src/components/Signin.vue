@@ -33,12 +33,8 @@ export default {
         password: this.password
       })
       .then(function (response) {
-        if (response.data.token === undefined) {
-          alert('Username not found! Please register first!')
-        } else {
-          localStorage.setItem('token', response.data.token)
-          alert('Successfully login')
-        }
+        localStorage.setItem('token', response.data.token)
+        alert('Successfully login')
       })
       .catch(function (reason) {
         console.log(reason)

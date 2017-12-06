@@ -84,6 +84,7 @@ const actions = {
     newQuestion.author = dataUser.id
     http.post('/questions', newQuestion)
       .then((newData) => {
+        console.log(newData.data)
         commit('saveNewQuestion', newData.data)
         alert('You posted 1 question!')
       })
@@ -199,6 +200,9 @@ const actions = {
       })
       .then((dataAnswer) => {
         commit('likeAnswer', dataAnswer.data)
+      })
+      .catch((reason) => {
+        console.log(reason)
       })
     }
   }

@@ -31,7 +31,7 @@ let signIn = (req, res) => {
               username: dataUser. username,
               isLogin: true
             }
-            jwt.sign(payload, process.env.SECRET, function (err, token) {
+            jwt.sign(payload,"semangatselalutiadaperjuanganyangsiasia", function (err, token) {
               if (err) {
                 throw err
               } else {
