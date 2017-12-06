@@ -5,8 +5,8 @@
   <div class="panel panel-default">
     <div class="panel-heading"> <h4>{{question.title}}</h4></div>
     <div class="panel-body">
-    <p>{{question.question}}</p>
-    <div class="pull-right" v-if="token !== null">
+      <p>{{question.question}}</p>
+      <div class="pull-right" v-if="token !== null">
         <a href="#" @click="deleteQuestion(question)">
             <span class="glyphicon glyphicon-trash"></span>
         </a>
