@@ -11,6 +11,7 @@ Vue.use(Vuex)
 const state = {
   questions: [],
   question: {},
+  questionOfUser: [],
   comments: [],
   comment: {}
 }
@@ -53,6 +54,12 @@ const mutations = {
         comment.likes = payload.likes
       }
     })
+  },
+  getQuestionUser (state, payload) {
+    state.questionOfUser = payload
+  },
+  editQuestion (state, payload) {
+    state.questionOfUser.push(payload)
   }
 }
 
@@ -127,6 +134,26 @@ const actions = {
     .then(({data}) => {
       // console.log(data)
       commit('likeQuestion', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  getQuestionByUser ({ commit }, payload) {
+    http.get(`http://localhost:3000/api/questions/byuser/${payload.id}`)
+    .then(({data}) => {
+      // console.log(data)
+      commit('getQuestionUser', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  editQuestion ({ commit }, payload) {
+    http.put(`http://localhost:3000/api/questions/edit`, payload)
+    .then(({data}) => {
+      console.log(data)
+      // commit('editQuestion', data)
     })
     .catch(err => {
       console.log(err)

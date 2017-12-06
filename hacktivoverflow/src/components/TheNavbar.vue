@@ -8,7 +8,8 @@
         <li><a href="#"<router-link to="/">Question</router-link></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" v-if="isLogin">
-         <li><button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-warning">Ask Question</button></li>
+         <li> <router-link to="/myaccount"><button type="button" class="btn btn-warning">My Account</button></router-link></li>
+         <li><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">Ask Question</button></li>
         <li><a href="#" v-on:click="logout">Logout</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" v-else>

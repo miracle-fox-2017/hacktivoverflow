@@ -5,6 +5,7 @@ import TheHomePage from '@/components/TheHomePage'
 import TheLogin from '@/components/TheLogin'
 import TheSignup from '@/components/TheSignup'
 import TheQuestionSummary from '@/components/TheQuestionSummary'
+import TheAccount from '@/components/TheAccount'
 
 Vue.use(Router)
 
@@ -37,6 +38,11 @@ export default new Router({
       name: 'TheQuestionSummary',
       component: TheQuestionSummary,
       props: true
+    },
+    {
+      path: '/myaccount',
+      name: 'TheAccount',
+      component: TheAccount
     }
   ]
 })

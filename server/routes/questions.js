@@ -7,5 +7,7 @@ router.get('/list', controller.list)
 router.get('/getBy/:id', controller.getById)
 router.delete('/destroy/:id', controller.destroy)
 router.put('/like', controller.like)
+router.get('/byuser/:id', controller.getByUser)
+router.put('/edit', controller.edit)
 
 module.exports = router;
