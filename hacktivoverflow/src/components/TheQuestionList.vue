@@ -9,8 +9,12 @@
       <small class="text-muted">by {{ question.users.name }}</small>
     </p>
     <div>
-      <a href="#" v-on:click="like(question._id)"><span class="glyphicon glyphicon-heart">like({{question.likes.length}})</span></a> 
-      <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}"><span class="glyphicon glyphicon-comment">{{comments.length}}comment</span></router-link>
+      <button type="button" class="btn btn-success" v-on:click="like(question._id)"><span class="glyphicon glyphicon-heart">like({{question.likes.length}})</span></button> 
+      <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}">
+        <button type="button" class="btn btn-success">
+          <span class="glyphicon glyphicon-comment">{{comments.length}}comment</span>
+        </button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -28,9 +32,6 @@ export default {
       'getByIdQuestion',
       'likeQuestion'
     ]),
-    ...mapState([
-      'comments'
-    ]),
     like (id) {
       this.likeQuestion({
         idUser: localStorage.getItem('id'),
@@ -40,13 +41,10 @@ export default {
   },
   computed: {
     ...mapState([
-      'questions'
+      'questions',
+      'comments'
     ])
   }
   
 }
 </script>
-
-<style>
-
-</style>

@@ -1,10 +1,9 @@
 <template>
-  <div class="row border-primary">
-    <h4>{{ question.title}}</h4>
+  <div>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}"> {{ question.title}}</router-link>
+    </li>
   </div>
-
-  
-
 </template>
 
 <script>

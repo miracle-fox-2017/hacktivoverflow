@@ -6,8 +6,8 @@
       <br>
       <small class="text-muted">by {{comment.users.name}}</small>
       <div>
-        <a href="#" v-on:click="destroy(comment._id)"><span class="glyphicon glyphicon-trash">delete</span></a>
-        <a href="#" v-on:click="like(comment._id)"><span class="glyphicon glyphicon-heart">like({{comment.likes.length}})</span></a>
+        <button type="button" class="btn btn-success" v-on:click="destroy(comment._id)"><span class="glyphicon glyphicon-trash">delete</span></button>
+        <button type="button" class="btn btn-success" v-on:click="like(comment._id)"><span class="glyphicon glyphicon-heart">like({{comment.likes.length}})</span></button>
       </div>
     </div>
   </div>

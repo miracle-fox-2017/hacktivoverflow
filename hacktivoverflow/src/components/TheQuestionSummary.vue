@@ -10,7 +10,7 @@
           <br>
           <small class="text-muted">by {{ question.users.name }}</small>
           <br>
-          <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#addComment">comment here</button>
+          <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#addComment"><span class="glyphicon glyphicon-edit">comment here</span></button>
         </div>
         <TheAddComment/>
       </div>

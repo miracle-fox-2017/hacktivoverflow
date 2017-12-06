@@ -18,6 +18,7 @@ const state = {
 const mutations = {
   setQuestions (state, payload) {
     console.log('data di mutations sebagai paylload', payload)
+    console.log('comments', state.comments)
     state.questions = payload
   },
   setQuestion (state, payload) {
