@@ -1,22 +1,30 @@
+const jwt      = require('jsonwebtoken');
 const Question = require('../models/questionModel')
 
 class QuestionCtrl {
 
   static createQuestion (req, res) {
-    Question.create({
-      title: req.body.title || null,
-      text: req.body.text || null, 
-      category: req.body.category || null,
-      complete_status: false,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      completedAt: null,
-      user_id: req.params.id,
-      voter_id: [],
-      user_comment: []
+    jwt.verify(req.headers.token, 'shhhhh', function(err, decoded) {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        if (!decoded.isLogin) {
+          res.status(403).send('Invalid Token')
+        } else {
+          Question.create({
+            title: req.body.title || null,
+            text: req.body.text || null, 
+            category: req.body.category || null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            user_id: decoded.userID,
+            voter_id: []
+          })
+          .then(newQData => res.status(200).send(newQData))
+          .catch(err => res.status(500).send(err))
+        }
+      }
     })
-    .then(newQData => res.status(200).send(newQData))
-    .catch(err => res.status(500).send(err))
   }
 
   static getAllQuestion (req, res) {
@@ -26,36 +34,91 @@ class QuestionCtrl {
   }
 
   static getQuestionById (req, res) {
-    Question.findById(req.params.id)
-    .then(questionData => res.status(200).send(questionData))
-    .catch(err => res.status(500).send(err))
+    jwt.verify(req.headers.token, 'shhhhh', function(err, decoded) {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        if (!decoded.isLogin) {
+          res.status(403).send('Invalid User')
+        } else {
+          Question.findById(req.params.id)
+          .then(questionData => {
+            let findIdx = questionData.voter_id.findIndex(element => {
+              return element == decoded.userID
+            })
+            
+            let userStatus = ''
+            if (findIdx === -1) {
+              userStatus = false
+            } else {
+              userStatus = true
+            }
+
+            console.log(userStatus)
+            res.status(200).send({
+              questionData,
+              userStatus
+            })
+          })
+          .catch(err => res.status(500).send(err))
+        }
+      }
+    })
   }
 
   static getQuestionByUserId (req, res) {
-    Question.find({
-      user_id: req.params.id
+    jwt.verify(req.headers.token, 'shhhhh', function(err, decoded) {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        if (!decoded.isLogin) {
+          res.status(403).send('Invalid User')
+        } else {
+          Question.find({
+            user_id: decoded.userID
+          })
+          .then(questionsData => res.status(200).send(questionsData))
+          .catch(err => res.status(500).send(err))
+        }
+      }
     })
-    .then(questionsData => res.status(200).send(questionsData))
-    .catch(err => res.status(500).send(err))
   }
 
   static updateQuestion (req, res) {
-    Question.findById(req.params.id)
-    .then(questionData => {
-      questionData.title = req.body.title || questionData.title,
-      questionData.text = req.body.text || questionData.text, 
-      questionData.category = req.body.category || questionData.category,
-      questionData.complete_status = req.body.complete_status || questionData.complete_status,
-      questionData.updatedAt = new Date(),
-      questionData.completedAt = req.body.completedAt || questionData.complete_status,
-      questionData.voter_id =  questionData.voter_id.push(req.body.voter_id) || questionData.voter_id
-      questionData.user_comment = questionData.user_comment.push(req.body.user_comment) || questionData.user_comment 
-
-      questionData.save()
-      .then(newQData => res.status(200).send(newQData))
-      .catch(err => res.status(500).send(err))
+    console.log(req.body)
+    console.log(req.headers)
+    jwt.verify(req.headers.token, 'shhhhh', function(err, decoded) {
+      if (err) {
+        res.status(500).send(err)
+      } else {
+        if (!decoded.isLogin) {
+          res.status(403).send('Invalid User')
+        } else {
+         Question.findByIdAndUpdate(req.params.id)
+         .then(questionData => {
+           console.log(questionData)
+            questionData.title = req.body.title || questionData.title,
+            questionData.text = req.body.text || questionData.text, 
+            questionData.category = req.body.category || questionData.category,
+            questionData.updatedAt = new Date()  
+            
+            if (req.body.statusLike) {
+              questionData.voter_id.push(req.body.voter_id)
+            } else {
+              let deletedIdx = questionData.voter_id.findIndex(element => {
+                return element === req.body.voter_id
+              })
+              questionData.voter_id.splice(deletedIdx, 1)
+            }
+           
+           questionData.save()
+           .then(newQuestion => res.status(200).send(newQuestion))
+           .catch(err => res.status(500).send(err))
+         })
+         .catch(err => res.status(500).send(err)) 
+        }
+      }
     })
-    .catch(err => res.status(500).send(err))
   }
 
   static deleteQuestion (req, res) {

@@ -1,15 +1,17 @@
 const mongoose = require('mongoose')
 const Schema   = mongoose.Schema
 
-var questionSchema = new Schema({
-  title: String,
-  text: String, 
-	category: String,
+var answerSchema = new Schema({
+  text: String,
 	createdAt: Date,
-	updatedAt: Date,
+  updatedAt: Date,
   user_id: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
+  },
+  question_id: {
+		type: Schema.Types.ObjectId,
+		ref: 'Question'
   },
   voter_id: [{
     type: Schema.Types.ObjectId,
@@ -17,6 +19,6 @@ var questionSchema = new Schema({
   }]
 })
 
-var Question = mongoose.model('Question', questionSchema)
+var Answer = mongoose.model('Answer', answerSchema)
 
-module.exports = Question
+module.exports = Answer

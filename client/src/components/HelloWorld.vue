@@ -22,7 +22,7 @@
                 <p>- - - - - - - - - - - - - Sign In With - - - - - - - - - - - - - </p>
     		        <ul>
                   <li>-</li>
-                  <li><a href=""><i class="fa fa-facebook"></i> Facebook</a></li>
+                  <li><a href="#" @click="loginFB"><i class="fa fa-facebook"></i> Facebook</a></li>
                   <li>-</li>
                 </ul>
               </div>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+/*eslint-disable */
 export default {
   name: 'HelloWorld',
   data () {
@@ -81,7 +82,6 @@ export default {
         password: this.dataRegister.password
       })
       .then(newUserData => {
-        console.log(newUserData)
         alert('Registration Successful')
         this.dataRegister.name = ''
         this.dataRegister.email = ''
@@ -90,15 +90,15 @@ export default {
       .catch(err => alert(err))
     },
     loginUser () {
-      if(this.dataLogin.email === '' || this.dataLogin.password === '') {
+      if (this.dataLogin.email === '' || this.dataLogin.password === '') {
         alert('Please fill all input')
       } else {
         this.$http.post('/api/users/loginuser', {
           email: this.dataLogin.email,
           password: this.dataLogin.password
         })
-        .then(({data}) => {
-          if(data === 'invalid') {
+        .then(({data}) => { 
+          if (data === 'invalid') {
             alert('Invalid Username or Password')
           } else {
             localStorage.setItem('tokenOverflow', data)
@@ -110,18 +110,17 @@ export default {
     },
     loginFB () {
       FB.login((response) => {
-        console.log(response)
         if (response.authResponse) {
           localStorage.setItem('fbaccesstoken', response.authResponse.accessToken)
           this.$http.post('/api/users/loginfb', {
-						userID: response.authResponse.userID,
-					},{
+            userID: response.authResponse.userID
+          }, {
             headers: {
               accesstoken: response.authResponse.accessToken
             }
           })
-					.then(({data}) => {
-						localStorage.setItem('tokenOverflow', data)
+          .then(({data}) => {
+            localStorage.setItem('tokenOverflow', data)
             this.$router.push({name: 'Index'})
           })
           .catch(err => console.error(err))
@@ -153,7 +152,7 @@ export default {
     (function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0]
       if (d.getElementById(id)) return
-      js = d.createElement(s); js.id = id;
+      js = d.createElement(s); js.id = id
       js.src = '//connect.facebook.net/en_US/sdk.js'
       fjs.parentNode.insertBefore(js, fjs)
     }(document, 'script', 'facebook-jssdk'))

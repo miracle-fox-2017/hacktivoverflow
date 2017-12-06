@@ -1,31 +1,28 @@
 <template>
-  <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Hacktiv Overflow</a>
-    </div>
-
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span>Add Task</a></li>
-        <li><a href="" @click="userLogout"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
-      </ul>
-    </div>
+  <div>
+    <Navbar/>
+    <router-view></router-view>
+    <addq-modal></addq-modal>
   </div>
-</nav>
 </template>
 
 <script>
+import Navbar from './Navbar'
+import AddqModal from './AddQModal'
+import { mapActions } from 'vuex'
+
 export default {
+  components: {
+    Navbar,
+    AddqModal
+  },
   methods: {
-    userLogout () {
-      localStorage.removeItem('tokenOverflow')
-      this.$router.push({name: 'Login'})
-    }
+    ...mapActions([
+      'getAllQuestion'
+    ])
+  },
+  mounted () {
+    this.getAllQuestion()
   }
 }
 </script>
-
-<style>
-
-</style>
