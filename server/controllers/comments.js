@@ -33,16 +33,12 @@ const list = (req, res) => {
 const destroy = (req, res) => {
   Comments.find({_id: req.params.id})
   .then(response => {
-    console.log( String(response[0].users))
-    
     if(String(response[0].users) === req.headers.id){
-      console.log('masuk sini')
       Comments.deleteOne({_id: req.params.id})
       .then(res_delete => { res.status(200).send(res_delete)})
       .catch( err => { res.status(500).json(err) })
     }
     else {
-      console.log('masuk else')
       res.status(500).json('tidak bisa menghapus komentar orang lain')
     }
   })
@@ -50,24 +46,26 @@ const destroy = (req, res) => {
 }
 
 const like = (req, res) => {
-  Comments.findByIdAndUpdate({_id: req.body.id})
-  .then(updateComment => {
-    if(updateComment.likes.length == 0) {
-      updateComment.likes.push(req.body.idUser)
-    }
-    else {
-      if (!updateComment.likes.includes(req.body.idUser)) {
+  if(req.body.idUser){
+    Comments.findByIdAndUpdate({_id: req.body.id})
+    .then(updateComment => {
+      if(updateComment.likes.length == 0) {
         updateComment.likes.push(req.body.idUser)
       }
       else {
-       let index = updateComment.likes.indexOf(req.body.idUser)
-       updateComment.likes.splice(index, 1)
+        if (!updateComment.likes.includes(req.body.idUser)) {
+          updateComment.likes.push(req.body.idUser)
+        }
+        else {
+         let index = updateComment.likes.indexOf(req.body.idUser)
+         updateComment.likes.splice(index, 1)
+        }
       }
-    }
-    updateComment.save()
-    .then( result => { res.status(200).json(result) })
-    .catch( err => { res.status(500).json(err) })
-  })
+      updateComment.save()
+      .then( result => { res.status(200).json(result) })
+      .catch( err => { res.status(500).json(err) })
+    })
+  }
 }
 
 module.exports = {

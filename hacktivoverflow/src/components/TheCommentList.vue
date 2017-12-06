@@ -5,7 +5,7 @@
       {{comment.comment}}
       <br>
       <small class="text-muted">by {{comment.users.name}}</small>
-      <div>
+      <div v-show="token">
         <button type="button" class="btn btn-success" v-on:click="destroy(comment._id)"><span class="glyphicon glyphicon-trash">delete</span></button>
         <button type="button" class="btn btn-success" v-on:click="like(comment._id)"><span class="glyphicon glyphicon-heart">like({{comment.likes.length}})</span></button>
       </div>
@@ -18,6 +18,11 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
+  data () {
+    return {
+      token: localStorage.getItem('token')
+    }
+  },
   methods: {
     ...mapActions([
       'getCommentById',
