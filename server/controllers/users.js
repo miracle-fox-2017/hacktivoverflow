@@ -32,9 +32,8 @@ const login = (req, res) => {
             name: response[0].name,
             email: response[0].email
           }, process.env.TOKEN_JWT)
-
-          console.log(response.name)
-          res.status(200).json(token)
+          console.log({token, id: response[0]._id})
+          res.status(200).json({token, id: response[0]._id})
         }
         else {
           res.status(201).json('invalid email or password')

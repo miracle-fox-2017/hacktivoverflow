@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 let commentSchema = Schema({
     questions: { type: Schema.Types.ObjectId, ref: 'Questions'},
     users: { type: Schema.Types.ObjectId, ref: 'Users'},
-    comment: String
+    comment: String,
+    likes: []
 });
 
 var Comments = mongoose.model('Comments', commentSchema);

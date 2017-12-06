@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 let questionSchema = Schema({
     title: String,
     content: String,
+    likes: [],
     users: {type: Schema.Types.ObjectId, ref: 'Users'}
 });
 

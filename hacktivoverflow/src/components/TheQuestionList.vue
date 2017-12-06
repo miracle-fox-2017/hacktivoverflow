@@ -9,14 +9,14 @@
       <small class="text-muted">by {{ question.users.name }}</small>
     </p>
     <div>
-      <a href="#"><span class="glyphicon glyphicon-heart-empty">like</span></a> 
-      <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}"><span class="glyphicon glyphicon-comment">comment</span></router-link>
+      <a href="#" v-on:click="like(question._id)"><span class="glyphicon glyphicon-heart">like({{question.likes.length}})</span></a> 
+      <router-link :to="{name: 'TheQuestionSummary', params: {id: question._id}}"><span class="glyphicon glyphicon-comment">{{comments.length}}comment</span></router-link>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions} from 'vuex'
+import { mapActions, mapState} from 'vuex'
 
 export default {
   props: ['question'],
@@ -25,9 +25,24 @@ export default {
       this.getByIdQuestion(this.question._id)
     },
     ...mapActions([
-      'getByIdQuestion'
-    ])
+      'getByIdQuestion',
+      'likeQuestion'
+    ]),
+    ...mapState([
+      'comments'
+    ]),
+    like (id) {
+      this.likeQuestion({
+        idUser: localStorage.getItem('id'),
+        id: id
+      })
+    }
   },
+  computed: {
+    ...mapState([
+      'questions'
+    ])
+  }
   
 }
 </script>

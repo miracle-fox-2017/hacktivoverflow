@@ -45,7 +45,8 @@ export default {
         }
         else {
           this.error = false
-          localStorage.setItem('token', response.data)
+          localStorage.setItem('token', response.data.token)
+          localStorage.setItem('id', response.data.id)
           location.reload();
         }
       })

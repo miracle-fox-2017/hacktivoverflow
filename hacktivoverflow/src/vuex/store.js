@@ -26,18 +26,33 @@ const mutations = {
   getQuestion (state, payload) {
     state.questions.push(payload[0])
   },
+  likeQuestion (state, payload) {
+    state.questions.forEach(question => {
+      if (question._id == payload._id) {
+        console.log('masuk sini', question)
+        question.likes = payload.likes
+      }
+    })
+  },
   setComments (state, payload) {
     console.log(payload)
     state.comments = payload
   },
   getComment (state, payload) {
-    console.log(payload[0])
     state.comments.push(payload[0])
   },
   deleteComment (state, payload) {
     state.comments.forEach((item, index) => {
       if (item._id == payload) {
         state.comments.splice(index, 1)
+      }
+    })
+  },
+  likeComment (state, payload) {
+    state.comments.forEach(comment => {
+      if (comment._id == payload._id) {
+        console.log('masuk sini', comment)
+        comment.likes = payload.likes
       }
     })
   }
@@ -90,11 +105,30 @@ const actions = {
     })
   },
   deleteComment ({ commit }, payload) {
-    console.log(payload.token)
     http.delete(`http://localhost:3000/api/comments/destroy/${payload.id}`, 
   {headers: { token: payload.token }})
     .then(({data}) => {
       commit('deleteComment', payload.id)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  likeComment ({ commit }, payload) {
+    http.put(`http://localhost:3000/api/comments/like`, payload)
+    .then(({data}) => {
+      // console.log(data)
+      commit('likeComment', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  likeQuestion ({ commit }, payload) {
+    http.put(`http://localhost:3000/api/questions/like`, payload)
+    .then(({data}) => {
+      // console.log(data)
+      commit('likeQuestion', data)
     })
     .catch(err => {
       console.log(err)

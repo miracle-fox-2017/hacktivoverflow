@@ -49,15 +49,33 @@ const destroy = (req, res) => {
     })
     .catch( err => { res.status(500).json(err) })
   })
-  // Comments.find({_id: req.params.id})
-  // .then(result => console.log(result))
-  // Comments.destroy({_id: req.params.id})
-  // .then(response => res.status(200).json(response))
-  // .catch( err => { res.status(500).json(err) })
+}
+
+const like = (req, res) => {
+  console.log(req.body)
+  Comments.findByIdAndUpdate({_id: req.body.id})
+  .then(updateComment => {
+    if(updateComment.likes.length == 0) {
+      updateComment.likes.push(req.body.idUser)
+    }
+    else {
+      if (!updateComment.likes.includes(req.body.idUser)) {
+        updateComment.likes.push(req.body.idUser)
+      }
+      else {
+       let index = updateComment.likes.indexOf(req.body.idUser)
+       updateComment.likes.splice(index, 1)
+      }
+    }
+    updateComment.save()
+    .then( result => { res.status(200).json(result) })
+    .catch( err => { res.status(500).json(err) })
+  })
 }
 
 module.exports = {
     add,
     list,
-    destroy
+    destroy,
+    like
 }

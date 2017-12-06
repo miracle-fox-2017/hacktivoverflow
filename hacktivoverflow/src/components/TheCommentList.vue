@@ -7,6 +7,7 @@
       <small class="text-muted">by {{comment.users.name}}</small>
       <div>
         <a href="#" v-on:click="destroy(comment._id)"><span class="glyphicon glyphicon-trash">delete</span></a>
+        <a href="#" v-on:click="like(comment._id)"><span class="glyphicon glyphicon-heart">like({{comment.likes.length}})</span></a>
       </div>
     </div>
   </div>
@@ -20,12 +21,19 @@ export default {
   methods: {
     ...mapActions([
       'getCommentById',
-      'deleteComment'
+      'deleteComment',
+      'likeComment'
     ]),
     destroy (id) {
       this.deleteComment({
         id: id,
         token: localStorage.getItem('token')
+      })
+    },
+    like (id) {
+      this.likeComment({
+        idUser: localStorage.getItem('id'),
+        id: id
       })
     }
   },
