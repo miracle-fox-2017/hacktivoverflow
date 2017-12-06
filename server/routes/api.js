@@ -38,6 +38,8 @@ router.get('/questions/:id/answers', answerController.getAllAnswers)
 
 router.get('/answers', answerController.findById)
 
+router.get('/answers/:id', answerController.findOne)
+
 router.put('/answers/editVotes/:id', answerController.findByIdAndUpdate)
 
 router.put('/answers/removeVotes/:id', answerController.removeElVotesById)

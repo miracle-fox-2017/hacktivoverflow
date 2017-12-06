@@ -3,8 +3,6 @@
 <table class="table table is-hoverable">
   <thead>
     <tr>
-      <th>Votes</th>
-      <th>Answer</th>
       <th>Questions</th>
       <th>Post By</th>
       <th><router-link :to="`/askquestion`"><i class="fa fa-plus" fa-lg aria-hidden="true"></i></router-link></th>
@@ -12,9 +10,7 @@
   </thead>
   <tfoot>
     <tr v-for="question in questions" key="question._id">
-      <th></th>
-      <th></th>
-      <th><router-link :to="`/hacktivoverflow/questions/${question._id}`"><span @click="sendingId(question._id)">{{ question.question }}</span></router-link></th>  
+      <th><router-link :to="`/hacktivoverflow/questions/${question._id}`"><span @click="sendingId(question._id)">{{ question.title }}</span></router-link></th>  
       <th>{{ question.userId.username }}</th>  
     </tr>
   </tfoot>

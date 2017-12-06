@@ -28,10 +28,8 @@ const getAllAnswers = (req, res) => {
 }
 
 
-const getAll = (req, res) => {
-  Answer.find()
-  .populate('userId')
-  .populate('votes')
+const findOne = (req, res) => {
+  Answer.findOne({_id: req.params.id})
   .then(answers => {
     res.status(200).send(answers)
   })
@@ -54,7 +52,7 @@ const findById = (req, res) => {
 }
 
 const findByIdAndUpdate = (req, res) => {
-  Answer.findByIdAndUpdate({ _id: req.params.id },{$push: {votes: req.body.votes }})
+  Answer.findByIdAndUpdate({ _id: req.params.id }, { $addToSet: { votes: req.body.votes } },{new: true})
   .then(answer => {
     res.status(200).send(answer)
   })
@@ -65,7 +63,7 @@ const findByIdAndUpdate = (req, res) => {
 
 const removeElVotesById = (req, res) => {
   Answer.findByIdAndUpdate({_id: req.params.id}, 
-    { $pull: { votes: req.body.votes} }
+    { $pull: { votes: req.body.votes } }, { new: true }
   )
   .then(res => {
     console.log(res)
@@ -93,5 +91,5 @@ module.exports = {
   findByIdAndRemove,
   findByIdAndUpdate,
   removeElVotesById,
-  getAll
+  findOne
 }

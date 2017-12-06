@@ -6,6 +6,10 @@
         <p class="card-header-title" v-if="question">
           {{ question.userId.username }}
         </p>
+        <hr>
+        <p>
+          {{ question.title }}
+        </p>
         <a href="#" class="card-header-icon" aria-label="more options">
           <span class="icon">
             <i class="fa fa-angle-down" aria-hidden="true"></i>
@@ -30,7 +34,9 @@
              <a class="card-footer-item" @click="dislike(question, question.userId)">
             <i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
            </div>
-           	{{ likesLen(question.like) }}
+          <div>
+            <p>{{ likesLen(question.like) }} </p>
+          </div>
         </footer>
         <footer class="card-footer" v-else>  
           <div v-if="isLiked">
@@ -41,7 +47,9 @@
             <a @click="dislike(question, question.userId)">
             <i class="fa fa-thumbs-dowm" aria-hidden="true"></i></a>
           </div>
-          	{{ likesLen(question.like) }}
+          <div>
+            <p>{{ likesLen(question.like) }}</p>
+          </div>
         </footer>    
       </div>     
     </div>
@@ -57,11 +65,17 @@
         </a>
       </header> 
         <div class="card-content">
-          <div class="content">
+          <div class="content" style="text-align: left">
+            <label>Title</label>
+            <input type="text" v-model="formEdit.title">
+            <br>
+            <br>
             <label>Your question</label>
-            <textarea class="textarea" v-model="formEdit.question" placeholder="Textarea"></textarea><br>
+            <textarea class="textarea" v-model="formEdit.question" placeholder="Textarea"></textarea>
+            <br>
             <label>Tag</label>
-            <input type="text" v-model="formEdit.tag" placeholder="Textarea"></input><br>
+            <input type="text" v-model="formEdit.tag" placeholder="Textarea"></input>
+            <br>
           </div>
         </div>
         <footer class="card-footer">
@@ -89,7 +103,8 @@ export default {
       formEdit: {
         question: '',
         tag: '',
-        id: ''
+        id: '',
+        title: ''
       },
       isLiked: true
     }
@@ -112,6 +127,7 @@ export default {
       this.formEdit.question = this.question.question
       this.formEdit.tag = this.question.tag
       this.formEdit.id = this.question._id
+      this.formEdit.title = this.question.title
       console.log(this.formEdit)
     },
     sendForm: function (data) {
@@ -123,6 +139,7 @@ export default {
       this.removeById(id)
       this.formEdit.question = ''
       this.formEdit.tag = ''
+      this.formEdit.title = ''
       this.changeRoute()
     },
     cancel: function () {

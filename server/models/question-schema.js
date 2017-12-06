@@ -7,6 +7,7 @@ const QuestionSchema = new Schema({
     ref: 'User'
   },
   tag: String,
+  title: String,
   question: String,
   like: [{
     type: Schema.Types.ObjectId,

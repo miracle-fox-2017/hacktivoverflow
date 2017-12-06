@@ -15,15 +15,17 @@
 						
 							<div id="button">
 								<span>
-								<div v-if="liked">
+								<div>
 									<a @click="likes(item.userId, item._id)"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
 								</div>
-								<div v-else>
+								<div>
 									<a @click="disLikes(item.userId, item._id)">
 									<i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
 								</div>
-								{{ votesLen(item.votes) }}
-								<a class="button is-danger is-hovered" @click="remove(item._id)">Delete</a>							
+								<div>
+									{{ item.votes.length }} Likes
+								</div>
+								<a class="button is-danger is-hovered" @click="remove(item._id)" style="margin-left:200px;">Delete</a>							
 								</span>
 							</div>
 						<br>
@@ -50,7 +52,6 @@ export default {
   data () {
     return {
 			comment: '',
-			liked: true
     }
 	},
   computed: {
@@ -81,15 +82,7 @@ export default {
 		remove (id) {
 			this.removeOne(id)
 		},
-		cek () {
-			this.answers.forEach(element => {
-				element.votes.forEach(el => {
-					console.log(el)
-				})
-			})
-		},
 		likes (userId, id) {
-			this.cek()
 			console.log(userId)
 			console.log('this', this.answers)
 			let obj = {

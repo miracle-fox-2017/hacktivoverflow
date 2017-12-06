@@ -5,7 +5,8 @@ const createQuest = (req, res) => {
   Question.create({
     question: req.body.question,
     userId: req.body.userId,
-    tag: req.body.tag
+    tag: req.body.tag,
+    title: req.body.title
   })
   .then(question => {
     res.status(200).send(question)
@@ -40,7 +41,8 @@ const findById = (req, res) => {
 const findByIdAndUpdate = (req, res) => {
   Question.findByIdAndUpdate({ _id: req.params.id }, {
     question: req.body.question,
-    tag: req.body.tag
+    tag: req.body.tag,
+    title: req.body.title
   })
     .then(question => {
       res.status(200).send(question)

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <form @submit.prevent="postQuestionToDb(formQuest), clearField()">
+    <form @submit.prevent="postQuestionToDb(formQuest), clearField()" style="text-align:left;">
+      <label class="label">Title</label>
+      <div class="control">
+        <input type="text" v-model="formQuest.title" placeholder="Textarea"></input>
+      </div>
       <div class="field">
         <label class="label">Message</label>
         <div class="control">
@@ -30,7 +34,8 @@ export default {
     return {
       formQuest: {
         message: '',
-        tag: ''
+        tag: '',
+        title: ''
       }
     }
   },

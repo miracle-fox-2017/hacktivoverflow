@@ -63,14 +63,20 @@ const mutations = {
     state.answers = payload
   },
   setNewAnswer  (state, payload) {
-    console.log('payload di setnewanswer', payload)
-    console.log('state', state.answers)
     state.answers.push(payload)
   },
   removeAns (state, payload) {
     state.answers.forEach((item, index) => {
       if (item._id === payload._id) {
         state.answers.splice(index, 1)
+      }
+    })
+  },
+  setAns (state, payload) {
+    console.log(payload, '---')
+    state.answers.forEach((el,index) => {
+      if (el._id === payload._id) {
+        state.answer[index] = payload
       }
     })
   }
@@ -124,7 +130,8 @@ const actions = {
     http.post('/api/questions', {
       question: payload.message,
       tag: payload.tag,
-      userId: id
+      userId: id,
+      title: payload.title
     })
     .then(({ data }) => {
       commit('setNewQuestion', data)
@@ -147,7 +154,8 @@ const actions = {
     http.put('/api/questions/' + payload.id, {
       question: payload.question,
       tag: payload.tag,
-      userId: payload.userId
+      userId: payload.userId,
+      title: payload.title
     })
     .then(({ data }) => {
       console.log(data)
@@ -230,7 +238,8 @@ const actions = {
       votes: payload.userId
     })
     .then(({ data }) => {
-      console.log(data.votes.length)
+      console.log(data, 'in data removesEl')
+      commit('setAns', data)
     })
     .catch(err => console.log(err))
   },
@@ -241,7 +250,8 @@ const actions = {
       votes: payload.userId
     })
     .then(({ data }) => {
-      console.log(data.votes.length)
+      console.log(data, 'data likes di answer')
+      commit('setAns', data)
     })
     .catch(err => console.log(err))
   }
