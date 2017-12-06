@@ -5,7 +5,7 @@
         <a class="navbar-brand"><router-link to="/">Hacktiv Overflow</router-link></a>
       </div>
       <ul class="nav navbar-nav">
-        <li><a href="#"<router-link :to="{name: 'TheQuestion'}">Question</router-link></a></li>
+        <li><a href="#"<router-link to="/">Question</router-link></a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right" v-if="isLogin">
          <li><button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-warning">Ask Question</button></li>

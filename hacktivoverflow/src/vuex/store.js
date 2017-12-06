@@ -30,13 +30,11 @@ const mutations = {
   likeQuestion (state, payload) {
     state.questions.forEach(question => {
       if (question._id == payload._id) {
-        console.log('masuk sini', question)
         question.likes = payload.likes
       }
     })
   },
   setComments (state, payload) {
-    console.log(payload)
     state.comments = payload
   },
   getComment (state, payload) {
@@ -51,8 +49,7 @@ const mutations = {
   },
   likeComment (state, payload) {
     state.comments.forEach(comment => {
-      if (comment._id == payload._id) {
-        console.log('masuk sini', comment)
+      if (comment._id == payload._id) { 
         comment.likes = payload.likes
       }
     })
