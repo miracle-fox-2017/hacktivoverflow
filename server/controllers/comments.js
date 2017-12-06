@@ -31,28 +31,25 @@ const list = (req, res) => {
 }
 
 const destroy = (req, res) => {
-  bcrypt.verify(req.headers.token)
-  .then(verify => {
-    console.log(verify)
-    Comments.find({_id: req.params.id})
-    .then(response => {
-      console.log(response)
-      if(response[0].users == verify.id){
-        console.log('masuk sini')
-        Comments.remove({_id: req.params.id})
-        .then(res_delete => { res.status(200).send(res_delete)})
-        .catch( err => { res.status(500).json(err) })
-      }
-      else {
-        res.json('tidak bisa menghapus komentar orang lain')
-      }
-    })
-    .catch( err => { res.status(500).json(err) })
+  Comments.find({_id: req.params.id})
+  .then(response => {
+    console.log( String(response[0].users))
+    
+    if(String(response[0].users) === req.headers.id){
+      console.log('masuk sini')
+      Comments.deleteOne({_id: req.params.id})
+      .then(res_delete => { res.status(200).send(res_delete)})
+      .catch( err => { res.status(500).json(err) })
+    }
+    else {
+      console.log('masuk else')
+      res.status(500).json('tidak bisa menghapus komentar orang lain')
+    }
   })
+  .catch( err => { res.status(500).json(err) })
 }
 
 const like = (req, res) => {
-  console.log(req.body)
   Comments.findByIdAndUpdate({_id: req.body.id})
   .then(updateComment => {
     if(updateComment.likes.length == 0) {

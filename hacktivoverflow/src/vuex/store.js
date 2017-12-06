@@ -104,7 +104,7 @@ const actions = {
   },
   deleteComment ({ commit }, payload) {
     http.delete(`http://localhost:3000/api/comments/destroy/${payload.id}`, 
-  {headers: { token: payload.token }})
+    {headers: { token: payload.token, id: payload.idUser }})
     .then(({data}) => {
       commit('deleteComment', payload.id)
     })

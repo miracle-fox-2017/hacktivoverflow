@@ -27,6 +27,7 @@ export default {
     destroy (id) {
       this.deleteComment({
         id: id,
+        idUser: localStorage.getItem('id'),
         token: localStorage.getItem('token')
       })
     },
