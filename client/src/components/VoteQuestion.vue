@@ -58,16 +58,6 @@ export default {
         .catch(err => {
           $(`.ui.basic.modal.${this.questionId}`)
             .modal('show')
-          ;
-          // this.$http.delete(`/voteQuestions/${this.votes[index]._id}`, {
-          //   headers: {
-          //     accesstoken: localStorage.getItem('accesstoken')
-          //   }
-          // })
-          // .then(response => {
-          //   this.votes.splice(index, 1)
-          // })
-          // .catch(error => console.log(error))
         })
       } else {
         this.$http.delete(`/voteQuestions/${this.votes[index]._id}`, {

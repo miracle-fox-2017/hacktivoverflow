@@ -33,7 +33,7 @@ export default {
   methods: {
     voteAnswer () {
       let index = this.votes.map(v => { return v.userId }).indexOf(localStorage.getItem('userId'))
-      // console.log(index)
+      // eslint-disable-next-line
       if (index == -1) {
         this.$http.post('/voteAnswers', {
           answerId: this.answerId,
@@ -44,10 +44,10 @@ export default {
           }
         })
         .then(({data}) => {
-          if(data.access) {
+          if (data.access) {
+            // eslint-disable-next-line
             $(`.ui.basic.modal.${this.questionId}`)
               .modal('show')
-            ;
             console.log('error')
           } else {
             this.votes.push(data)
@@ -55,9 +55,9 @@ export default {
         })
         // eslint-disable-next-line
         .catch(err => {
+          // eslint-disable-next-line
           $(`.ui.basic.modal.${this.questionId}`)
             .modal('show')
-          ;
         })
       } else {
         this.$http.delete(`/voteAnswers/${this.votes[index]._id}`, {
@@ -69,7 +69,6 @@ export default {
           this.votes.splice(index, 1)
         })
         .catch(error => console.log(error))
-      // console.log(this.votes[index]._id)
       }
     },
     getVotes () {

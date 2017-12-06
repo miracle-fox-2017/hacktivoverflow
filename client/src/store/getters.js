@@ -5,7 +5,7 @@ const getters = {
   answers: state => {
     return state.answers
   },
-  myQuestions: state  => {
+  myQuestions: state => {
     return state.myQuestions
   },
   formQuestion: state => {

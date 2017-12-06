@@ -53,16 +53,16 @@ export default {
       'postNewAnswer'
     ]),
     addAnswer () {
-      if(localStorage.getItem('accesstoken')){
+      if (localStorage.getItem('accesstoken')) {
         this.postNewAnswer({
           answer: this.answerForm,
           questionId: this.questionId
         })
         this.answerForm = ''
       } else {
+        // eslint-disable-next-line
         $(`.ui.basic.modal.${this.questionId}`)
           .modal('show')
-        ;
       }
     },
     answerDeleted (value) {
