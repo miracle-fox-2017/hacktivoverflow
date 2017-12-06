@@ -1,8 +1,8 @@
 <template>
   <div class="ui segment">
     <div class="ui feed">
-      <button class="ui button icon" href="#" style="color: red; float: right; font-size: 18px; padding: .3em .3em .3em !important;" v-if="answer.userId._id == userId" @click="deleteAnswer(answer._id)"><i class="remove circle outline icon"></i></button>
-      <div class="meta" style="font-size: 12px; color: #393996;" v-if="answer.userId._id == userId">
+      <button class="ui button icon" href="#" style="color: red; float: right; font-size: 18px; padding: .3em .3em .3em !important;" v-if="answer.userId._id == userId || answer.userId == userId" @click="deleteAnswer(answer._id)"><i class="remove circle outline icon"></i></button>
+      <div class="meta" style="font-size: 12px; color: #393996;" v-if="answer.userId._id == userId || answer.userId == userId">
         <i class="user icon"></i><span>You</span>
       </div>
       <div class="meta" style="font-size: 12px; color: #393996;" v-else>

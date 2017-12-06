@@ -73,6 +73,24 @@
         </div>
       <!-- </div> -->
     </div>
+    <div class="ui active dimmer" :style="loader">
+      <div class="ui loader"></div>
+    </div>
+    <div class="ui basic modal login">
+      <div class="ui icon header" style="color: red;">
+        <i class="remove circle outline icon"></i>
+        Login Failed!!
+      </div>
+      <div class="content">
+        <p style="color: red; text-align: center; font-size: 18px;">Incorrect Username/Password!!</p>
+      </div>
+      <div class="actions">
+        <div class="ui red basic cancel inverted button">
+          <i class="remove icon"></i>
+          Close
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -81,6 +99,7 @@
 export default {
   data () {
     return {
+      loader: 'display: none;',
       googleSignInParams: {
         client_id: '606831286728-13rd42d2k5li26uelcu4u2h49ekhce0f.apps.googleusercontent.com'
       },
@@ -97,6 +116,7 @@ export default {
   },
   methods: {
     login () {
+      this.loader = 'display: block;'
       this.$http.post('/users/login', {
         username: this.username,
         password: this.password
@@ -106,7 +126,12 @@ export default {
         localStorage.setItem('accesstoken', data.accesstoken)
         this.$router.push('/')
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        $(`.ui.basic.modal.login`)
+          .modal('show')
+        ;
+        this.loader = 'display: none;'
+      })
     },
     // signOut () {
     //   var auth2 = gapi.auth2.getAuthInstance()
@@ -116,6 +141,7 @@ export default {
     // },
     onSignInSuccess (googleUser) {
       var id_token = googleUser.getAuthResponse().id_token;
+      this.loader = 'display: block;'
       this.$http.post('/users/login', {}, {
         headers: {
           google_token: id_token
@@ -129,6 +155,7 @@ export default {
     },
     onSignInError (error) {
       // `error` contains any error occurred. 
+      this.loader = 'display: none;'
       console.log('OH NOES', error)
     },
     modalSignup () {

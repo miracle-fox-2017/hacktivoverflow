@@ -16,10 +16,6 @@
           <i class="remove icon"></i>
           Close
         </div>
-        <router-link to="/login" class="ui green ok inverted button">
-          <i class="checkmark icon"></i>
-          Login
-        </router-link>
       </div>
     </div>
   </div>
