@@ -60,18 +60,20 @@ const deleteAnswer = (req, res) => {
 const editAnswer = (req , res) =>{
   let id = ObjectId(req.params.id)
   let input = req.body
+  // console.log(input)
   const saltRounds = 10;
   Answer.findOne({
     _id: id,
-    user_id: input.user_id
+    user_id: req.decoded.id
   })
   .then(dataAnswer => {
+    // console.log(dataAnswer)
     dataAnswer.body = input.body,
     dataAnswer.save(function(err, data) {
       if (err) throw err;
       res.send(
       {
-        email : data,
+        data : data,
         msg: 'Answer successfully updated!'
       });
     });

@@ -58,8 +58,7 @@ const deleteUser = (req, res) => {
   User.deleteOne(id)
   .then(user => res.send(
   {
-    msg : 'Data user removed',
-    data : user
+    msg : 'Your account user has been removed'
   })
   )
   .catch(err => res.status(500).send(err))
@@ -121,11 +120,11 @@ const editUser = (req , res) =>{
   let id = ObjectId(req.params.id)
   let input = req.body
   const saltRounds = 10;
+  console.log(input)
   User.findById(id)
   .then(dataUser => {
+    console.log(dataUser)
     bcrypt.hash(input.password, saltRounds).then(function(hash) {
-      dataUser.gender = input.gender,
-      dataUser.picture = input.picture,
       dataUser.name = input.name,
       dataUser.username = input.username,
       dataUser.password = hash,
@@ -134,7 +133,7 @@ const editUser = (req , res) =>{
         if (err) throw err;
         res.send(
         {
-          email : data,
+          data : data,
           msg: 'User successfully updated!'
         });
       });
@@ -143,10 +142,26 @@ const editUser = (req , res) =>{
   .catch(err => res.status(500).send(err))
 }
 
+const detailUser = (req, res) => {
+  let id = ObjectId(req.params.id)
+  // console.log('MASUK')
+  User.findOne({
+    _id: id
+  })
+  .then(dataUser => {
+    res.send(dataUser)
+  })
+  .catch(err => {
+    res.status(500).send(err) 
+    console.log(err)
+  })
+}
+
 module.exports = {
   allUsers,
   createUser,
   editUser,
   signinUser,
-  deleteUser
+  deleteUser,
+  detailUser
 };
