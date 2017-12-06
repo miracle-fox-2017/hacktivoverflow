@@ -12,6 +12,7 @@
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#editModal" v-on:click="get(question)">
             edit
           </button>
+          <button type="button" class="btn btn-success" v-on:click="destroy(question._id)">delete</button>
         </li>
         </ul>
       </div>
@@ -35,11 +36,19 @@ export default {
   },
   methods: {
     ...mapActions([
-      'getQuestionByUser'
+      'getQuestionByUser',
+      'deleteQuestion'
     ]),
     get (obj) {
       this.question = obj
-      console.log(this.question)
+    },
+    destroy (id) {
+
+      this.deleteQuestion({
+        id: id,
+        idUser: localStorage.getItem('id'),
+        token: localStorage.getItem('token')
+      })
     }
   },
   created () {

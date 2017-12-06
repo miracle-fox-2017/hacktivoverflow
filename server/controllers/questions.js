@@ -36,8 +36,17 @@ const getById = (req, res) => {
 }
 
 const destroy = (req, res) => {
-  Questions.deleteOne({_id: req.params.id})
-  .then( response => res.status(200).json(response) )
+  Questions.find({_id: req.params.id})
+  .then(response => {
+    if(String(response[0].users) === req.headers.id){
+      Questions.deleteOne({_id: req.params.id})
+      .then(res_delete => { res.status(200).send(res_delete)})
+      .catch( err => { res.status(500).json(err) })
+    }
+    else {
+      res.status(500).json('tidak bisa menghapus komentar orang lain')
+    }
+  })
   .catch( err => { res.status(500).json(err) })
 }
 

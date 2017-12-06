@@ -60,6 +60,14 @@ const mutations = {
   },
   editQuestion (state, payload) {
     state.questionOfUser.push(payload)
+  },
+  deleteQuestion (state, payload) {
+    console.log(payload)
+    state.questionOfUser.forEach((item, index) => {
+      if (item._id == payload) {
+        state.questionOfUser.splice(index, 1)
+      }
+    })
   }
 }
 
@@ -154,6 +162,17 @@ const actions = {
     .then(({data}) => {
       console.log(data)
       // commit('editQuestion', data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  deleteQuestion ({ commit }, payload) {
+    console.log(payload)
+    http.delete(`http://localhost:3000/api/questions/destroy/${payload.id}`, 
+    {headers: { token: payload.token, id: payload.idUser }})
+    .then(({data}) => {
+      commit('deleteQuestion', payload.id)
     })
     .catch(err => {
       console.log(err)
