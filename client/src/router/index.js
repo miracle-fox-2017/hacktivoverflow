@@ -56,7 +56,14 @@ export default new Router({
     {
       path: '/login',
       name: 'LoginPage',
-      component: LoginPage
+      component: LoginPage,
+      beforeEnter: (to, from, next) => {
+        if (localStorage.getItem('accesstoken')) {
+          next('/')
+        } else {
+          next()
+        }
+      }
     }
   ]
 })

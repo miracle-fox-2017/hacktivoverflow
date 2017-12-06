@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   computed: {
-    ...mapState([
+    ...mapGetters([
       'questions'
     ])
   },

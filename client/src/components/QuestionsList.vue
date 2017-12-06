@@ -13,13 +13,13 @@
 
 <script>
 import QuestionSummary from '@/components/QuestionSummary'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     QuestionSummary
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
       'questions'
     ])
   },

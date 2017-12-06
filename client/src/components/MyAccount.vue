@@ -39,7 +39,7 @@
 
 <script>
 import EditQuestion from '@/components/EditQuestion'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     EditQuestion
@@ -51,7 +51,7 @@ export default {
     }
   },
   computed: {
-    ...mapState([
+    ...mapGetters([
       'myQuestions'
     ])
   },

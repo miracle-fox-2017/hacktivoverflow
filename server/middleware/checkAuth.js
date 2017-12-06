@@ -4,11 +4,15 @@ const jwt = require('jsonwebtoken');
 isLogin = (req, res, next) => {
   if(req.headers.accesstoken) {
     jwt.verify(req.headers.accesstoken, process.env.JWT_SECRET, (err, decode) => {
-      req.userLogin = decode
-      next()
+      if(decode) {
+        req.userLogin = decode
+        next()
+      } else {
+        res.send({access: 'denied'})
+      }
     })
   } else {
-    res.status(401).send('Permission denied..!!')
+    res.send({access: 'denied'})
   }
 }
 

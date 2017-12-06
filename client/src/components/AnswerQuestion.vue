@@ -15,7 +15,7 @@
 
 <script>
 import AnswerList from '@/components/AnswerList'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   components: {
     AnswerList
@@ -27,7 +27,7 @@ export default {
   },
   props: ['questionId'],
   computed: {
-    ...mapState([
+    ...mapGetters([
       'answers'
     ])
   },
