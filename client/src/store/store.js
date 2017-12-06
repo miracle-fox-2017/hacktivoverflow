@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
+import router from '@/router/index'
+
 Vue.use(Vuex)
 const http = axios.create({
   baseURL: 'http://localhost:3000'
@@ -16,6 +18,12 @@ const state = {
 }
 
 const mutations = {
+  deleteDataQuestion (state, payload) {
+    const indexQuestion = state.questions.findIndex((question) =>
+    question._id === payload._id
+  )
+    state.questions.splice(indexQuestion, 1)
+  },
   setQuestions (state, payload) {
     state.questions = payload
   },
@@ -117,7 +125,9 @@ const actions = {
   deleteQuestionById ({ commit }, id) {
     http.delete(`/questions/${id}`)
       .then((response) => {
-        alert('Successfully deleted!')
+        console.log('Haiiii', response)
+        commit('deleteDataQuestion', response.data)
+        router.push('/')
       })
       .catch((reason) => {
         console.log(reason)

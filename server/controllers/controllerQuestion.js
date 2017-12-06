@@ -28,13 +28,11 @@ const getAllDataQuestion = (req, res) => {
 }
 
 const deleteQuestion = (req, res) => {
-  Question.remove({
-    _id: req.params.id
-  }).then((response) => {
+  Question.findByIdAndRemove(req.params.id).then((dataQuestion) => {
     Answer.remove({
       question: req.params.id
     }).then((response) => {
-      res.send(response)
+      res.send(dataQuestion)
     }).catch((reason) => {
       res.send(reason)
     })
