@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AnswerList v-for="answer in answers" key="answer.Id" :answer="answer" @answerDeleted="answerDeleted"/>
+    <AnswerList v-for="answer in answers" :key="answer.Id" :answer="answer" @answerDeleted="answerDeleted"/>
     <div class="ui form">
       <div class="field">
         <label>Answer Question</label>

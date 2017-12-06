@@ -12,7 +12,7 @@
           <th>Options</th>
         </tr></thead>
         <tbody>
-          <tr v-for="question in myQuestions" key="question._id">
+          <tr v-for="question in myQuestions" :key="question._id">
             <td class="single line">
               {{question.title}}
             </td>

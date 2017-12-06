@@ -1,6 +1,6 @@
 <template>
   <div class="ui three column grid">
-    <div class="column" v-for="user in users" key="user._id">
+    <div class="column" v-for="user in users" :key="user._id">
       <div class="ui fluid card">
         <div class="image">
           <img src="../assets/img/user.svg">
