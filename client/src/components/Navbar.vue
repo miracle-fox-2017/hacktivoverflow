@@ -43,7 +43,7 @@
             window.FB.api('/me', {fields: ['id', 'name', 'gender', 'picture', 'email']}, dataUser => {
               this.$http.post('/users', dataUser)
               .then(result => {
-                console.log(result);
+                // console.log(result);
                 window.localStorage.setItem('token', result.data.token)
                 window.localStorage.setItem('id', result.data.id)
                 window.location.reload()
@@ -57,6 +57,7 @@
       },
       logout () {
         window.localStorage.removeItem('token')
+        window.localStorage.removeItem('id')
         window.location.reload()
       }
     },

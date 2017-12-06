@@ -3,15 +3,12 @@ const AnswerModel = require('../models/answerModel')
 
 class Answer {
   static create (req, res) {
-    // console.log('--> masuk controller req.body', req.body);
-    // console.log('--> masuk controller req.verifyUser', req.verifyUser);
     let newAnswer = new AnswerModel({
       question: req.body.id,
       answerer: req.verifyUser.id,
       content: req.body.content
-      // ,answerVoter: req.body.answerVoter
     })
-    // console.log(newAnswer);
+
     newAnswer.save()
     .then(answer => res.send(answer))
     .catch(err => res.status(500).send(err))
@@ -38,8 +35,7 @@ class Answer {
     .then(answer => {
       answer.content = req.body.content || answer.question
       answer.updatedAt = new Date()
-      // ,answer.answerVoter: req.body.answerVoter || answer.answerVoter
-      console.log(answer);
+
       answer.save()
       .then(answer => res.send(answer))
       .catch(err => res.status(500).send(err))

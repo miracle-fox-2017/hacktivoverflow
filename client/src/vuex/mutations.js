@@ -14,9 +14,9 @@ const mutations = {
     })
     state.userQuestions.splice(checkIndex, 1)
   },
-  setNewUserQuestionsAfterEdit: (state, payload) => {
-    console.log(payload)
-  },
+  // setNewUserQuestionsAfterEdit: (state, payload) => {
+  //   console.log(payload)
+  // },
   setQuestionDetail: (state, payload) => {
     state.questionDetail = payload
   },
@@ -33,9 +33,38 @@ const mutations = {
     let checkIndex = state.answers.findIndex(element => {
       return element._id === payload._id
     })
-    // console.log(checkIndex);
     state.answers.splice(checkIndex, 1)
+  },
+
+  /* ------------------------------------------------------------------------ */
+
+  setQuestionsVoters: (state, payload) => {
+    state.questionsVoters = payload
+  },
+  setNewQuestionsVoters: (state, payload) => {
+    state.questionsVoters.push(payload)
+  },
+  setQuestionsVotersAfterDelete: (state, payload) => {
+    let checkIndex = state.questionsVoters.findIndex(element => {
+      return element._id === payload._id
+    })
+    state.questionsVoters.splice(checkIndex, 1)
+  },
+
+  /* ------------------------------------------------------------------------ */
+
+  setAnswersVoters: (state, payload) => {
+    state.answersVoters = payload
   }
+  // ,setNewAnswers: (state, payload) => {
+  //   state.answers.push(payload)
+  // },
+  // setAnswersAfterDelete: (state, payload) => {
+  //   let checkIndex = state.answers.findIndex(element => {
+  //     return element._id === payload._id
+  //   })
+  //   state.answers.splice(checkIndex, 1)
+  // }
 }
 
 export default mutations

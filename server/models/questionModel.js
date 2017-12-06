@@ -18,20 +18,6 @@ const questionSchema = new Schema({
     type: String,
     default: []
   }],
-  // vote: [{
-  //     voter: [{
-  //       type: Schema.Types.ObjectId,
-  //       ref: 'User'
-  //     }]
-  // }],
-  isClosed: {
-      type: Boolean,
-      default: false
-  },
-  closedAt: {
-      type: Date,
-      default: null
-  },
   createdAt: {
       type: Date,
       default: Date.now

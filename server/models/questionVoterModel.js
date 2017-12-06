@@ -3,19 +3,16 @@ const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost/hacktivoverflow')
 const Schema = mongoose.Schema
 
-const answerSchema = new Schema({
+const questionVoterSchema = new Schema({
   question: {
     type: Schema.Types.ObjectId,
-    ref: 'Question'
+    ref: 'Answer'
   },
-  answerer: {
+  voter: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  content: {
-    type: String
-  },
-  answeredAt: {
+  votedAt: {
     type: Date,
     default: Date.now
   },
@@ -25,5 +22,7 @@ const answerSchema = new Schema({
   }
 })
 
-const Answer = mongoose.model('Answer', answerSchema);
-module.exports = Answer
+questionVoterSchema.index({ question: 1, voter: 1 }, { unique: true })
+
+const QuestionVoter = mongoose.model('QuestionVoter', questionVoterSchema)
+module.exports = QuestionVoter

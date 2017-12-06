@@ -2,7 +2,9 @@ const state = {
   questions: [],
   userQuestions: [],
   questionDetail: [],
-  answers: []
+  answers: [],
+  questionsVoters: [],
+  answersVoters: []
 }
 
 export default state

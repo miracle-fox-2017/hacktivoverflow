@@ -21,9 +21,21 @@
 </template>
 
 <script>
+  import { mapActions } from 'vuex' //, mapGetters
   export default {
     name: 'HomeSummaries',
-    props: ['questions']
+    props: ['questions'],
+    // computed: {
+    //
+    // },
+    methods: {
+      ...mapActions([
+        'getQuestionsVotersByQuestionId'
+      ])
+    },
+    created: function () {
+      this.getQuestionsVotersByQuestionId()
+    }
   }
 </script>
 
