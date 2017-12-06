@@ -12,6 +12,7 @@ const state = {
   users: [],
   questions: [],
   login: false,
+  user: '',
   question: {
     title: '',
     body: '',
@@ -25,6 +26,9 @@ const state = {
   }
 }
 
+const getters = {
+  questionAnswer: state => state.question.answers_id
+}
 const mutations = {
   setUsers (state, payload) {
     state.users = payload
@@ -56,34 +60,46 @@ const mutations = {
   setlike (state, updateLike) {
     console.log('KE MUTATIONS', updateLike)
     state.question = updateLike
-    // state.question.answers_id.map(likeid => {
-    //   if(likeid == updateLike._id) {
-    //     likeid.like = updateLike
-    //   } else {
-    //     likeid.like.push(updateLike)
-    //   }
-    // })
   },
   setunlike (state, updateLike) {
     state.question = updateLike
   },
   setlikeanswer (state, updateLike) {
     console.log(state.question.answers_id,'KE MUTATIONS', updateLike)
-    let filterQuestion = state.question.answers_id.filter((question) => question._id !== updateLike)
-    state.question.answers_id = filterQuestion
+    let idx = state.question.answers_id.findIndex(answer => answer._id == updateLike._id)
+    console.log(idx,'DI LIKE ACTION', state.question.answers_id[idx], updateLike)
+    state.question.answers_id[idx] = updateLike
+    console.log('DATA TERAKHIR SETELAH LIKE', state.question.answers_id)
   },
   setunlikeanswer (state, updateLike) {
     // state.question.answers_id = updateLike
-    let filterQuestion = state.question.answers_id.filter((question) => question._id !== updateLike)
-    state.question.answers_id = filterQuestion
+    let idx = state.question.answers_id.findIndex(answer => answer._id == updateLike._id)
+    console.log(idx,'DI LIKE ACTION', state.question.answers_id[idx], updateLike)
+    state.question.answers_id[idx] = updateLike
+    console.log('DATA TERAKHIR', state.question.answers_id)
   },
   setUpdateQuestion (state, updateQuestion) {
     state.question = updateQuestion
   },
   setDeleteQuestion (state, idQuestion) {
-    
     let idx = state.questions.findIndex(question => question._id == idQuestion)
     state.questions.splice(idx, 1)
+  },
+  setDeleteAnswer (state, idAnswer) {
+    let idx = state.question.answers_id.findIndex(answer => answer._id == idAnswer)
+    state.question.answers_id.splice(idx, 1)
+  },
+  setUpdateAnswer (state, updateAnswer) {
+    let idx = state.question.answers_id.findIndex(answer => answer._id == updateAnswer._id)
+    console.log(idx,'DI LIKE ACTION', state.question.answers_id[idx], updateAnswer)
+    state.question.answers_id[idx] = updateAnswer
+    console.log('DATA TERAKHIR', state.question.answers_id)
+  },
+  setUserDetail (state, detailUser) {
+    state.user = detailUser
+  },
+  setUpdateUser (state, updateUser) {
+    state.user = updateUser
   }
 }
 
@@ -249,7 +265,7 @@ const actions = {
       console.log(err)
     })
   },
-  deleteQuestion({commit}, id) {
+  deleteQuestion ({commit}, id) {
     // console.log('INI ID', id)
     http.delete(`/questions/${id}`, {
       headers: {
@@ -264,14 +280,87 @@ const actions = {
     .catch(err => {
       console.log(err)
     })
+  },
+  deleteAnswer ({commit}, id) {
+    // console.log('INI ID', id)
+    http.delete(`/answers/${id}`, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('NEW DELETE HASIL', data)
+      commit('setDeleteAnswer', id)
+      alert(data.msg)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  updateAnswer ({ commit }, newUpdate) {
+    console.log('NEW UPDATE ANSWER', newUpdate)
+    http.put(`/answers/${newUpdate.id}`,newUpdate , {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('NEW UPDATE HASIL', data)
+      commit('setUpdateAnswer', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  detailUser ({commit}, id) {
+    console.log('MASUK ACTION')
+    http.get(`/users/${id}`)
+    .then(({data}) => {
+      // console.log(data)
+      commit('setUserDetail',data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  deleteUser ({commit}, id) {
+    // console.log('INI ID', id)
+    http.delete(`/users/${id}`, {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('NEW DELETE HASIL', data)
+      alert(data.msg)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  },
+  updateUser ({ commit }, newUpdate) {
+    console.log('NEW UPDATE ANSWER', newUpdate)
+    http.put(`/users/${newUpdate.id}`,newUpdate , {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+    .then(({data}) => {
+      console.log('NEW UPDATE HASIL', data)
+      alert(data.msg)
+      commit('setUpdateUser', data.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   }
-  
 }
 
 const store = new Vuex.Store({
   state,
   actions,
-  mutations
+  mutations,
+  getters
 })
 
 export default store

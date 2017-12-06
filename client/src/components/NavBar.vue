@@ -51,8 +51,12 @@
             </a>
             <div slot="content">
               <menus>
-                <menu-item icon="user">Profile</menu-item>
-                <menu-item icon="lock">Settings</menu-item>
+                <menu-item icon="user" :to="'/user/detail/'+user_id">
+                  Profile
+                </menu-item>
+                <menu-item icon="lock" :to="'/user/edit/'+user_id">
+                  Settings
+                </menu-item>
                 <div class="divider"></div>
                 <menu-item icon=""><a @click.prevent="loGout">Sign out</a></menu-item>
               </menus>

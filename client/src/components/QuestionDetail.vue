@@ -72,7 +72,7 @@
               </span>
           </p>
         </div>
-        <div v-for="answer in question.answers_id" :key="answer._id">
+        <div v-for="answer in questionAnswer" :key="answer._id">
           <Answer :answer="answer"/>
         </div>
       </div>
@@ -125,7 +125,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import Answer from '@/components/Answer'
 export default {
   props: ['id'],
@@ -149,6 +149,9 @@ export default {
     ...mapState([
       'question',
       'login'
+    ]),
+    ...mapGetters([
+      'questionAnswer'
     ]),
     liked: function () {
       // return this.question.like;

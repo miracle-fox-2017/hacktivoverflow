@@ -4,6 +4,8 @@ import Home from '@/components/Home'
 import QuestionsList from '@/components/QuestionsList'
 import QuestionDetail from '@/components/QuestionDetail'
 import UsersList from '@/components/UsersList'
+import UserDetail from '@/components/UserDetail'
+import UserEdit from '@/components/UserEdit'
 
 Vue.use(Router)
 
@@ -28,6 +30,18 @@ export default new Router({
           path: 'question/detail/:id',
           name: 'questionDetail',
           component: QuestionDetail,
+          props: true
+        },
+        {
+          path: 'user/detail/:id',
+          name: 'userDetail',
+          component: UserDetail,
+          props: true
+        },
+        {
+          path: 'user/edit/:id',
+          name: 'userEdit',
+          component: UserEdit,
           props: true
         }
       ]
