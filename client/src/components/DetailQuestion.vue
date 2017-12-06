@@ -22,10 +22,26 @@
         </div>
         <footer class="card-footer" v-if="isOwner">  
            <a class="card-footer-item"><span @click="edit">Edit</span></a>
-          <a class="card-footer-item">Delete</a>
+           <div v-if="isLiked">
+             <a class="card-footer-item" @click="like(question, question.userId)">
+            <i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+           </div>
+          <div v-else>
+             <a class="card-footer-item" @click="dislike(question, question.userId)">
+            <i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+           </div>
+           	{{ likesLen(question.like) }}
         </footer>
         <footer class="card-footer" v-else>  
-          <a class="card-footer-item">Comment</a>
+          <div v-if="isLiked">
+            <a @click="like(question, question.userId)">
+          <i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+          </div>
+          <div v-else>
+            <a @click="dislike(question, question.userId)">
+            <i class="fa fa-thumbs-dowm" aria-hidden="true"></i></a>
+          </div>
+          	{{ likesLen(question.like) }}
         </footer>    
       </div>     
     </div>
@@ -74,7 +90,8 @@ export default {
         question: '',
         tag: '',
         id: ''
-      }
+      },
+      isLiked: true
     }
   },
   computed: {
@@ -86,7 +103,9 @@ export default {
   methods: {
     ...mapActions([
       'editQuestionById',
-      'removeById'
+      'removeById',
+      'liked',
+      'disliked'
     ]),
     edit: function () {
       this.editOn = false
@@ -111,6 +130,27 @@ export default {
     },
     changeRoute: function () {
       this.$router.push({ path: '/hacktivoverflow' })
+    },
+    like: function (questionId, userId) {
+      this.isLiked = false
+      let obj = {
+        userId: userId._id,
+        questionId: questionId._id
+      }
+      console.log(questionId, 'like question' + obj)
+      this.liked(obj)
+    },
+    dislike: function (questionId, userId) {
+      this.isLiked = true
+      let obj = {
+        userId: userId._id,
+        id: questionId._id
+      }
+      console.log('dislike')
+      this.disliked(obj)
+    },
+    likesLen: function (value) {
+      return value.length
     }
   }
 }

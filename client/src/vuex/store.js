@@ -22,9 +22,7 @@ const state = {
 }
 
 const getters = {
-  liked (state) {
-    
-  }
+  
 }
 
 const mutations = {
@@ -74,11 +72,6 @@ const mutations = {
       if (item._id === payload._id) {
         state.answers.splice(index, 1)
       }
-    })
-  },
-  lenVotes (state, payload) {
-    state.answers.map(x => {
-      x.votes.length 
     })
   }
 }
@@ -175,9 +168,31 @@ const actions = {
   logout ({ commit }) {
     firebase.auth().signOut().then(() => {
       commit('removeLS')
-      this.$router.push('/')
     })
   },
+  liked ({ commit }, payload) {
+    console.log(payload, 'oopo')
+    http.put(`/api/questions/${payload.questionId}/like`, {
+      like: payload.userId
+    })
+    .then(({data}) => {
+      console.log(data)
+    })
+    .catch(err => console.log(err))
+  },
+  disliked ({commit}, payload) {
+    console.log('payload dislike', payload)
+    http.put(`/api/questions/${payload.id}/dislike`, {
+      like: payload.userId
+    })
+    .then(({
+      data
+    }) => {
+      console.log(data)
+    })
+    .catch(err => console.log(err))
+  },
+
   //-------------- answer --------- //
   getAnswerByQuestionId ({ commit }, payload) {
     console.log(payload, 'getAnswerByQuestionId')

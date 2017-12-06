@@ -13,28 +13,17 @@
         <router-view/>
       </div>
     </div>
-    <button @click="logOut">Logout</button>     
   </div>
 </template>
 
 <script>
 import Questions from './Questions'
-import { mapActions } from 'vuex'
 export default {
   name: 'HelloWorld',
   components: { Questions },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
-    }
-  },
-  methods: {
-    ...mapActions([
-      'logout'
-    ]),
-    logOut: function () {
-      this.logout()
-      this.$router.push({'name': 'login'})
     }
   }
 }

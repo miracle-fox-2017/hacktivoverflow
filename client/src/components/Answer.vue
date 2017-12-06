@@ -22,7 +22,7 @@
 									<a @click="disLikes(item.userId, item._id)">
 									<i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
 								</div>
-								{{item.votes.length}}
+								{{ votesLen(item.votes) }}
 								<a class="button is-danger is-hovered" @click="remove(item._id)">Delete</a>							
 								</span>
 							</div>
@@ -52,7 +52,7 @@ export default {
 			comment: '',
 			liked: true
     }
-  },
+	},
   computed: {
 		...mapState([
 		'question',
@@ -68,9 +68,6 @@ export default {
 			'findByIdAndUpdate',
 			'removeElVotesById'
 		]),
-		arrVotesLen () {
-			this.len = this.arrVotes.length
-		},
     post () {
       console.log(this.question)
       let obj = {
@@ -111,6 +108,9 @@ export default {
 			this.liked = true
 			console.log(this.liked,'0-0-00-9-09-09-0-0-')
 			this.removeElVotesById(obj)
+		},
+		votesLen : function (value) {
+			return value.length
 		}
 	}
 }

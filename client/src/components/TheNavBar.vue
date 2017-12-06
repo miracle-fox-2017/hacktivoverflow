@@ -13,8 +13,8 @@
 
   <div id="navbarExampleTransparentExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" href="https://bulma.io/">
-        Home
+      <a class="navbar-item"><router-link to="/">
+        Home</router-link>
       </a>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link" href="/documentation/overview/start/">
@@ -45,6 +45,7 @@
           </a>
         </div>
       </div>
+      <a class="navbar-item" @click="logOut"><router-link to="/login">Logout</router-link></a>
     </div>
 
     <div class="navbar-end">
@@ -61,10 +62,19 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'Navbar',
   data () {
     return {}
+  },
+  methods: {
+    ...mapActions([
+      'logout'
+    ]),
+    logOut: function () {
+      this.logout()
+    }
   }
 }
 </script>

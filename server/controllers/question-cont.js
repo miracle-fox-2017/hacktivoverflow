@@ -63,6 +63,7 @@ const like = (req, res) => {
 }
 
 const dislike = (req, res) => {
+  console.log(req.params.id,'ini req')
   Question.findByIdAndUpdate({_id: req.params.id},
   { $pull: { like: req.body.like }
   })
