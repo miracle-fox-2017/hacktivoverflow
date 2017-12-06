@@ -10,7 +10,8 @@
               <h6>Posted by : {{question.author.username}}</h6>
               <div class="pull-right">
               <a @click="cekLikeQuestion(question._id)">
-                <span class="glyphicon glyphicon-thumbs-up"> {{question.likes.length}}</span>
+                <span class="glyphicon glyphicon-thumbs-up"> {{question.likes.length}} 
+                </span>
               </a>
               </div>
         </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="modalAddQuestion text-left" v-show="token != undefined">
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addQuestion">Add Question</button>        
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addQuestion" @click="cekQuestion">Add Question</button>        
     </div>
    
     <!-- Modal -->
@@ -33,7 +33,7 @@
                 </div>
               </div>
               <div class="form-group">
-                 <button type="button" class="btn btn-default" data-dismiss="modal" @click="createNewDataQuestion(newQuestion)">Submit</button>
+                 <button type="button" class="btn btn-default" data-dismiss="modal" @click="createNewData">Submit</button>
               </div>
             </form>
           </div>
@@ -63,7 +63,14 @@ export default {
   methods: {
     ...mapActions([
       'createNewDataQuestion'
-    ])
+    ]),
+    createNewData () {
+      this.createNewDataQuestion(this.newQuestion)
+    },
+    cekQuestion () {
+      this.newQuestion.title = ''
+      this.newQuestion.question = ''
+    }
   },
   created () {
     this.token = localStorage.getItem('token')

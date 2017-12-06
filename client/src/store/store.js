@@ -14,7 +14,8 @@ const state = {
   answers: [],
   question: '',
   isDeleteQuestion: false,
-  isEditQuestion: false
+  isEditQuestion: false,
+  like: false
 }
 
 const mutations = {
@@ -163,6 +164,7 @@ const actions = {
         userId: dataUser
       })
       .then((dataQuestion) => {
+        dataQuestion.data.cek = true
         commit('likeQuestion', dataQuestion.data)
       })
       .catch((reason) => {
@@ -173,6 +175,7 @@ const actions = {
         userId: dataUser
       })
       .then((dataQuestion) => {
+        dataQuestion.data.cek = false
         commit('likeQuestion', dataQuestion.data)
       })
     }
