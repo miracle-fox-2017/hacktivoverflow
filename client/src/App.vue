@@ -187,7 +187,7 @@ div.stars {
 input.star { display: none; }
 
 label.star {
-  float: left;
+  float: right;
   padding: 2px;
   font-size: 20px;
   color: #444;
@@ -196,12 +196,12 @@ label.star {
 
 input.star:checked ~ label.star:before {
   content: '\f005';
-  color: #FD4;
+  color: #f29d38;
   transition: all .25s;
 }
 
 input.star-5:checked ~ label.star:before {
-  color: #FE7;
+  color: #f29d38;
   text-shadow: 0 0 20px #952;
 }
 

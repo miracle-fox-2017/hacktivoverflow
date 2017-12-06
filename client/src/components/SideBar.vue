@@ -1,7 +1,7 @@
 <template>
   <div> 
     <b-aside :is-show="writeQuestion" title="Write your Questions" :show-footer="false" placement="right" :backdrop="false" @close="writeQuestion=false">
-      <form @submit.prevent="createQuestion(ask)">
+      <form @submit.prevent="createQuestions">
       <label class="label">Title</label>
         <p class="control">
           <input class="input" v-model="ask.title" type="text" placeholder="Title">
@@ -93,7 +93,14 @@ export default {
       'createQuestion',
       'allQuestions',
       'detailQuestion'
-    ])
+    ]),
+    createQuestions () {
+      this.createQuestion({...this.ask})
+      this.ask.body = '',
+      this.ask.title = '',
+      this.ask.user_id = '',
+      this.writeQuestion = false
+    }
   },
   created () {
     this.allQuestions()

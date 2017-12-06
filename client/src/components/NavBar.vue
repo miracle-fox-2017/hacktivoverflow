@@ -23,7 +23,7 @@
         </div>
         <div v-if="!status" class="navbar-end">
           <div class="navbar-item">
-            <form @submit.prevent="checkLogin(singin)">
+            <form @submit.prevent="loginUser">
               <div class="control is-grouped">
                 <p class="control is-expanded">
                   <input class="input" v-model="singin.username" type="text" placeholder="Username">
@@ -167,6 +167,11 @@ export default {
     registersUser () {
       // console.log('MASUK', data)
       this.registerUser({...this.register})
+      this.clear()
+    },
+    loginUser () {
+      // console.log('MASUK', data)
+      this.checkLogin({...this.singin})
       this.clear()
     },
     ...mapActions([

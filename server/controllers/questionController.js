@@ -81,9 +81,27 @@ const getQuestion = (req, res) => {
     _id: id
   })
   .populate('user_id')
-  .populate({path: 'answers_id', options: { sort: { 'created_at': 'desc' } } })
+  .populate({
+    path: 'answers_id', 
+    options: { 
+      sort: { 
+        'created_at': 'desc' 
+      } 
+    },
+    populate: {
+      path: 'user_id',
+      model: 'User'
+    } 
+  })
   .then(dataQuestion => {
     // console.log('APA DAPAT', dataQuestion)
+  //   .populate({ 
+  //     path: 'pages',
+  //     populate: {
+  //       path: 'components',
+  //       model: 'Component'
+  //     } 
+  //  })
     res.send(dataQuestion)
   })
   .catch(err => {

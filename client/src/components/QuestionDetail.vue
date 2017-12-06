@@ -29,11 +29,28 @@
             <div  v-if="question.user_id">
               <strong>{{ question.user_id.name }}</strong> <small>@{{question.user_id.username}}</small> <small>31m</small>
             </div>
+            <small>{{question.createdAt}}</small><br/>
+            <div class="stars">
+              <form action="">
+                <input class="star star-5" id="star-5" type="radio" name="star"/>
+                <label class="star star-5" for="star-5"></label>
+                <input class="star star-4" id="star-4" type="radio" name="star"/>
+                <label class="star star-4" for="star-4"></label>
+                <input class="star star-3" id="star-3" type="radio" name="star"/>
+                <label class="star star-3" for="star-3"></label>
+                <input class="star star-2" id="star-2" type="radio" name="star"/>
+                <label class="star star-2" for="star-2"></label>
+                <input class="star star-1" id="star-1" type="radio" name="star"/>
+                <label class="star star-1" for="star-1"></label>
+              </form>
+            </div>
             <h3 class="subtitle">{{ question.title }}</h3>
-              {{ question.body }}<br><br/>
+              {{ question.body }}
+              <br>
+              <br/>
               <!-- APA{{question.like}}
               IDMU : {{ login.user_id }} -->
-              <span>
+              <span v-if="is_user">
                 <!-- {{ liked }}        -->
                 <h5>
                   <a v-if="!liked" @click.prevent="likeQuestion">
@@ -50,51 +67,13 @@
                     <span class="icon is-small">
                       <i class="fa fa-reply"></i>
                     </span>
-                  </a> · 3 hrs
+                  </a>
                 </h5>
               </span>
           </p>
         </div>
         <div v-for="answer in question.answers_id" :key="answer._id">
-          <article class="media">
-            <figure class="media-left">
-              <p class="image is-48x48">
-                <img src="https://bulma.io/images/placeholders/96x96.png">
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>id user{{ answer.user_id }}</strong>
-                  <br>
-                    {{ answer.body }}
-                  <br>
-                  APA{{answer.like}}
-                  IDMU : {{ login.user_id }}
-                  <small>
-                    <a v-if="likedAnswer" @click="likeAnswer">Like</a>
-                    <a v-else @click="unlikeAnswer">Unlike</a>
-                    · 3 hrs
-                  </small>
-                </p>
-              </div>
-            </div>
-            <!-- ID COMMENT -->
-            <!-- <div class="media-right">
-              <span v-if="question.user_id._id == login.user_id || question.user_id._id == is_user">
-                  <a >
-                    <span class="icon is-small">
-                      <i class="fa fa-edit"></i>
-                    </span>
-                  </a>
-                  <a >
-                    <span class="icon is-small">
-                      <i class="fa fa-trash-o"></i>
-                    </span>
-                  </a>
-              </span>
-            </div> -->
-          </article>
+          <Answer :answer="answer"/>
         </div>
       </div>
       <!-- id QUESTIONS -->
@@ -114,7 +93,7 @@
         </span>
       </div>
     </article>
-    <article class="media">
+    <article v-if="is_user" class="media">
       <figure class="media-left">
         <p class="image is-64x64">
           <img src="https://bulma.io/images/placeholders/128x128.png">
@@ -133,14 +112,27 @@
         </div>
       </div>
     </article>
+    <article v-else class="media">
+      <div class="media-content">
+        <div class="field">
+          <p class="control merah">
+            You must be login to comment this question
+          </p>
+        </div>
+      </div>
+    </article>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import Answer from '@/components/Answer'
 export default {
   props: ['id'],
   name: 'questionDetail',
+  components: {
+    Answer
+  },
   data () {
     return {
       is_user: '',
@@ -167,17 +159,6 @@ export default {
       } else {
         return true
       }
-    },
-    likedAnswer: (dataAnswer) => {
-      // console.log('INI DATA ANSWER', dataAnswer)
-      return true
-      // let idx = this.question.answers_id.like.findIndex(liker => liker === this.login.user_id || this.is_user)
-      // console.log('idx ', idx)
-      // if(idx == -1) {
-      //   return false
-      // } else {
-      //   return true
-      // }
     }
   },
   methods: {
@@ -187,9 +168,7 @@ export default {
       'deleteQuestion',
       'createAnswer',
       'setLike',
-      'setUnlike',
-      'setLikeAnswer',
-      'setUnlikeAnswer'
+      'setUnlike'
     ]),
     deleteQuestions () {
       this.deleteQuestion(this.question._id)
@@ -234,26 +213,6 @@ export default {
         // console.log(this.liked)
       }
     },
-    likeAnswer () {
-      console.log('LIKE ANS')
-      let loginCheck = localStorage.getItem('token')
-      if(!loginCheck) {
-        alert('You must be Login to Like this Answer')
-      } else {
-        this.setLikeAnswer(this.id)
-        // console.log(this.liked)
-      }
-    },
-    unlikeAnswer () {
-      console.log('UNLIKE ANS')
-      let loginCheck = localStorage.getItem('token')
-      if(!loginCheck) {
-        alert('You must be Login to Unlike this Answer')
-      } else {
-        this.setUnlikeAnswer(this.id)
-        // console.log(this.liked)
-      }
-    },
     comment () {
       // console.log(this.question, this.id)
       let loginCheck = localStorage.getItem('token')
@@ -270,6 +229,13 @@ export default {
     setFocus () {
       // console.log('MASUK')
       this.$refs.reply.focus();
+    },
+    createdFake () {
+      // this.liked()
+      let parsing = localStorage.getItem('user_id')
+      if (parsing) {
+        this.is_user = parsing
+      }
     }
   },
   mounted () {
@@ -286,11 +252,16 @@ export default {
   watch: {
     id () {
       this.detailQuestion(this.id)
+    },
+    is_user () {
+      this.createdFake()
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+  .merah {
+    color: red;
+  }
 </style>

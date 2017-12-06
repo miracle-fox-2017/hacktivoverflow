@@ -15,7 +15,13 @@ const state = {
   question: {
     title: '',
     body: '',
-    like: []
+    like: [],
+    answers_id: [{
+      user_id: '',
+      body: '',
+      createdAt: '',
+      like: []
+    }]
   }
 }
 
@@ -61,12 +67,21 @@ const mutations = {
   setunlike (state, updateLike) {
     state.question = updateLike
   },
+  setlikeanswer (state, updateLike) {
+    console.log(state.question.answers_id,'KE MUTATIONS', updateLike)
+    let filterQuestion = state.question.answers_id.filter((question) => question._id !== updateLike)
+    state.question.answers_id = filterQuestion
+  },
+  setunlikeanswer (state, updateLike) {
+    // state.question.answers_id = updateLike
+    let filterQuestion = state.question.answers_id.filter((question) => question._id !== updateLike)
+    state.question.answers_id = filterQuestion
+  },
   setUpdateQuestion (state, updateQuestion) {
     state.question = updateQuestion
   },
   setDeleteQuestion (state, idQuestion) {
-    // let filterQuestion = state.questions.filter((question) => question._id !== idQuestion)
-    // state.questions = filterQuestio
+    
     let idx = state.questions.findIndex(question => question._id == idQuestion)
     state.questions.splice(idx, 1)
   }
@@ -199,7 +214,7 @@ const actions = {
     })
     .then(({data}) => {
       console.log('LIKE', data)
-      commit('setlikeAnswer', data.data)
+      commit('setlikeanswer', data.data)
     })
     .catch(err => {
       console.log(err)
@@ -213,7 +228,7 @@ const actions = {
     })
     .then(({data}) => {
       console.log('UNLIKE', data)
-      commit('setunlikeAnswer', data.data)
+      commit('setunlikeanswer', data.data)
     })
     .catch(err => {
       console.log(err)
