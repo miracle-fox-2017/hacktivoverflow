@@ -62,10 +62,18 @@ const mutations = {
     })
   },
   likeAnswer (state, payload) {
-    http.get('/answers')
-    .then((dataAnswers) => {
-      state.answers = dataAnswers.data
+    let newAnswer = state.answers.map((answer) => {
+      if (payload.id === answer._id) {
+        let indexLike = answer.likes.findIndex((like) => like === payload.user)
+        if (indexLike === -1) {
+          answer.likes.push(payload.user)
+        } else {
+          answer.likes.splice(indexLike, 1)
+        }
+      }
+      return answer
     })
+    state.answers = newAnswer
   }
 }
 
@@ -189,7 +197,7 @@ const actions = {
         userId: dataUser
       })
       .then((dataAnswer) => {
-        commit('likeAnswer', dataAnswer.data)
+        commit('likeAnswer', {id: id, user: dataUser})
       })
       .catch((reason) => {
         console.log(reason)
@@ -199,7 +207,7 @@ const actions = {
         userId: dataUser
       })
       .then((dataAnswer) => {
-        commit('likeAnswer', dataAnswer.data)
+        commit('likeAnswer', {id: id, user: dataUser})
       })
       .catch((reason) => {
         console.log(reason)
