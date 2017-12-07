@@ -4,13 +4,11 @@ const jwt = require('../helpers/jwt')
 
 class User {
   static create (req, res) {
-    // console.log(req.body);
     UserModel.findOne({facebookId: req.body.id})
     .then(user => {
       if(user) {
         jwt.sign(user)
         .then(token => {
-          // console.log('ini token -->', {token: token})
           res.send({
             token: token,
             id: user.id

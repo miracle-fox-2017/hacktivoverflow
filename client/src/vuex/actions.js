@@ -65,10 +65,17 @@ const actions = {
     .catch(err => console.log(err))
   },
   deleteAnswer: ({ commit }, payload) => {
-    // console.log('--> masuk actions', payload);
     http.delete(`/answers/${payload}`, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
       commit('setAnswersAfterDelete', data)
+    })
+    .catch(err => console.log(err))
+  },
+  voteAnswer: ({ commit }, payload) => {
+    // console.log('--> actions voteAnswer', payload)
+    http.put(`/answers/votes/${payload}`, payload, { headers: { token: localStorage.getItem('token') } })
+    .then(({ data }) => {
+      commit('setAnswersVotes', data)
     })
     .catch(err => console.log(err))
   },
@@ -76,7 +83,6 @@ const actions = {
   /* ------------------------------------------------------------------------ */
 
   getQuestionsVotersByQuestionId: ({ commit }, payload) => {
-    // console.log('--> masuk action', payload);
     http.post('/questions-voters/detail', {question: payload})
     .then(({ data }) => {
       commit('setQuestionsVoters', data)
@@ -84,7 +90,6 @@ const actions = {
     .catch(err => console.log(err))
   },
   voteQuestion: ({ commit }, payload) => {
-    // console.log('--> masuk voteQuestion', payload)
     http.post('/questions-voters', { question: payload }, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
       commit('setNewQuestionsVoters', data)
@@ -92,10 +97,8 @@ const actions = {
     .catch(err => console.log(err))
   },
   cancelVoteQuestion: ({ commit }, payload) => {
-    // console.log('--> masuk cancelVoteQuestion', payload)
     http.post('/questions-voters/remove', { voter: payload }, { headers: { token: localStorage.getItem('token') } })
     .then(({ data }) => {
-      // console.log('--> actions data', data)
       commit('setQuestionsVotersAfterDelete', data)
     })
     .catch(err => console.log(err))
@@ -103,10 +106,11 @@ const actions = {
 
   /* ------------------------------------------------------------------------ */
 
-  getAnswersVotersByQuestionId: ({ commit }, payload) => {
-    // console.log('--> masuk action', payload);
+  getAnswersVotersByAnswerId: ({ commit }, payload) => {
+    // console.log('--> masuk action payload ', payload)
     http.post('/answers-voters/detail', {answer: payload})
     .then(({ data }) => {
+      // console.log('--> masuk action data ', data)
       commit('setAnswersVoters', data)
     })
     .catch(err => console.log(err))

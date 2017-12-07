@@ -3,8 +3,8 @@ const state = {
   userQuestions: [],
   questionDetail: [],
   answers: [],
-  questionsVoters: [],
-  answersVoters: []
+  questionsVoters: []
+  // answersVotes: []
 }
 
 export default state

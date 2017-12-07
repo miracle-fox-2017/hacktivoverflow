@@ -22,7 +22,12 @@ const answerSchema = new Schema({
   updatedAt: {
     type: Date,
     default: null
-  }
+  },
+  voters: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      unique: true
+  }],
 })
 
 const Answer = mongoose.model('Answer', answerSchema);

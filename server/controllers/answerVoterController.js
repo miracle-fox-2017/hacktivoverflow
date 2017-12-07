@@ -3,8 +3,7 @@ const AnswerVoterModel = require('../models/answerVoterModel')
 
 class AnswerVoter {
   static create (req, res) {
-    // console.log('--> req.body ', req.body);
-    // console.log('--> req.verifyUser ', req.verifyUser);
+    console.log(req.body)
     let newAnswerVoter = new AnswerVoterModel({
       answer: req.body.answer,
       voter: req.verifyUser.id,

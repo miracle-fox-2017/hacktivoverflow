@@ -50,6 +50,28 @@ class Answer {
     .then(answer => res.send(answer))
     .catch(err => res.status(500).send(err))
   }
+
+  static votes (req, res) {
+    let id = {_id: ObjectId(req.params.id)}
+
+    AnswerModel.findById(id)
+    .then(answer => {
+      let checkIndex = answer.voters.findIndex(element => {
+        return element == req.verifyUser.id
+      })
+
+      if (checkIndex === -1) {
+        answer.voters.push(req.verifyUser.id)
+      } else {
+        answer.voters.splice(checkIndex, 1)
+      }
+
+      answer.save()
+      .then(answer => res.send(answer))
+      .catch(err => res.status(500).send(err))
+    })
+    .catch(err => res.status(500).send(err))
+  }
 }
 
 module.exports = Answer;

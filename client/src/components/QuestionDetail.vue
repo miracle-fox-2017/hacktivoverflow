@@ -3,8 +3,7 @@
     <div class="column">
       <div class="ui grid">
         <div class="one wide column center aligned middle aligned" @click="submitVoteQuestion" >
-          <i class="header-icon thumbs outline down icon blue" v-if="userStatus"></i>
-          <i class="header-icon thumbs outline up icon blue" v-else></i>
+          <i class="header-icon thumbs outline up icon blue"></i>
           <p>{{ questionsVoters.length }} Vote</p>
         </div>
         <div class="fifteen wide column">
@@ -15,22 +14,9 @@
       </div>
 
       <div class="ui segments">
-        <div class="ui segment" v-for="(answer, index) in answers" :key="index">
-          <div class="ui grid">
-            <div class="one wide column center aligned">
-              0
-              <i class="thumbs outline up icon"></i>
-            </div>
-            <div class="fourteen wide column">
-              <p>{{ answer.content }}</p>
-              <!-- <p>{{ answer.answerer.name }}</p> -->
-            </div>
-            <div class="one wide column right aligned" v-if="answer.answerer._id === userId" @click="submitDeleteAnswer(answer)">
-              <i class="trash outline icon"></i>
-            </div>
-          </div>
-        </div>
+        <AnswerDetail v-for="(answer, index) in answers" :key="index" :answer="answer"/>
       </div>
+
       <button class="ui right floated positive button" @click="addCommentModal" v-if="token">Comment</button>
       <AddCommentModal :id="id"/>
     </div>
@@ -41,11 +27,13 @@
   /* global $ */
   import { mapActions, mapGetters } from 'vuex'
   import AddCommentModal from '@/components/AddCommentModal'
+  import AnswerDetail from '@/components/AnswerDetail'
   export default {
     name: 'QuestionDetail',
     props: ['id'],
     components: {
-      AddCommentModal
+      AddCommentModal,
+      AnswerDetail
     },
     computed: {
       ...mapGetters([
@@ -88,6 +76,10 @@
         } else {
           this.cancelVoteQuestion(this.userId)
         }
+      },
+      submitVoteAnswer (answer) {
+        console.log(answer._id)
+        this.getAnswersVotersByQuestionId()
       }
     },
     created: function () {

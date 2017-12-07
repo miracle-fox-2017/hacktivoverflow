@@ -4,7 +4,7 @@ const getters = {
   questionDetail: state => state.questionDetail,
   answers: state => state.answers,
   questionsVoters: state => state.questionsVoters,
-  answersVoters: state => state.answersVoters
+  answersVotes: state => state.answersVotes
 }
 
 export default getters

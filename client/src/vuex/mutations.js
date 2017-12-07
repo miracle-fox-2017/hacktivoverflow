@@ -35,6 +35,17 @@ const mutations = {
     })
     state.answers.splice(checkIndex, 1)
   },
+  setAnswersVotes: (state, payload) => {
+    // console.log('--> state answers', state.answers)
+    // console.log('--> state answersVotes', state.answersVotes)
+    console.log('--> payload', payload)
+    let checkIndex = state.answers.findIndex(element => {
+      return element._id === payload._id
+    })
+    // console.log(checkIndex)
+    state.answers.splice(checkIndex, 1, payload)
+    console.log('--> state', state.answers)
+  },
 
   /* ------------------------------------------------------------------------ */
 
@@ -49,13 +60,14 @@ const mutations = {
       return element._id === payload._id
     })
     state.questionsVoters.splice(checkIndex, 1)
-  },
+  }
 
   /* ------------------------------------------------------------------------ */
 
-  setAnswersVoters: (state, payload) => {
-    state.answersVoters = payload
-  }
+  // setAnswersVotes: (state, payload) => {
+    // state.answersVotes = payload
+    // console.log('--> ini answersVoters di mutations', state.answersVoters)
+  // }
   // ,setNewAnswers: (state, payload) => {
   //   state.answers.push(payload)
   // },
