@@ -4,7 +4,9 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose').connect('mongodb://localhost/hacktiv');
+// const mongoose = require('mongoose').connect('mongodb://localhost/hacktiv');
+const mongoose = require('mongoose')
+.connect('mongodb://ipung:123@ds137090.mlab.com:37090/hacktiv8');
 const cors = require('cors')
 
 const index = require('./routes/index');

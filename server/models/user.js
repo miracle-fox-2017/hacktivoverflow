@@ -6,6 +6,6 @@ let userSchema = mongoose.Schema({
     password: String
 });
 
-var Users = mongoose.model('Users', userSchema);
+var Users = mongoose.model('Users-hacktiv8flow', userSchema);
 
 module.exports = Users
