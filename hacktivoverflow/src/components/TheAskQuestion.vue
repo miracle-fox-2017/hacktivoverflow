@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex' 
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -42,18 +42,17 @@ export default {
   methods: {
     post () {
       this.postQuestion({
-          title: this.title, 
-          content: this.content, 
-          token: localStorage.getItem('token')
+        title: this.title,
+        content: this.content,
+        token: localStorage.getItem('token')
       })
       this.title = ''
       this.content = ''
     },
-    ...mapActions ([
+    ...mapActions([
       'postQuestion'
     ])
   }
-
 }
 </script>
 

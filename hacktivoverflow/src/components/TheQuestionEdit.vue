@@ -41,7 +41,7 @@ export default {
     edit () {
       this.question.content = this.content
       this.editQuestion(this.question)
-      location.reload();
+      location.reload()
     },
     ...mapActions([
       'editQuestion'

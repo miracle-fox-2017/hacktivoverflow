@@ -7,8 +7,6 @@
 <script>
 
 import TheQuestion from '@/components/TheQuestion'
-
-
 export default {
   components: {
     TheQuestion

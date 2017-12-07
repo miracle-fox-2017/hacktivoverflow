@@ -43,7 +43,6 @@ export default {
       this.question = obj
     },
     destroy (id) {
-
       this.deleteQuestion({
         id: id,
         idUser: localStorage.getItem('id'),

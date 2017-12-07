@@ -41,9 +41,9 @@ export default {
       this.$http.post('http://localhost:3000/api/users/signup', {
         name: this.name,
         email: this.email,
-        password: this.password 
+        password: this.password
       })
-      .then( ({data}) => { this.$router.push('/login')  })
+      .then(({data}) => { this.$router.push('/login') })
 	    .catch(err => { console.log(err) })
     }
   }

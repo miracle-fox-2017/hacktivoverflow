@@ -34,23 +34,21 @@ export default {
     }
   },
   methods: {
-    isLogin () {
-      this.$http.post('http://localhost:3000/api/users/login',{
-        email: this.email,
-        password: this.password
-      })
-      .then(response => { 
-        if(response.data == "invalid email or password"){
-          this.error = true
+isLogin () {
+    this.$http.post('http://localhost:3000/api/users/login', {
+      email: this.email,
+      password: this.password
+    })
+    .then(response => {
+      if (response.data === 'invalid email or password') {
+        this.error = true
+      } else {
+        this.error = false
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('id', response.data.id)
+        location.reload()
         }
-        else {
-          this.error = false
-          localStorage.setItem('token', response.data.token)
-          localStorage.setItem('id', response.data.id)
-          location.reload();
-        }
-      })
-      .catch(err => { console.log(err) })
+      }).catch(err => { console.log(err) })
     }
   }
 }

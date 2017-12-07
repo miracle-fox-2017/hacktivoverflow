@@ -34,9 +34,9 @@ export default {
         comment: this.comment,
         questions: this.$route.params.id
       })
-      this.comment = ''      
+      this.comment = ''
     },
-    ...mapActions ([
+    ...mapActions([
       'postComment'
     ])
   }

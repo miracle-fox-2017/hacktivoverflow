@@ -49,7 +49,7 @@ export default {
     ])
   },
   created () {
-    this.getAllQuestions ()
+    this.getAllQuestions()
   },
   computed: {
     ...mapState([

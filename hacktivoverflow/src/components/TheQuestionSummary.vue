@@ -44,7 +44,7 @@ export default {
     ])
   },
   created () {
-    this.getByIdQuestion(this.$route.params.id)  
+    this.getByIdQuestion(this.$route.params.id)
   },
   computed: {
     ...mapState([
