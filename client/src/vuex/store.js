@@ -8,7 +8,8 @@ import { log } from 'util';
 
 
 const http = axios.create({
-  baseURL: 'http://localhost:4000'
+  baseURL: 'http://ec2-54-200-168-142.us-west-2.compute.amazonaws.com:3000'
+
 })
 
 Vue.use(Vuex)

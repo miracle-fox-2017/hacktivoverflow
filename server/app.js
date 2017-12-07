@@ -4,14 +4,13 @@ const bodyParser = require('body-parser')
 const morgan = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
-
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-app.use(morgan('dev'))
-app.use(cors())
+require('dotenv').config()
+let username = process.env.USERNAME
+console.log(username)
+let pass = process.env.PASSWORD
 
 mongoose.Promise = global.Promise
-mongoose.connect('mongodb://localhost/hacktivOverflow')
+mongoose.connect(`mongodb://wisnu:123@ds159845.mlab.com:59845/mydb_hacktiv8`)
 .then(() => console.log('db connection succesfull to hacktivoverflow'))
 .catch((err) => console.log(err))
 
@@ -22,7 +21,7 @@ app.get('/', function (req, res) {
 const api = require('./routes/api')
 app.use('/api', api)
 
-app.listen(4000, function () {
+app.listen(3000, function () {
   console.log('im alive 4000')
 })
 
