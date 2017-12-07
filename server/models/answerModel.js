@@ -25,8 +25,7 @@ const answerSchema = new Schema({
   },
   voters: [{
       type: Schema.Types.ObjectId,
-      ref: 'User',
-      unique: true
+      ref: 'User'
   }],
 })
 

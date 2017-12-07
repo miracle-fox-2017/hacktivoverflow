@@ -11,7 +11,10 @@ class Answer {
 
     newAnswer.save()
     .then(answer => res.send(answer))
-    .catch(err => res.status(500).send(err))
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err)
+    })
   }
 
   static getAll (req, res) {

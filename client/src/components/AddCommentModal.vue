@@ -35,6 +35,7 @@
     methods: {
       ...mapActions(['addAnswer']),
       submitComment () {
+        console.log('--> halo masuk method ga?')
         this.addAnswer({
           id: this.id,
           content: this.newComment
