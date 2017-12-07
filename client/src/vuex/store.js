@@ -5,7 +5,7 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 const http = axios.create({
-  baseURL: `http://localhost:3000`
+  baseURL: `http://api.pakhajioverflow.tk/`
 })
 
 export default new Vuex.Store({

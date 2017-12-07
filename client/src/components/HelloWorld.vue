@@ -134,7 +134,7 @@ export default {
     // init fbjssdk
     window.fbAsyncInit = function () {
       FB.init({
-        appId      : '352796951848044',
+        appId      : '149732655792246',
         cookie     : true,  // enable cookies to allow the server to access 
                         // the session
         xfbml      : true,  // parse social plugins on this page
