@@ -24,7 +24,7 @@ let signIn = (req, res) => {
       Decrypt(req.body.password, dataUser.password)
         .then((result) => {
           if (!result) {
-            res.send("Authentication failed. User not found")
+            res.send("")
           } else {
             const payload = {
               id: dataUser._id,
@@ -32,6 +32,7 @@ let signIn = (req, res) => {
               isLogin: true
             }
             jwt.sign(payload,"semangatselalutiadaperjuanganyangsiasia", function (err, token) {
+              console.log(token)
               if (err) {
                 throw err
               } else {
