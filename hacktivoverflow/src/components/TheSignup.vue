@@ -38,7 +38,8 @@ export default {
   },
   methods: {
     isSignup () {
-      this.$http.post('http://localhost:3000/api/users/signup', {
+      // this.$http.post('ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/users/signup', {
+        this.$http.post('http://localhost:3000/api/users/signup', {
         name: this.name,
         email: this.email,
         password: this.password

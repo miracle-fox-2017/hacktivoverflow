@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 const http = axios.create({
-  baseUrl: 'ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000'
+  // baseUrl: 'ec2-52-33-165-222.us-west-2.compute.amazonaws.coms'
+  baseUrl: 'http://localhost:3000'
 })
 
 Vue.use(Vuex)
@@ -73,7 +74,8 @@ const mutations = {
 
 const actions = {
   getAllQuestions ({ commit }) {
-    http.get('ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/list')
+    // http.get('ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/list')
+    http.get('http://localhost:3000/api/questions/list')
     .then(({data}) => {
       commit('setQuestions', data)
     })
@@ -82,7 +84,8 @@ const actions = {
     })
   },
   getByIdQuestion ({ commit }, payload) {
-    http.get(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/getBy/${payload}`)
+    // http.get(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/getBy/${payload}`)
+    http.get(`http://localhost:3000/api/questions/getBy/${payload}`)
     .then(({data}) => {
       commit('setQuestion', data)
     })
@@ -91,7 +94,8 @@ const actions = {
     })
   },
   postQuestion ({ commit }, payload) {
-    http.post(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/create`, payload)
+    // http.post(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/create`, payload)
+    http.post(`http://localhost:3000/api/questions/create`, payload)
     .then(({data}) => {
       commit('getQuestion', data)
     })
@@ -100,7 +104,8 @@ const actions = {
     })
   },
   getCommentById ({ commit }, payload) {
-    http.get(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/comments/list/${payload}`)
+    // http.get(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/comments/list/${payload}`)
+    http.get(`http://localhost:3000/api/comments/list/${payload}`)
     .then(({data}) => {
       commit('setComments', data)
     })
@@ -109,7 +114,8 @@ const actions = {
     })
   },
   postComment ({ commit }, payload) {
-    http.post('ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/comments/add', payload)
+    // http.post('ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/comments/add', payload)
+     http.post('http://localhost:3000/api/comments/add', payload)
     .then(({data}) => {
       commit('getComment', data)
     })
@@ -118,7 +124,8 @@ const actions = {
     })
   },
   deleteComment ({ commit }, payload) {
-    http.delete(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/comments/destroy/${payload.id}`,
+    // http.delete(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/comments/destroy/${payload.id}`,
+    http.delete(`http://localhost:3000/api/comments/destroy/${payload.id}`,
     {headers: { token: payload.token, id: payload.idUser }})
     .then(({data}) => {
       commit('deleteComment', payload.id)
@@ -128,7 +135,8 @@ const actions = {
     })
   },
   likeComment ({ commit }, payload) {
-    http.put(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/comments/like`, payload)
+    // http.put(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/comments/like`, payload)
+    http.put(`http://localhost:3000/api/comments/like`, payload)
     .then(({data}) => {
       // console.log(data)
       commit('likeComment', data)
@@ -138,7 +146,8 @@ const actions = {
     })
   },
   likeQuestion ({ commit }, payload) {
-    http.put(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/like`, payload)
+    // http.put(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/like`, payload)
+    http.put(`http://localhost:3000/api/questions/like`, payload)
     .then(({data}) => {
       // console.log(data)
       commit('likeQuestion', data)
@@ -148,7 +157,8 @@ const actions = {
     })
   },
   getQuestionByUser ({ commit }, payload) {
-    http.get(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/byuser/${payload.id}`)
+    // http.get(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/byuser/${payload.id}`)
+    http.get(`http://localhost:3000/api/questions/byuser/${payload.id}`)
     .then(({data}) => {
       // console.log(data)
       commit('getQuestionUser', data)
@@ -158,7 +168,8 @@ const actions = {
     })
   },
   editQuestion ({ commit }, payload) {
-    http.put(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/edit`, payload)
+    // http.put(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/edit`, payload)
+    http.put(`http://localhost:3000/api/questions/edit`, payload)
     .then(({data}) => {
       console.log(data)
       // commit('editQuestion', data)
@@ -169,7 +180,8 @@ const actions = {
   },
   deleteQuestion ({ commit }, payload) {
     console.log(payload)
-    http.delete(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com:3000/api/questions/destroy/${payload.id}`,
+    // http.delete(`ec2-52-33-165-222.us-west-2.compute.amazonaws.com/api/questions/destroy/${payload.id}`,
+    http.delete(`http://localhost:3000/api/questions/destroy/${payload.id}`,
     {headers: { token: payload.token, id: payload.idUser }})
     .then(({data}) => {
       commit('deleteQuestion', payload.id)
