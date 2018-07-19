@@ -1,0 +1,23 @@
+{
+  "name": "server-hacktiveoverflow",
+  "version": "1.0.0",
+  "description": "Api for hacktiveoverflow",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Agustinus",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^8.1.0",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.5",
+    "morgan": "^1.9.0"
+  }
+}
